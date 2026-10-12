@@ -542,7 +542,9 @@ body.fp-locked > *:not(#fp-lock):not(script){display:none!important}
 .fp-check{display:flex;gap:9px;align-items:center;font-size:14px;color:var(--ink-2);cursor:pointer}
 .fp-check input{width:17px;height:17px;accent-color:var(--brand)}
 .fp-btn{min-height:44px;font-size:15px}
-.fp-err{min-height:1.2em;font-size:14px;color:var(--crit-ink);font-weight:600}
+.fp-err{min-height:1.2em;font-size:14px;line-height:1.45;color:var(--crit-ink);font-weight:600}
+.fp-err:not(:empty){background:color-mix(in srgb,var(--crit) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--crit) 35%,var(--line));border-radius:9px;padding:10px 12px;font-weight:500;color:var(--ink)}
+.fp-err a{color:var(--brand);font-weight:600;text-decoration:underline}
 .fp-banner{position:sticky;top:0;z-index:90;background:color-mix(in srgb,var(--crit) 14%,var(--surface));color:var(--ink);border-bottom:1px solid color-mix(in srgb,var(--crit) 45%,var(--line));padding:10px max(16px,3vw);font-size:14.5px}
 .hdr-link{all:unset;cursor:pointer;font-size:13px;color:var(--head-ink-2);padding:4px 2px;border-bottom:1px dotted rgba(255,255,255,.45)}
 .hdr-link b{color:var(--head-ink);font-weight:600}
@@ -643,35 +645,83 @@ window.FP = (() => {
 })();
 </script>
 <script>(() => {
-  const { SITE, deriveKey, encrypt, decrypt, newSalt, b64d, readFile, writeFile, deleteFile, ghJSON, repoPath, ITER } = window.FP;
+  const { SITE, deriveKey, encrypt, decrypt, newSalt, b64d, readFile, writeFile, deleteFile, gh, ghJSON, repoPath, ITER } = window.FP;
   const $ = s => document.querySelector(s);
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const box = $('#su');
+  const tokensUrl = 'https://github.com/settings/personal-access-tokens';
   const tokenHelp = `<details class="su-help"><summary>How to make the GitHub access key (2 minutes)</summary><ol>
-      <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a> (signed in as ${esc(SITE.owner)}).</li>
+      <li>Sign in to GitHub as <b>${esc(SITE.owner)}</b>, then open <a href="${tokensUrl}/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a>.</li>
       <li><b>Token name:</b> MBCI AWC Footprint site. <b>Expiration:</b> the longest you're comfortable with, up to a year. Note the date: when it expires, come back here to add a new key.</li>
-      <li><b>Repository access:</b> Only select repositories → <b>${esc(SITE.repo)}</b>.</li>
-      <li><b>Permissions → Repository permissions → Contents:</b> Read and write.</li>
-      <li>Click <b>Generate token</b> and copy it. It starts with <code>github_pat_</code>.</li></ol></details>`;
+      <li><b>Resource owner:</b> ${esc(SITE.owner)}.</li>
+      <li><b>Repository access:</b> choose <b>Only select repositories</b>, then pick <b>${esc(SITE.repo)}</b>. (Don't choose “Public repositories”; that kind of key can only read.)</li>
+      <li><b>Permissions:</b> find <b>Contents</b> under Repository permissions (on newer screens, click <b>Add permissions</b> and pick Contents) and set it to <b>Read and write</b>. Metadata switches to Read-only by itself; leave it.</li>
+      <li>Click <b>Generate token</b>, then copy the key right away with the copy button. It starts with <code>github_pat_</code> and is about 90 characters long. GitHub shows it only once.</li></ol></details>`;
   const fld = (id, label, type = 'password', extra = '') => `<label class="fp-fld"><span>${label}</span><input type="${type}" id="${id}" ${extra}></label>`;
   const steps = list => `<ol class="su-steps">${list.map(s => `<li class="${s.state || ''}"><span class="dot"></span>${esc(s.label)}${s.note ? `<small>${esc(s.note)}</small>` : ''}</li>`).join('')}</ol>`;
   let stepList = [];
   const setStep = (i, state, note) => { stepList[i].state = state; if (note !== undefined) stepList[i].note = note; $('#su-progress').innerHTML = steps(stepList); };
-  const fail = (msg) => { const e = $('#su-err'); e.textContent = msg; const b = $('#su-go'); if (b) { b.disabled = false; b.textContent = b.dataset.label; } };
+  // fail(message, link?) shows a plain-language problem under the button, with an optional link to fix it.
+  const fail = (msg, link) => {
+    const e = $('#su-err'); e.textContent = msg;
+    if (msg && link) { e.append(' '); const a = document.createElement('a'); a.href = link.href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = link.label; e.append(a); }
+    const b = $('#su-go'); if (b) { b.disabled = false; b.textContent = b.dataset.label; }
+  };
   const normCode = c => String(c || '').toUpperCase().replace(/[^0-9A-Z]/g, '');
+  // Keys pasted from email or chat often pick up spaces, line breaks or quotes.
+  const cleanToken = t => String(t || '').replace(/\s+/g, '').replace(/^["'`“”‘’<]+|["'`“”‘’>]+$/g, '');
+  const TOKEN_RE = /^(github_pat_|ghp_|gho_|ghu_|ghs_)[A-Za-z0-9_]{20,}$|^[0-9a-f]{40}$/;
 
+  // A problem whose message is already written for the person; shown as is.
+  class Problem extends Error { constructor(msg, link) { super(msg); this.link = link; } }
+  const editKeyLink = { href: tokensUrl, label: 'Open your GitHub access keys' };
+
+  // Step 0: is this a GitHub key at all, does GitHub recognise it, and whose is it?
   async function checkToken(token) {
-    const repo = await ghJSON(token, repoPath(''));
-    if (repo.permissions && repo.permissions.push === false) throw new Error('This access key can read the repository but not change it. Set Contents to “Read and write”.');
-    return repo;
+    if (!token) throw new Problem('Paste the GitHub access key.');
+    if (normCode(token).length === 25 && /^[0-9A-Z-]+$/i.test(token)) throw new Problem('That is the setup code. It goes in the first box. The access key comes from GitHub and starts with github_pat_.');
+    if (!TOKEN_RE.test(token)) throw new Problem('That doesn’t look like a GitHub access key. A new key starts with github_pat_ and is about 90 characters long. GitHub shows it only once, right after you click Generate token. If you no longer have it, open the key on GitHub, click Regenerate token, and copy the new one.', editKeyLink);
+    const r = await gh(token, '/user');
+    if (r.status === 401) throw new Problem('GitHub doesn’t recognise this access key. Usually part of it was missed when copying, it has expired, or it was regenerated or deleted (regenerating makes the old key stop working). Copy the key again, or make a new one with the steps above.', editKeyLink);
+    let login = '';
+    if (r.ok) {
+      try { login = (await r.json()).login || ''; } catch { /* keep going without the name */ }
+      const scopes = r.headers.get('X-OAuth-Scopes'); // only classic keys report scopes
+      if (/^(ghp_|[0-9a-f]{40}$)/.test(token) && scopes !== null && !/(^|[\s,])(public_)?repo([\s,]|$)/.test(scopes)) {
+        throw new Problem('This is a classic GitHub key without the “repo” permission, so it can’t save anything. The simplest fix is to make a new fine-grained key with the steps above.', { href: tokensUrl + '/new', label: 'Make a fine-grained key' });
+      }
+    }
+    const repo = await ghJSON(token, repoPath('')).catch(e => {
+      if (e.code === 'not_found') throw noWrite(login);
+      throw e;
+    });
+    if (repo.permissions && repo.permissions.push === false) throw noWrite(login);
+    return { login };
   }
-  async function ensureDataBranch(token) {
+  // The key works but isn't allowed to change the repository.
+  function noWrite(login) {
+    const who = login ? ` (it belongs to the GitHub account ${login})` : '';
+    if (login && login.toLowerCase() !== SITE.owner.toLowerCase()) {
+      return new Problem(`GitHub recognises this key${who}, but the site is stored under the ${SITE.owner} account. Sign in to GitHub as ${SITE.owner} and make the key there.`, { href: tokensUrl + '/new', label: 'Make a key' });
+    }
+    return new Problem(`GitHub recognises this key${who}, but the key isn’t allowed to make changes to ${SITE.repo}. You don’t need a new key: on GitHub, click this key, then Edit. Set Repository access to “Only select repositories” → ${SITE.repo}, and set Contents to “Read and write”. Click Update, then press the button here again.`, editKeyLink);
+  }
+  // Writes that GitHub refuses with 403/404 mean the key lacks write access.
+  const writing = (login, p) => p.catch(e => { if (e.status === 403 || e.status === 404) throw noWrite(login); throw e; });
+  async function ensureDataBranch(token, login) {
     try { await ghJSON(token, repoPath(`/git/ref/heads/${SITE.dataBranch}`)); return; } catch (e) { if (e.code !== 'not_found') throw e; }
     const repo = await ghJSON(token, repoPath(''));
     const main = await ghJSON(token, repoPath(`/git/ref/heads/${repo.default_branch || 'main'}`));
-    await ghJSON(token, repoPath('/git/refs'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ref: `refs/heads/${SITE.dataBranch}`, sha: main.object.sha }) });
+    await writing(login, ghJSON(token, repoPath('/git/refs'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ref: `refs/heads/${SITE.dataBranch}`, sha: main.object.sha }) }));
   }
-  const tokenMsg = e => e.code === 'auth' ? 'GitHub did not accept that access key. Check that you copied all of it, that it has not expired, and that it has access to ' + SITE.repo + ' with Contents set to “Read and write”.' : e.message;
+  const problem = err => {
+    if (err instanceof Problem) return fail(err.message, err.link);
+    if (err && err.status === 0) return fail('Could not reach GitHub. Check your connection, then try again.');
+    if (err && err.status === 401) return fail('GitHub stopped accepting this access key partway through. Copy the key again, or make a new one with the steps above.', editKeyLink);
+    console.error(err);
+    if (err && err.status) return fail(`GitHub answered with an error (${err.status}${err.message ? ': ' + err.message : ''}). Wait a minute and try again; nothing is lost.`);
+    fail(`Something went wrong${err && err.message ? ` (${err.message})` : ''}. Reload the page and try again; nothing is lost.`);
+  };
 
   function pwChecks(pw, pw2, required) {
     if (!pw && !pw2 && !required) return null;
@@ -695,34 +745,34 @@ window.FP = (() => {
       </form>`;
     $('#su-form').addEventListener('submit', async e => {
       e.preventDefault();
-      const code = normCode($('#su-code').value), token = $('#su-token').value.trim(), pw = $('#su-pw').value, pw2 = $('#su-pw2').value;
+      const code = normCode($('#su-code').value), token = cleanToken($('#su-token').value), pw = $('#su-pw').value, pw2 = $('#su-pw2').value;
       const bad = pwChecks(pw, pw2, true); if (bad) return fail(bad);
       fail(''); const go = $('#su-go'); go.disabled = true; go.textContent = 'Working…';
       stepList = [{ label: 'Check the access key' }, { label: 'Unlock the starting data' }, { label: 'Prepare the data branch' }, { label: 'Encrypt and save the data' }, { label: 'Save the encrypted settings' }, { label: 'Remove the one-time setup file' }];
       setStep(0, 'busy');
       let i = 0;
       try {
-        await checkToken(token); setStep(0, 'ok'); i = 1; setStep(1, 'busy');
+        const { login } = await checkToken(token); setStep(0, 'ok', login ? `Key belongs to ${login}` : undefined); i = 1; setStep(1, 'busy');
         let seed;
         try { const k0 = await deriveKey(code, b64d(seedEnv.kdf.salt), seedEnv.kdf.iter); seed = await decrypt(k0, seedEnv); }
         catch { setStep(1, 'bad'); return fail('That setup code is not right. Copy it again from the chat with Claude.'); }
         setStep(1, 'ok'); i = 2; setStep(2, 'busy');
-        await ensureDataBranch(token); setStep(2, 'ok'); i = 3; setStep(3, 'busy');
+        await ensureDataBranch(token, login); setStep(2, 'ok'); i = 3; setStep(3, 'busy');
         const salt = newSalt(), key = await deriveKey(pw, salt, ITER);
         seed.updatedAt = new Date().toISOString();
         const dataEnv = await encrypt(key, salt, seed, ITER);
         const existing = await readFile(token, SITE.dataPath, SITE.dataBranch);
-        await writeFile(token, SITE.dataPath, SITE.dataBranch, JSON.stringify(dataEnv), existing?.sha, 'Save encrypted data');
+        await writing(login, writeFile(token, SITE.dataPath, SITE.dataBranch, JSON.stringify(dataEnv), existing?.sha, 'Save encrypted data'));
         setStep(3, 'ok'); i = 4; setStep(4, 'busy');
         const cfgEnv = await encrypt(key, salt, { token, setAt: new Date().toISOString() }, ITER);
         const oldCfg = await readFile(token, 'config.enc.json', 'main');
-        await writeFile(token, 'config.enc.json', 'main', JSON.stringify(cfgEnv), oldCfg?.sha, 'Save encrypted settings');
+        await writing(login, writeFile(token, 'config.enc.json', 'main', JSON.stringify(cfgEnv), oldCfg?.sha, 'Save encrypted settings'));
         setStep(4, 'ok'); i = 5; setStep(5, 'busy');
         const seedFile = await readFile(token, 'seed.enc.json', 'main');
-        if (seedFile) await deleteFile(token, 'seed.enc.json', 'main', seedFile.sha);
+        if (seedFile) await writing(login, deleteFile(token, 'seed.enc.json', 'main', seedFile.sha));
         setStep(5, 'ok');
         done('The site is set up.');
-      } catch (err) { setStep(i, 'bad'); fail(tokenMsg(err)); }
+      } catch (err) { setStep(i, 'bad'); problem(err); }
     });
   }
 
@@ -741,7 +791,7 @@ window.FP = (() => {
       </form>`;
     $('#su-form').addEventListener('submit', async e => {
       e.preventDefault();
-      const cur = $('#su-cur').value, newToken = $('#su-token').value.trim(), pw = $('#su-pw').value, pw2 = $('#su-pw2').value;
+      const cur = $('#su-cur').value, newToken = cleanToken($('#su-token').value), pw = $('#su-pw').value, pw2 = $('#su-pw2').value;
       const bad = pwChecks(pw, pw2, false); if (bad) return fail(bad);
       if (!newToken && !pw) return fail('Add a new access key or a new password, or both.');
       fail(''); const go = $('#su-go'); go.disabled = true; go.textContent = 'Working…';
@@ -754,19 +804,22 @@ window.FP = (() => {
         catch { setStep(0, 'bad'); return fail('That is not the current password.'); }
         setStep(0, 'ok'); i = 1; setStep(1, 'busy');
         const token = newToken || cfg.token;
-        await checkToken(token); setStep(1, 'ok'); i = 2; setStep(2, 'busy');
+        let login = '';
+        try { ({ login } = await checkToken(token)); }
+        catch (e) { if (!newToken && e instanceof Problem) throw new Problem('The saved access key no longer works (it has probably expired). Make a new key with the steps above and paste it in the access key box.', editKeyLink); throw e; }
+        setStep(1, 'ok', login ? `Key belongs to ${login}` : undefined); i = 2; setStep(2, 'busy');
         const f = await readFile(token, SITE.dataPath, SITE.dataBranch);
-        if (!f) throw new Error('The shared data file is missing from the data branch.');
+        if (!f) throw new Problem('The shared data file is missing from the data branch.');
         const doc = await decrypt(key, JSON.parse(f.text));
         let salt = salt0, k2 = key;
         if (pw) { salt = newSalt(); k2 = await deriveKey(pw, salt, ITER); }
-        await writeFile(token, SITE.dataPath, SITE.dataBranch, JSON.stringify(await encrypt(k2, salt, doc, ITER)), f.sha, 'Re-encrypt data');
+        await writing(login, writeFile(token, SITE.dataPath, SITE.dataBranch, JSON.stringify(await encrypt(k2, salt, doc, ITER)), f.sha, 'Re-encrypt data'));
         setStep(2, 'ok'); i = 3; setStep(3, 'busy');
         const old = await readFile(token, 'config.enc.json', 'main');
-        await writeFile(token, 'config.enc.json', 'main', JSON.stringify(await encrypt(k2, salt, { ...cfg, token, setAt: new Date().toISOString() }, ITER)), old?.sha, 'Update encrypted settings');
+        await writing(login, writeFile(token, 'config.enc.json', 'main', JSON.stringify(await encrypt(k2, salt, { ...cfg, token, setAt: new Date().toISOString() }, ITER)), old?.sha, 'Update encrypted settings'));
         setStep(3, 'ok');
         done(pw ? 'The new password is set. Give it to the team; the old one no longer works.' : 'The new access key is saved.');
-      } catch (err) { setStep(i, 'bad'); fail(tokenMsg(err)); }
+      } catch (err) { setStep(i, 'bad'); problem(err); }
     });
   }
 
