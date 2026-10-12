@@ -544,6 +544,7 @@ body.fp-locked > *:not(#fp-lock):not(script){display:none!important}
 .fp-btn{min-height:44px;font-size:15px}
 .fp-err{min-height:1.2em;font-size:14px;line-height:1.45;color:var(--crit-ink);font-weight:600}
 .fp-err:not(:empty){background:color-mix(in srgb,var(--crit) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--crit) 35%,var(--line));border-radius:9px;padding:10px 12px;font-weight:500;color:var(--ink)}
+.fp-err-detail{display:block;margin-top:8px;font:500 12.5px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--ink-2);word-break:break-word}
 .fp-err a{color:var(--brand);font-weight:600;text-decoration:underline}
 .fp-banner{position:sticky;top:0;z-index:90;background:color-mix(in srgb,var(--crit) 14%,var(--surface));color:var(--ink);border-bottom:1px solid color-mix(in srgb,var(--crit) 45%,var(--line));padding:10px max(16px,3vw);font-size:14.5px}
 .hdr-link{all:unset;cursor:pointer;font-size:13px;color:var(--head-ink-2);padding:4px 2px;border-bottom:1px dotted rgba(255,255,255,.45)}
@@ -662,9 +663,10 @@ window.FP = (() => {
   let stepList = [];
   const setStep = (i, state, note) => { stepList[i].state = state; if (note !== undefined) stepList[i].note = note; $('#su-progress').innerHTML = steps(stepList); };
   // fail(message, link?) shows a plain-language problem under the button, with an optional link to fix it.
-  const fail = (msg, link) => {
+  const fail = (msg, link, detail) => {
     const e = $('#su-err'); e.textContent = msg;
     if (msg && link) { e.append(' '); const a = document.createElement('a'); a.href = link.href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = link.label; e.append(a); }
+    if (msg && detail) { const d = document.createElement('span'); d.className = 'fp-err-detail'; d.textContent = 'GitHub’s answer: ' + detail; e.append(d); }
     const b = $('#su-go'); if (b) { b.disabled = false; b.textContent = b.dataset.label; }
   };
   const normCode = c => String(c || '').toUpperCase().replace(/[^0-9A-Z]/g, '');
@@ -673,7 +675,8 @@ window.FP = (() => {
   const TOKEN_RE = /^(github_pat_|ghp_|gho_|ghu_|ghs_)[A-Za-z0-9_]{20,}$|^[0-9a-f]{40}$/;
 
   // A problem whose message is already written for the person; shown as is.
-  class Problem extends Error { constructor(msg, link) { super(msg); this.link = link; } }
+  class Problem extends Error { constructor(msg, link, detail) { super(msg); this.link = link; this.detail = detail; } }
+  const answer = (what, e) => `${what} → ${e.status || 'no answer'}${e.message ? ' ' + e.message : ''}`;
   const editKeyLink = { href: tokensUrl, label: 'Open your GitHub access keys' };
 
   // Step 0: is this a GitHub key at all, does GitHub recognise it, and whose is it?
@@ -691,31 +694,32 @@ window.FP = (() => {
         throw new Problem('This is a classic GitHub key without the “repo” permission, so it can’t save anything. The simplest fix is to make a new fine-grained key with the steps above.', { href: tokensUrl + '/new', label: 'Make a fine-grained key' });
       }
     }
-    const repo = await ghJSON(token, repoPath('')).catch(e => {
-      if (e.code === 'not_found') throw noWrite(login);
+    await ghJSON(token, repoPath('')).catch(e => {
+      if (e.code === 'not_found') throw noWrite(login, answer('reading the repository', e));
       throw e;
     });
-    if (repo.permissions && repo.permissions.push === false) throw noWrite(login);
+    // Write access is proven by the first real write (creating the data branch), not guessed from
+    // the repository's "permissions" summary, which doesn't reliably reflect fine-grained keys.
     return { login };
   }
   // The key works but isn't allowed to change the repository.
-  function noWrite(login) {
+  function noWrite(login, detail) {
     const who = login ? ` (it belongs to the GitHub account ${login})` : '';
     if (login && login.toLowerCase() !== SITE.owner.toLowerCase()) {
-      return new Problem(`GitHub recognises this key${who}, but the site is stored under the ${SITE.owner} account. Sign in to GitHub as ${SITE.owner} and make the key there.`, { href: tokensUrl + '/new', label: 'Make a key' });
+      return new Problem(`GitHub recognises this key${who}, but the site is stored under the ${SITE.owner} account. Sign in to GitHub as ${SITE.owner} and make the key there.`, { href: tokensUrl + '/new', label: 'Make a key' }, detail);
     }
-    return new Problem(`GitHub recognises this key${who}, but the key isn’t allowed to make changes to ${SITE.repo}. You don’t need a new key: on GitHub, click this key, then Edit. Set Repository access to “Only select repositories” → ${SITE.repo}, and set Contents to “Read and write”. Click Update, then press the button here again.`, editKeyLink);
+    return new Problem(`GitHub recognises this key${who}, but the key isn’t allowed to make changes to ${SITE.repo}. You don’t need a new key: on GitHub, click this key, then Edit. Set Repository access to “Only select repositories” → ${SITE.repo}, and set Contents to “Read and write”. Click Update, then press the button here again.`, editKeyLink, detail);
   }
   // Writes that GitHub refuses with 403/404 mean the key lacks write access.
-  const writing = (login, p) => p.catch(e => { if (e.status === 403 || e.status === 404) throw noWrite(login); throw e; });
+  const writing = (login, what, p) => p.catch(e => { if (e.status === 403 || e.status === 404) throw noWrite(login, answer(what, e)); throw e; });
   async function ensureDataBranch(token, login) {
     try { await ghJSON(token, repoPath(`/git/ref/heads/${SITE.dataBranch}`)); return; } catch (e) { if (e.code !== 'not_found') throw e; }
     const repo = await ghJSON(token, repoPath(''));
     const main = await ghJSON(token, repoPath(`/git/ref/heads/${repo.default_branch || 'main'}`));
-    await writing(login, ghJSON(token, repoPath('/git/refs'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ref: `refs/heads/${SITE.dataBranch}`, sha: main.object.sha }) }));
+    await writing(login, 'creating the data branch', ghJSON(token, repoPath('/git/refs'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ref: `refs/heads/${SITE.dataBranch}`, sha: main.object.sha }) }));
   }
   const problem = err => {
-    if (err instanceof Problem) return fail(err.message, err.link);
+    if (err instanceof Problem) return fail(err.message, err.link, err.detail);
     if (err && err.status === 0) return fail('Could not reach GitHub. Check your connection, then try again.');
     if (err && err.status === 401) return fail('GitHub stopped accepting this access key partway through. Copy the key again, or make a new one with the steps above.', editKeyLink);
     console.error(err);
@@ -762,14 +766,14 @@ window.FP = (() => {
         seed.updatedAt = new Date().toISOString();
         const dataEnv = await encrypt(key, salt, seed, ITER);
         const existing = await readFile(token, SITE.dataPath, SITE.dataBranch);
-        await writing(login, writeFile(token, SITE.dataPath, SITE.dataBranch, JSON.stringify(dataEnv), existing?.sha, 'Save encrypted data'));
+        await writing(login, 'saving the data', writeFile(token, SITE.dataPath, SITE.dataBranch, JSON.stringify(dataEnv), existing?.sha, 'Save encrypted data'));
         setStep(3, 'ok'); i = 4; setStep(4, 'busy');
         const cfgEnv = await encrypt(key, salt, { token, setAt: new Date().toISOString() }, ITER);
         const oldCfg = await readFile(token, 'config.enc.json', 'main');
-        await writing(login, writeFile(token, 'config.enc.json', 'main', JSON.stringify(cfgEnv), oldCfg?.sha, 'Save encrypted settings'));
+        await writing(login, 'saving the settings', writeFile(token, 'config.enc.json', 'main', JSON.stringify(cfgEnv), oldCfg?.sha, 'Save encrypted settings'));
         setStep(4, 'ok'); i = 5; setStep(5, 'busy');
         const seedFile = await readFile(token, 'seed.enc.json', 'main');
-        if (seedFile) await writing(login, deleteFile(token, 'seed.enc.json', 'main', seedFile.sha));
+        if (seedFile) await writing(login, 'removing the setup file', deleteFile(token, 'seed.enc.json', 'main', seedFile.sha));
         setStep(5, 'ok');
         done('The site is set up.');
       } catch (err) { setStep(i, 'bad'); problem(err); }
@@ -813,10 +817,10 @@ window.FP = (() => {
         const doc = await decrypt(key, JSON.parse(f.text));
         let salt = salt0, k2 = key;
         if (pw) { salt = newSalt(); k2 = await deriveKey(pw, salt, ITER); }
-        await writing(login, writeFile(token, SITE.dataPath, SITE.dataBranch, JSON.stringify(await encrypt(k2, salt, doc, ITER)), f.sha, 'Re-encrypt data'));
+        await writing(login, 'saving the data', writeFile(token, SITE.dataPath, SITE.dataBranch, JSON.stringify(await encrypt(k2, salt, doc, ITER)), f.sha, 'Re-encrypt data'));
         setStep(2, 'ok'); i = 3; setStep(3, 'busy');
         const old = await readFile(token, 'config.enc.json', 'main');
-        await writing(login, writeFile(token, 'config.enc.json', 'main', JSON.stringify(await encrypt(k2, salt, { ...cfg, token, setAt: new Date().toISOString() }, ITER)), old?.sha, 'Update encrypted settings'));
+        await writing(login, 'saving the settings', writeFile(token, 'config.enc.json', 'main', JSON.stringify(await encrypt(k2, salt, { ...cfg, token, setAt: new Date().toISOString() }, ITER)), old?.sha, 'Update encrypted settings'));
         setStep(3, 'ok');
         done(pw ? 'The new password is set. Give it to the team; the old one no longer works.' : 'The new access key is saved.');
       } catch (err) { setStep(i, 'bad'); problem(err); }
