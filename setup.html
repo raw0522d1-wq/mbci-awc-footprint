@@ -722,6 +722,37 @@ body.d8-on{overflow:hidden}
   .assess{grid-template-columns:1fr}
   .d8-steps button{padding:6px 7px}
 }
+
+/* ---------- monthly reviews ---------- */
+body.rv-on{overflow:hidden}
+.rvprep{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 24px;align-items:end}
+.rvprep h3{font-size:19px;margin-bottom:4px}
+.rvprep-f{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.rvprep-f .fld input{min-width:170px}
+.rvprep-n{grid-column:1/-1;font-size:13.5px;color:var(--ink-2);padding:8px 12px;border-radius:8px;background:var(--surface-2)}
+.rvprep-n.int{background:color-mix(in srgb,var(--crit) 8%,var(--surface));color:var(--ink)}
+.rvlist{display:flex;flex-direction:column}
+.rvr{display:flex;gap:10px;align-items:center;padding:6px 10px;border-top:1px solid var(--line-2)}
+.rvr:first-child{border-top:0}
+.rvr-open{all:unset;box-sizing:border-box;cursor:pointer;flex:1;min-width:0;display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:12px;align-items:center;padding:8px 6px;border-radius:8px}
+.rvr-open:hover{background:var(--surface-2)}
+.rvr-open:focus-visible{outline:2px solid var(--focus)}
+.rvr-m{font:700 17px/1.1 var(--font-cond);color:var(--brand)}
+.rvr-t{display:flex;flex-direction:column;min-width:0}
+.rvr-t .muted{font-size:13px}
+table.rva tbody tr{cursor:default}
+table.rva tbody tr:hover td{background:none}
+table.rva .ck{width:56px;text-align:center}
+table.rva .ck input{width:18px;height:18px;accent-color:var(--brand)}
+table.rva td.od{color:var(--crit-ink);font-weight:600}
+.rv-meta{font-size:13.5px;color:var(--ink-2);margin-top:12px}
+.rv-warn{font-size:13.5px;margin-top:10px;padding:9px 12px;border-radius:8px;background:color-mix(in srgb,var(--crit) 9%,var(--surface))}
+.rv-src{font-size:13.5px;margin-top:10px;padding:9px 12px;border-radius:8px;background:color-mix(in srgb,var(--good) 10%,var(--surface))}
+.rv-min{margin-left:auto;font:500 13px/1 var(--font-ui);color:var(--muted)}
+.rv-facts{margin:2px 0 12px;padding:10px 14px;border-radius:8px;background:var(--surface-2);border-left:3px solid var(--brand-2)}
+.rv-facts ul{margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:3px;font-size:14px;color:var(--ink)}
+.rv-sl{display:block;margin:10px 0 8px}
+@media (max-width:820px){ .rvprep{grid-template-columns:1fr} .rvr-open{grid-template-columns:minmax(0,1fr) auto} .rvr-m{grid-column:1/-1} }
 </style>
 <style>html,body{margin:0}
 /* Password gate for the web build */

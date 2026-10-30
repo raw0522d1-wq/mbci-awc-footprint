@@ -722,6 +722,37 @@ body.d8-on{overflow:hidden}
   .assess{grid-template-columns:1fr}
   .d8-steps button{padding:6px 7px}
 }
+
+/* ---------- monthly reviews ---------- */
+body.rv-on{overflow:hidden}
+.rvprep{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 24px;align-items:end}
+.rvprep h3{font-size:19px;margin-bottom:4px}
+.rvprep-f{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.rvprep-f .fld input{min-width:170px}
+.rvprep-n{grid-column:1/-1;font-size:13.5px;color:var(--ink-2);padding:8px 12px;border-radius:8px;background:var(--surface-2)}
+.rvprep-n.int{background:color-mix(in srgb,var(--crit) 8%,var(--surface));color:var(--ink)}
+.rvlist{display:flex;flex-direction:column}
+.rvr{display:flex;gap:10px;align-items:center;padding:6px 10px;border-top:1px solid var(--line-2)}
+.rvr:first-child{border-top:0}
+.rvr-open{all:unset;box-sizing:border-box;cursor:pointer;flex:1;min-width:0;display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:12px;align-items:center;padding:8px 6px;border-radius:8px}
+.rvr-open:hover{background:var(--surface-2)}
+.rvr-open:focus-visible{outline:2px solid var(--focus)}
+.rvr-m{font:700 17px/1.1 var(--font-cond);color:var(--brand)}
+.rvr-t{display:flex;flex-direction:column;min-width:0}
+.rvr-t .muted{font-size:13px}
+table.rva tbody tr{cursor:default}
+table.rva tbody tr:hover td{background:none}
+table.rva .ck{width:56px;text-align:center}
+table.rva .ck input{width:18px;height:18px;accent-color:var(--brand)}
+table.rva td.od{color:var(--crit-ink);font-weight:600}
+.rv-meta{font-size:13.5px;color:var(--ink-2);margin-top:12px}
+.rv-warn{font-size:13.5px;margin-top:10px;padding:9px 12px;border-radius:8px;background:color-mix(in srgb,var(--crit) 9%,var(--surface))}
+.rv-src{font-size:13.5px;margin-top:10px;padding:9px 12px;border-radius:8px;background:color-mix(in srgb,var(--good) 10%,var(--surface))}
+.rv-min{margin-left:auto;font:500 13px/1 var(--font-ui);color:var(--muted)}
+.rv-facts{margin:2px 0 12px;padding:10px 14px;border-radius:8px;background:var(--surface-2);border-left:3px solid var(--brand-2)}
+.rv-facts ul{margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:3px;font-size:14px;color:var(--ink)}
+.rv-sl{display:block;margin:10px 0 8px}
+@media (max-width:820px){ .rvprep{grid-template-columns:1fr} .rvr-open{grid-template-columns:minmax(0,1fr) auto} .rvr-m{grid-column:1/-1} }
 </style>
 <style>html,body{margin:0}
 /* Password gate for the web build */
@@ -873,6 +904,7 @@ body.fp-locked > *:not(#fp-lock):not(script){display:none!important}
     <button role="tab" type="button" data-act="tab" data-tab="akzo" aria-selected="false" aria-controls="panel">AkzoNobel business</button>
     <button role="tab" type="button" data-act="tab" data-tab="risks" aria-selected="false" aria-controls="panel">Risks &amp; 8D <span class="badge crit" id="risk-badge" hidden></span></button>
     <button role="tab" type="button" data-act="tab" data-tab="contacts" aria-selected="false" aria-controls="panel">Points of contact <span class="badge" id="poc-badge" hidden></span></button>
+    <button role="tab" type="button" data-act="tab" data-tab="reviews" aria-selected="false" aria-controls="panel">Monthly reviews <span class="badge" id="rv-badge" hidden></span></button>
     <button role="tab" type="button" data-act="tab" data-tab="brands" aria-selected="false" aria-controls="panel">Brands</button>
     <button role="tab" type="button" data-act="tab" data-tab="grid" aria-selected="false" aria-controls="panel">All data</button>
     <button role="tab" type="button" data-act="tab" data-tab="tsr" aria-selected="false" aria-controls="panel">TSR questions</button>
@@ -888,6 +920,8 @@ body.fp-locked > *:not(#fp-lock):not(script){display:none!important}
 <aside class="drawer" id="drawer" hidden aria-label="Plant details"></aside>
 <aside class="drawer" id="recdrawer" hidden aria-label="Contact or risk details"></aside>
 <div class="d8" id="d8" hidden></div>
+<div class="d8" id="rv" hidden></div>
+<input type="file" id="rv-file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
 <div class="modal" id="modal" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <input type="file" id="import-file" accept=".xlsx,.xls,.csv" hidden>
@@ -1250,7 +1284,7 @@ window.FP8D = (() => {
     return `<w:r>${rp}${lines.map((l, i) => `${i ? '<w:br/>' : ''}<w:t xml:space="preserve">${xe(l)}</w:t>`).join('')}</w:r>`;
   }
   function para(runs, o = {}) {
-    const pp = `<w:pPr>${o.style ? `<w:pStyle w:val="${o.style}"/>` : ''}${o.keep ? '<w:keepNext/>' : ''}${o.bdr ? `<w:pBdr>${o.bdr}</w:pBdr>` : ''}${o.fill ? `<w:shd w:val="clear" w:color="auto" w:fill="${o.fill}"/>` : ''}${o.tabs ? `<w:tabs>${o.tabs}</w:tabs>` : ''}<w:spacing w:before="${o.before ?? 0}" w:after="${o.after ?? 0}"/>${o.ind ? `<w:ind w:left="${o.ind}" w:right="${o.ind}"/>` : ''}${o.jc ? `<w:jc w:val="${o.jc}"/>` : ''}</w:pPr>`;
+    const pp = `<w:pPr>${o.style ? `<w:pStyle w:val="${o.style}"/>` : ''}${o.keep ? '<w:keepNext/>' : ''}${o.bdr ? `<w:pBdr>${o.bdr}</w:pBdr>` : ''}${o.fill ? `<w:shd w:val="clear" w:color="auto" w:fill="${o.fill}"/>` : ''}${o.tabs ? `<w:tabs>${o.tabs}</w:tabs>` : ''}<w:spacing w:before="${o.before ?? 0}" w:after="${o.after ?? 0}"/>${o.hang ? `<w:ind w:left="${o.hang}" w:hanging="220"/>` : o.ind ? `<w:ind w:left="${o.ind}" w:right="${o.ind}"/>` : ''}${o.jc ? `<w:jc w:val="${o.jc}"/>` : ''}</w:pPr>`;
     return `<w:p>${pp}${Array.isArray(runs) ? runs.join('') : runs || ''}</w:p>`;
   }
   const border = (c = PALE, sz = 4) => ['top', 'left', 'bottom', 'right', 'insideH', 'insideV'].map(s => `<w:${s} w:val="single" w:sz="${sz}" w:space="0" w:color="${c}"/>`).join('');
@@ -1336,13 +1370,11 @@ window.FP8D = (() => {
 
   const NS = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
   const XML = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n';
-  function header(d) {
-    const right = d && d.num ? `8D Problem Solving Report  ·  ${d.num}` : '8D Problem Solving Report';
+  function header(right) {
     return `${XML}<w:hdr ${NS}>${table([4000, 6080], [row([cell(para(run('AkzoNobel', { b: 1, color: 'FFFFFF', sz: 30 }), { before: 40, after: 40 }), 4000, { fill: NAVY, v: 'center' }),
       cell(para(run(right, { color: 'FFFFFF', sz: 17 }), { jc: 'right' }), 6080, { fill: NAVY, v: 'center' })], { h: 520 })], { noBorder: 1, pad: 40 })}${para('', { bdr: `<w:top w:val="single" w:sz="24" w:space="0" w:color="${CYAN}"/>`, after: 0 })}</w:hdr>`;
   }
-  function footer(d, ctx) {
-    const left = d ? [d.customer && `Customer: ${d.customer}`, d.num].filter(Boolean).join('  ·  ') : 'AkzoNobel 8D form';
+  function footer(left) {
     const f = instr => `<w:fldSimple w:instr=" ${instr} "><w:r><w:rPr><w:color w:val="${GREY}"/><w:sz w:val="16"/></w:rPr><w:t>1</w:t></w:r></w:fldSimple>`;
     return `${XML}<w:ftr ${NS}>${para([run(left, { color: GREY, sz: 16 }), `<w:r><w:tab/></w:r>`, run('Page ', { color: GREY, sz: 16 }), f('PAGE'), run(' of ', { color: GREY, sz: 16 }), f('NUMPAGES')],
       { tabs: '<w:tab w:val="right" w:pos="10080"/>', bdr: `<w:top w:val="single" w:sz="4" w:space="4" w:color="${PALE}"/>` })}</w:ftr>`;
@@ -1352,22 +1384,30 @@ window.FP8D = (() => {
     + `<w:style w:type="table" w:default="1" w:styleId="TableNormal"><w:name w:val="Normal Table"/><w:uiPriority w:val="99"/><w:semiHidden/><w:tblPr><w:tblInd w:w="0" w:type="dxa"/><w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="108" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="108" w:type="dxa"/></w:tblCellMar></w:tblPr></w:style></w:styles>`;
   const settings = `${XML}<w:settings ${NS}><w:defaultTabStop w:val="720"/><w:characterSpacingControl w:val="doNotCompress"/><w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat></w:settings>`;
 
-  function docx(d, ctx = {}) {
-    const doc = `${XML}<w:document ${NS}><w:body>${body(d, ctx)}<w:sectPr><w:headerReference w:type="default" r:id="rIdH"/><w:footerReference w:type="default" r:id="rIdF"/><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1440" w:right="1080" w:bottom="1080" w:left="1080" w:header="400" w:footer="440" w:gutter="0"/></w:sectPr></w:body></w:document>`;
+  // Wrap body XML into a complete .docx package with the AkzoNobel header band and a page-numbered footer.
+  function pack(bodyXml, o = {}) {
+    const doc = `${XML}<w:document ${NS}><w:body>${bodyXml}<w:sectPr><w:headerReference w:type="default" r:id="rIdH"/><w:footerReference w:type="default" r:id="rIdF"/><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1440" w:right="1080" w:bottom="1080" w:left="1080" w:header="400" w:footer="440" w:gutter="0"/></w:sectPr></w:body></w:document>`;
     const now = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
-    const title = d ? `${d.num ? d.num + ' ' : ''}${d.title || '8D report'}` : 'AkzoNobel 8D form';
+    const title = o.title || 'AkzoNobel';
     const files = [
       ['[Content_Types].xml', `${XML}<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>`
         + '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>'
         + '<Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/><Override PartName="/word/header1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/>'
         + '<Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/></Types>'],
       ['_rels/.rels', `${XML}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/></Relationships>`],
-      ['docProps/core.xml', `${XML}<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${xe(title)}</dc:title><dc:creator>${xe(ctx.by || 'AkzoNobel')}</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`],
+      ['docProps/core.xml', `${XML}<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${xe(title)}</dc:title><dc:creator>${xe(o.by || 'AkzoNobel')}</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`],
       ['word/_rels/document.xml.rels', `${XML}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdS" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rIdT" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml"/><Relationship Id="rIdH" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header" Target="header1.xml"/><Relationship Id="rIdF" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/></Relationships>`],
-      ['word/document.xml', doc], ['word/styles.xml', styles], ['word/settings.xml', settings], ['word/header1.xml', header(d)], ['word/footer1.xml', footer(d, ctx)],
+      ['word/document.xml', doc], ['word/styles.xml', styles], ['word/settings.xml', settings], ['word/header1.xml', header(o.headerRight || '')], ['word/footer1.xml', footer(o.footerLeft || '')],
     ];
     const te = new TextEncoder();
     return zip(files.map(([name, text]) => ({ name, data: te.encode(text) })));
+  }
+  function docx(d, ctx = {}) {
+    return pack(body(d, ctx), {
+      headerRight: d && d.num ? `8D Problem Solving Report  ·  ${d.num}` : '8D Problem Solving Report',
+      footerLeft: d ? [d.customer && `Customer: ${d.customer}`, d.num].filter(Boolean).join('  ·  ') : 'AkzoNobel 8D form',
+      title: d ? `${d.num ? d.num + ' ' : ''}${d.title || '8D report'}` : 'AkzoNobel 8D form', by: ctx.by,
+    });
   }
 
   /* ---------- minimal ZIP writer (stored entries) ---------- */
@@ -1398,7 +1438,157 @@ window.FP8D = (() => {
     return out;
   }
 
-  return { SECTIONS, ROWS, W2H, STATUS, done, docx };
+  const kit = { run, para, cell, row, table, lab, val, gap, box, labelled, pack, xe, filled, C: { NAVY, CYAN, PALE, LIGHT, CARD, LABEL, INK, GREY } };
+  return { SECTIONS, ROWS, W2H, STATUS, done, docx, kit };
+})();
+</script>
+<script>/* Monthly "State of the Business" agenda as an AkzoNobel-styled Word file, and a reader that pulls the
+   completed meeting record (attendance, notes, decisions, actions) back out of the file after the meeting.
+   The reader finds things by the table headings and the Record ID, so it keeps working after the file is
+   edited and re-saved in Word, LibreOffice or Google Docs. */
+window.FPSOB = (() => {
+  const { run, para, cell, row, table, lab, val, gap, pack, C } = window.FP8D.kit;
+  const { NAVY, CYAN, LIGHT, CARD, LABEL, INK, GREY } = C;
+
+  /* ---------- writing ---------- */
+  function band(n, t, sub) {
+    return para([n ? run(`${n}  `, { b: 1, color: 'FFFFFF', sz: 24 }) : '', run(t, { b: 1, color: 'FFFFFF', sz: 22 })],
+      { keep: 1, fill: NAVY, before: 280, after: 0, bdr: `<w:left w:val="single" w:sz="36" w:space="6" w:color="${CYAN}"/>` })
+      + (sub ? para(run(sub, { color: GREY, sz: 16 }), { keep: 1, fill: CARD, before: 0, after: 80, bdr: `<w:left w:val="single" w:sz="36" w:space="6" w:color="${LIGHT}"/>` }) : '');
+  }
+  const bullets = (lines, keep) => (lines.length ? lines : ['Nothing in the tracker for this topic yet.']).map((l, i) =>
+    para([run('•', { color: CYAN, b: 1 }), '<w:r><w:tab/></w:r>', run(l, { sz: 19, color: lines.length ? INK : GREY, i: !lines.length })],
+      { hang: 300, tabs: '<w:tab w:val="left" w:pos="300"/>', after: 40, keep })).join('');
+  function pairs(list) {
+    const rows = [];
+    for (let i = 0; i < list.length; i += 2) {
+      const a = list[i], b = list[i + 1] || ['', ''];
+      rows.push(row([cell(lab(a[0]), 1900, { fill: LABEL, v: 'center' }), cell(val(a[1] || ''), 3140, { v: 'center' }), cell(lab(b[0]), 1900, { fill: LABEL, v: 'center' }), cell(val(b[1] || ''), 3140, { v: 'center' })], { h: 400 }));
+    }
+    return table([1900, 3140, 1900, 3140], rows) + gap(100);
+  }
+  function grid(cols, data, blanks) {
+    const head = row(cols.map(([h, w]) => cell(para(run(h, { b: 1, color: NAVY, sz: 17 })), w, { fill: LIGHT, v: 'center' })), { header: true, h: 360 });
+    const n = Math.max(data.length + blanks, 3);
+    const body = Array.from({ length: n }, (_, i) => row(cols.map(([, w], j) => cell(val(data[i]?.[j] ?? ''), w)), { h: 420 }));
+    return table(cols.map(c => c[1]), [head, ...body]) + gap(100);
+  }
+  const notesBox = (n, t, text) => table([10080], [row([cell(lab(`Notes · ${n}. ${t}`, 1), 10080, { fill: LABEL })], { keep: true }), row([cell(val(text || ''), 10080)], { h: text ? 360 : 1100 })]) + gap(60);
+
+  function docx(r, ctx = {}) {
+    const internal = r.audience !== 'joint', ML = ctx.monthLabel || r.month, fd = ctx.fmtDate || (x => x || '');
+    let h = '';
+    h += para(run('State of the Business', { b: 1, color: NAVY, sz: 40 }), { after: 40 });
+    h += para(run(`MasterBrand + American Woodmark  ·  ${ML}`, { sz: 26 }), { after: 40 });
+    h += para(run(internal ? 'Internal AkzoNobel review. Contains AkzoNobel commercial data: do not send outside AkzoNobel.' : 'Joint review with MasterBrand and American Woodmark.', { b: internal, color: internal ? 'A82626' : GREY, sz: 17 }), { after: 60 });
+    h += para('', { bdr: `<w:bottom w:val="single" w:sz="18" w:space="1" w:color="${CYAN}"/>`, after: 140 });
+    h += table([10080], [row([cell(para([run('After the meeting: ', { b: 1, color: NAVY, sz: 17 }), run('fill in attendance, the notes under each topic, the decisions and the actions, then upload this Word file on the Monthly reviews tab of the footprint tool to keep it on record. Keep the table headings and the Record ID as they are so the tool can read them.', { sz: 17, color: INK })]), 10080, { fill: CARD })])], { bc: 'DCE7F2' }) + gap(140);
+    h += pairs([['Record ID', r.code], ['Review month', ML], ['Meeting date', r.date], ['Time', r.time], ['Location / Teams', r.location], ['Audience', internal ? 'Internal (AkzoNobel only)' : 'Joint with the customer'], ['Facilitator', r.facilitator], ['Note taker', r.notetaker]]);
+    const total = r.items.reduce((a, it) => a + (it.mins || 0), 0);
+    const aw = [700, 6380, 1900, 1100];
+    h += para(run('Agenda', { b: 1, color: NAVY, sz: 24 }), { keep: 1, before: 120, after: 60 });
+    h += table(aw, [row([['#', 0], ['Topic', 1], ['Lead', 2], ['Minutes', 3]].map(([t, i]) => cell(para(run(t, { b: 1, color: NAVY, sz: 17 })), aw[i], { fill: LIGHT, v: 'center' })), { header: true, h: 340 }),
+      ...r.items.map(it => row([cell(val(String(it.n)), aw[0]), cell(val(it.t), aw[1]), cell(val(it.lead || ''), aw[2]), cell(val(it.mins ? String(it.mins) : ''), aw[3])], { h: 340 })),
+      row([cell(val(''), aw[0], { fill: LABEL }), cell(lab('Total'), aw[1], { fill: LABEL }), cell(val(''), aw[2], { fill: LABEL }), cell(lab(String(total)), aw[3], { fill: LABEL })], { h: 340 })]) + gap(120);
+    h += para(run('Attendees', { b: 1, color: NAVY, sz: 24 }), { keep: 1, before: 120, after: 60 });
+    h += grid([['Name', 3000], ['Company', 2500], ['Role', 3080], ['Attended (Y/N)', 1500]], r.attendees.map(a => [a.name, a.org, a.role, a.attended ? 'Y' : '']), 3);
+    const asOf = r.factsAt ? `From the tracker, as of ${fd(r.factsAt)}` : 'From the tracker';
+    for (const it of r.items) {
+      h += band(it.n, it.t, [it.mins ? `${it.mins} min` : '', it.lead ? `Lead: ${it.lead}` : 'Lead:'].filter(Boolean).join('   ·   '));
+      h += para(run(asOf, { b: 1, color: NAVY, sz: 16, caps: 1 }), { keep: 1, before: 60, after: 40 });
+      h += bullets(it.facts || [], true);
+      h += para('', { keep: 1, after: 60 }) + notesBox(it.n, it.t, r.notes?.[it.n]);
+    }
+    h += band('', 'Meeting record', 'Decisions and actions agreed in this meeting. Open actions from earlier reviews are listed first: set their status to Done or Open.');
+    h += para(run('Decisions', { b: 1, color: NAVY, sz: 22 }), { keep: 1, before: 120, after: 60 });
+    h += grid([['Decision', 6080], ['Owner', 2400], ['Date', 1600]], r.decisions.map(d => [d.t, d.owner, fd(d.date)]), 4);
+    h += para(run('Actions', { b: 1, color: NAVY, sz: 22 }), { keep: 1, before: 120, after: 60 });
+    const carried = (ctx.carried || []).map(a => [a.t, a.owner, fd(a.due), 'Open']);
+    h += grid([['Action', 5280], ['Owner', 2000], ['Due', 1500], ['Status', 1300]], [...carried, ...r.actions.map(a => [a.t, a.owner, fd(a.due), a.done ? 'Done' : 'Open'])], 5);
+    h += pairs([['Next review date', r.nextDate], ['Next review location', r.nextLocation]]);
+    return pack(h, { headerRight: `State of the Business  ·  ${ML}`, footerLeft: `${r.code}  ·  ${internal ? 'Internal: AkzoNobel only' : 'Joint review'}`, title: `State of the Business ${ML}`, by: ctx.by });
+  }
+
+  /* ---------- reading ---------- */
+  const W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
+  const fail = code => Object.assign(new Error(code), { code });
+  async function inflateRaw(data) {
+    const ds = new DecompressionStream('deflate-raw');
+    return new Uint8Array(await new Response(new Blob([data]).stream().pipeThrough(ds)).arrayBuffer());
+  }
+  // Read one entry from a ZIP file using the central directory (handles stored and deflated entries).
+  async function zipEntry(buf, want) {
+    const u = new Uint8Array(buf), dv = new DataView(u.buffer, u.byteOffset, u.byteLength);
+    let e = -1;
+    for (let i = u.length - 22; i >= Math.max(0, u.length - 65558); i--) if (dv.getUint32(i, true) === 0x06054b50) { e = i; break; }
+    if (e < 0) throw fail('notzip');
+    const n = dv.getUint16(e + 10, true); let p = dv.getUint32(e + 16, true);
+    const td = new TextDecoder();
+    for (let k = 0; k < n; k++) {
+      if (dv.getUint32(p, true) !== 0x02014b50) throw fail('notzip');
+      const method = dv.getUint16(p + 10, true), size = dv.getUint32(p + 20, true), nl = dv.getUint16(p + 28, true), xl = dv.getUint16(p + 30, true), cl = dv.getUint16(p + 32, true), off = dv.getUint32(p + 42, true);
+      const name = td.decode(u.subarray(p + 46, p + 46 + nl));
+      if (name === want) {
+        const start = off + 30 + dv.getUint16(off + 26, true) + dv.getUint16(off + 28, true), data = u.subarray(start, start + size);
+        if (method === 0) return data;
+        if (method === 8) return inflateRaw(data);
+        throw fail('method');
+      }
+      p += 46 + nl + xl + cl;
+    }
+    return null;
+  }
+  let jszip = null;
+  const loadJSZip = () => window.JSZip ? Promise.resolve(window.JSZip) : (jszip = jszip || new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'; s.onload = () => res(window.JSZip); s.onerror = () => { jszip = null; rej(fail('nolib')); }; document.head.appendChild(s); }));
+  async function documentXml(buf) {
+    try { const d = await zipEntry(buf, 'word/document.xml'); if (d) return new TextDecoder().decode(d); throw fail('notdocx'); }
+    catch (e) {
+      if (e.code === 'notdocx' || e.code === 'notzip') throw e;
+      const Z = await loadJSZip(), z = await Z.loadAsync(buf), f = z.file('word/document.xml');
+      if (!f) throw fail('notdocx');
+      return f.async('string');
+    }
+  }
+  const nearest = (el, ln) => { for (let n = el.parentNode; n; n = n.parentNode) if (n.localName === ln) return n; return null; };
+  function paraText(p) {
+    let s = '';
+    const walk = n => { for (const c of n.childNodes) { if (c.nodeType !== 1) continue; const l = c.localName; if (l === 't') s += c.textContent; else if (l === 'tab') s += '\t'; else if (l === 'br' || l === 'cr') s += '\n'; else if (l !== 'p' && l !== 'tbl' && l !== 'delText' && l !== 'instrText') walk(c); } };
+    walk(p); return s;
+  }
+  const textOf = el => [...el.getElementsByTagNameNS(W, 'p')].map(paraText).join('\n').replace(/ /g, ' ').replace(/\n{3,}/g, '\n\n').trim();
+  const LABELS = { 'record id': 'code', 'meeting date': 'date', 'time': 'time', 'location / teams': 'location', 'facilitator': 'facilitator', 'note taker': 'notetaker', 'next review date': 'nextDate', 'next review location': 'nextLocation' };
+  async function parse(buf) {
+    const xml = await documentXml(buf);
+    const doc = new DOMParser().parseFromString(xml, 'application/xml');
+    if (doc.getElementsByTagName('parsererror').length) throw fail('notdocx');
+    const body = doc.getElementsByTagNameNS(W, 'body')[0] || doc.documentElement;
+    const code = ((textOf(body).match(/SOB-\d{4}-\d{2}-(?:INT|JNT)/i) || [])[0] || '').toUpperCase();
+    const out = { code, details: {}, attendees: [], notes: {}, topics: {}, decisions: [], actions: [], hasActions: false, hasDecisions: false, hasAttendees: false };
+    for (const tbl of doc.getElementsByTagNameNS(W, 'tbl')) {
+      const rows = [...tbl.getElementsByTagNameNS(W, 'tr')].filter(tr => nearest(tr, 'tbl') === tbl)
+        .map(tr => [...tr.getElementsByTagNameNS(W, 'tc')].filter(tc => nearest(tc, 'tr') === tr).map(textOf));
+      if (!rows.length) continue;
+      const h = rows[0].map(c => c.toLowerCase().replace(/\s+/g, ' ').trim());
+      const m = rows[0].length === 1 && rows[0][0].match(/^notes\s*[·•:\-–—]?\s*(\d+)\s*[.)]?\s*(.*)$/i);
+      if (m) { const t = rows.slice(1).map(r => r.join('\n')).join('\n').trim(); out.topics[m[1]] = m[2].trim(); if (t) out.notes[m[1]] = t; continue; }
+      const col = name => h.findIndex(x => x.startsWith(name));
+      const body2 = rows.slice(1).filter(r => r.some(c => c.trim()));
+      if (h[0] === 'decision') { out.hasDecisions = true; body2.forEach(r => r[0]?.trim() && out.decisions.push({ t: r[0].trim(), owner: (r[col('owner')] || '').trim(), date: (r[col('date')] || '').trim() })); continue; }
+      if (h[0] === 'action' && col('owner') > 0) {
+        out.hasActions = true;
+        body2.forEach(r => r[0]?.trim() && out.actions.push({ t: r[0].trim(), owner: (r[col('owner')] || '').trim(), due: (r[col('due')] || '').trim(), status: (r[col('status')] || '').trim() }));
+        continue;
+      }
+      if (h[0] === 'name' && col('attended') > 0) {
+        out.hasAttendees = true;
+        body2.forEach(r => r[0]?.trim() && out.attendees.push({ name: r[0].trim(), org: (r[col('company')] || '').trim(), role: (r[col('role')] || '').trim(), attended: /^(y|yes|x|✓|✔|present|attended|true)\b/i.test((r[col('attended')] || '').trim()) }));
+        continue;
+      }
+      for (const r of rows) for (let i = 0; i + 1 < r.length; i += 2) { const k = LABELS[r[i].toLowerCase().replace(/\s+/g, ' ').trim()]; if (k && k !== 'code') out.details[k] = r[i + 1].trim(); }
+    }
+    return out;
+  }
+  return { docx, parse };
 })();
 </script>
 <script>(() => {
@@ -1939,6 +2129,7 @@ function renderHelp() {
       <li><b>Color the map</b> by company, Akzo position, opportunity or status. Click a brand on the Brands tab to light up the plants that make it.</li>
       <li><b>Press Edit data</b> to update a plant, a table cell or a TSR answer. Changes save as you go, show up for everyone right away, and carry your name.</li>
       <li><b>Risks &amp; 8D</b> holds the risk register: score each risk by likelihood × impact, plan actions, and start an 8D report you can send to the customer as a Word file.</li>
+      <li><b>Monthly reviews</b> builds the state-of-the-business agenda from the tracker as a Word file. Upload the completed file after the meeting to keep the notes, decisions and actions on record.</li>
       <li><b>Points of contact</b> lists who to call at MBCI, AWC and AkzoNobel, which plants each person covers, and the escalation path.</li>
       <li><b>Activity</b> lists every change and note, newest first, with <b>Undo</b>. <b>Export Excel</b> gives you the tracker, contacts and risks as a workbook.</li>
     </ol></div>`;
@@ -1982,8 +2173,8 @@ function renderRail() {
 }
 
 /* ================= tabs ================= */
-const TABS = ['capacity', 'akzo', 'risks', 'contacts', 'brands', 'grid', 'tsr', 'checks', 'activity'];
-function renderTabs() { renderTabBadges(); $('#panel').innerHTML = ({ capacity: panelCapacity, akzo: panelAkzo, risks: panelRisks, contacts: panelContacts, brands: panelBrands, grid: panelGrid, tsr: panelTSR, checks: panelChecks, activity: panelActivity }[S.tab] || panelCapacity)(); }
+const TABS = ['capacity', 'akzo', 'risks', 'contacts', 'reviews', 'brands', 'grid', 'tsr', 'checks', 'activity'];
+function renderTabs() { renderTabBadges(); $('#panel').innerHTML = ({ capacity: panelCapacity, akzo: panelAkzo, risks: panelRisks, contacts: panelContacts, reviews: panelReviews, brands: panelBrands, grid: panelGrid, tsr: panelTSR, checks: panelChecks, activity: panelActivity }[S.tab] || panelCapacity)(); }
 function renderTabBadges() {
   $$('#tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === S.tab)));
   const n = checks().filter(c => c.sev !== 'info').length;
@@ -1994,6 +2185,8 @@ function renderTabBadges() {
   const hot = S.risks.filter(r => isOpenRisk(r) && ['High', 'Critical'].includes(rRating(rScore(r)))).length;
   const rb = $('#risk-badge'); if (rb) { rb.textContent = hot || ''; rb.hidden = !hot; rb.title = hot ? `${hot} open high or critical risk${hot > 1 ? 's' : ''}` : ''; }
   const cb = $('#poc-badge'); if (cb) { cb.textContent = S.contacts.length || ''; cb.hidden = !S.contacts.length; }
+  const ra = S.reviews.reduce((a, r) => a + r.actions.filter(x => !x.done && x.t).length, 0);
+  const rvb = $('#rv-badge'); if (rvb) { rvb.textContent = ra || ''; rvb.hidden = !ra; rvb.title = ra ? `${ra} open action${ra > 1 ? 's' : ''} from reviews` : ''; }
 }
 
 function panelCapacity() {
@@ -2373,7 +2566,7 @@ function renderSources() {
 let renderQueued = false;
 function isTyping() {
   const a = document.activeElement;
-  return !!(a && a.matches && a.matches('input:not([type=checkbox]), textarea, select') && a.closest('[data-ctx], .drawer, #d8') && !['grid-q', 'poc-q', 'rk-q'].includes(a.id));
+  return !!(a && a.matches && a.matches('input:not([type=checkbox]), textarea, select') && a.closest('[data-ctx], .drawer, #d8, #rv') && !['grid-q', 'poc-q', 'rk-q'].includes(a.id));
 }
 function renderAll(opt = {}) {
   if (!S.data) return;
@@ -2383,7 +2576,7 @@ function renderAll(opt = {}) {
   const scrolls = ['#drawer .dr-body', '#recdrawer .dr-body', '.d8-body', '.gridwrap', '#rail-list', '.tsr-sites'].map(sel => [sel, $(sel)?.scrollTop || 0, $(sel)?.scrollLeft || 0]);
   renderHeader(); renderNotice(); renderHelp(); renderKPIs(); renderInsights(); renderRail(); renderLegend(); renderOverlay();
   if (opt.skipPanel) renderTabBadges(); else renderTabs();
-  if (!opt.skipDrawer) { renderDrawer(); renderRec(); renderD8(); }
+  if (!opt.skipDrawer) { renderDrawer(); renderRec(); renderD8(); renderRV(); }
   for (const [sel, t, l] of scrolls) { const el = $(sel); if (el) { el.scrollTop = t; el.scrollLeft = l; } }
   if (key) {
     let el = null;
@@ -2407,7 +2600,7 @@ function remoteRender() {
   if (!isTyping()) return queueRender();
   S.renderDeferred = true;
   if (remoteQueued) return; remoteQueued = true;
-  setTimeout(() => { remoteQueued = false; if (!isTyping()) return queueRender(); const a = document.activeElement; renderAll({ skipDrawer: !!a.closest('#drawer, #recdrawer, #d8'), skipPanel: !!a.closest('#panel') }); }, 0);
+  setTimeout(() => { remoteQueued = false; if (!isTyping()) return queueRender(); const a = document.activeElement; renderAll({ skipDrawer: !!a.closest('#drawer, #recdrawer, #d8, #rv'), skipPanel: !!a.closest('#panel') }); }, 0);
 }
 let remoteQueued = false;
 document.addEventListener('focusout', () => { if (S.renderDeferred) setTimeout(() => { if (!isTyping() && S.renderDeferred) { S.renderDeferred = false; queueRender(); } }, 0); });
@@ -2674,16 +2867,24 @@ const isOpenRisk = r => r.status !== 'Closed';
 const scoreBadge = r => { const sc = rScore(r), rt = rRating(sc); return `<span class="score" style="--c:${RATING_VAR[rt]};--t:${rt === 'Medium' || rt === 'Unscored' ? '#1a1300' : '#fff'}" title="${esc(rt)}: likelihood ${r.L || '?'} × impact ${r.I || '?'}"><b class="num">${sc || '–'}</b>${esc(rt)}</span>`; };
 const d8StatusPill = st => `<span class="pill"><i style="background:${st === 'Closed' ? 'var(--good)' : 'var(--brand-2)'}"></i>${esc(st || 'Open')}</span>`;
 const riskStatusPill = st => `<span class="pill"><i style="background:${STATUS_VAR[st] || 'var(--tbd)'}"></i>${esc(st || 'Status not set')}</span>`;
-const COL_NOUN = { contacts: 'contact', risks: 'risk', eightd: '8D report' };
+const COL_NOUN = { contacts: 'contact', risks: 'risk', eightd: '8D report', reviews: 'monthly review' };
 const DOCX_MIME = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 const F8 = () => window.FP8D;
 const ROW_COLS = {
   actions: [['t', 'Action', 'text'], ['owner', 'Owner', 'text'], ['due', 'Due', 'date'], ['done', 'Done', 'check']],
 };
-const rowCols = field => ROW_COLS[field] || (F8()?.ROWS[field] || []).map(([k, l]) => [k, l, k === 'date' || k === 'due' ? 'date' : 'text']);
+const ROW_COLS_BY = {
+  reviews: {
+    attendees: [['name', 'Name', 'text'], ['org', 'Company', 'text'], ['role', 'Role', 'text'], ['attended', 'Attended', 'check']],
+    decisions: [['t', 'Decision', 'text'], ['owner', 'Owner', 'text'], ['date', 'Date', 'date']],
+    actions: [['t', 'Action', 'text'], ['owner', 'Owner', 'text'], ['due', 'Due', 'date'], ['rel', 'Related to', 'text'], ['done', 'Done', 'check']],
+  },
+};
+const rowCols = (field, col) => ROW_COLS_BY[col]?.[field] || ROW_COLS[field] || (F8()?.ROWS[field] || []).map(([k, l]) => [k, l, k === 'date' || k === 'due' ? 'date' : 'text']);
 
 Object.assign(S, {
-  contacts: [], risks: [], d8s: [], dismissed: new Set(), live: { contacts: [], risks: [], eightd: [] }, recLoaded: false,
+  contacts: [], risks: [], d8s: [], reviews: [], dismissed: new Set(), live: { contacts: [], risks: [], eightd: [], reviews: [] }, recLoaded: false,
+  rvOpen: null, rvPrep: { month: '', aud: 'internal' }, pendingRV: null, confirmRVDelete: false,
   rec: null, d8open: null, d8return: null, confirmRecDelete: false, confirmD8Delete: false,
   poc: { view: 'directory', q: '', org: 'all', func: 'all', site: 'all' },
   riskF: { q: '', status: 'open', cat: 'all', site: 'all', cell: null }, sugOpen: null,
@@ -2713,10 +2914,20 @@ function ensureD8(d) {
   if (!d.status) d.status = 'Open';
   return d;
 }
-const ENSURE = { contacts: ensureContact, risks: ensureRisk, eightd: ensureD8 };
-const recArr = col => col === 'contacts' ? S.contacts : col === 'risks' ? S.risks : S.d8s;
+function ensureReview(r) {
+  for (const k of ['code', 'month', 'audience', 'status', 'title', 'date', 'time', 'location', 'facilitator', 'notetaker', 'nextDate', 'nextLocation', 'factsAt', 'srcFile', 'srcAt', 'srcBy', 'updatedAt', 'updatedBy', 'createdAt', 'createdBy']) r[k] = str(r[k]);
+  r.notes = r.notes && typeof r.notes === 'object' && !Array.isArray(r.notes) ? Object.fromEntries(Object.entries(r.notes).map(([k, v]) => [k, str(v)])) : {};
+  r.items = Array.isArray(r.items) ? r.items.map(it => ({ n: +it?.n || 0, t: str(it?.t), mins: +it?.mins || 0, lead: str(it?.lead), facts: Array.isArray(it?.facts) ? it.facts.map(str) : [] })) : [];
+  for (const k of ['attendees', 'decisions', 'actions']) r[k] = Array.isArray(r[k]) ? r[k].map(row => { const o = {}; for (const [c, , type] of rowCols(k, 'reviews')) o[c] = type === 'check' ? !!row?.[c] : str(row?.[c]); return o; }) : [];
+  if (!r.audience) r.audience = 'internal';
+  if (!r.status) r.status = 'Agenda';
+  return r;
+}
+const ENSURE = { contacts: ensureContact, risks: ensureRisk, eightd: ensureD8, reviews: ensureReview };
+const recArr = col => col === 'contacts' ? S.contacts : col === 'risks' ? S.risks : col === 'reviews' ? S.reviews : S.d8s;
 const recGet = (col, id) => recArr(col).find(x => x.id === id);
-const recName = (col, r) => col === 'contacts' ? (r.name || 'Unnamed contact') : col === 'risks' ? (r.title || 'Untitled risk') : [r.num, r.title || '8D report'].filter(Boolean).join(' ');
+const recName = (col, r) => col === 'contacts' ? (r.name || 'Unnamed contact') : col === 'risks' ? (r.title || 'Untitled risk') : col === 'reviews' ? `${monthLabel(r.month)} ${r.audience === 'joint' ? 'joint' : 'internal'} review` : [r.num, r.title || '8D report'].filter(Boolean).join(' ');
+const monthLabel = ym => { const m = String(ym || '').match(/^(\d{4})-(\d{2})$/); return m ? new Date(+m[1], +m[2] - 1, 15).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : String(ym || ''); };
 const sitesLabel = ids => (ids || []).map(id => site(id)?.name || 'a removed plant').join(', ');
 const initials = n => String(n || '?').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') || '?';
 const cAv = c => `<span class="cav" style="--c:${orgVar(c.org)}" aria-hidden="true">${esc(initials(c.name))}</span>`;
@@ -2724,7 +2935,7 @@ const scopeLabel = c => c.sites.length ? sitesLabel(c.sites) : c.org === 'MBCI' 
 const telHref = p => 'tel:' + String(p).replace(/[^\d+]/g, '');
 const fileSafe = s => (String(s || '').normalize('NFD').replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '_').slice(0, 48)) || 'report';
 const overdue = d => d && d < today();
-const recPeople = () => [...S.contacts, ...S.risks, ...S.d8s].flatMap(r => [r.updatedBy, r.createdBy]).filter(Boolean);
+const recPeople = () => [...S.contacts, ...S.risks, ...S.d8s, ...S.reviews].flatMap(r => [r.updatedBy, r.createdBy, r.srcBy]).filter(Boolean);
 
 /* ---------- writes ---------- */
 // Writes not yet confirmed by the store. Snapshots that arrive before a write lands are shown with these
@@ -2750,7 +2961,7 @@ function overlayPending(col, arr) {
 function recAdd(col, body, opt = {}) {
   const DB = S.caps.db;
   if (!DB || !writable()) { toast('Changes need the live tracker and edit access.'); return null; }
-  const ref = DB.collection(col).doc();
+  const ref = opt.id ? DB.collection(col).doc(opt.id) : DB.collection(col).doc();
   const now = new Date().toISOString();
   const doc = ENSURE[col]({ ...clone(body), createdAt: now, createdBy: S.userId || '', updatedAt: now, updatedBy: S.userId || '' });
   delete doc.id;
@@ -2762,7 +2973,7 @@ function recAdd(col, body, opt = {}) {
   return local;
 }
 // Change fields on a contact, risk or 8D for everyone; each change is logged with its old value so it can be undone.
-function editRec(col, r, fields, op = 'edit') {
+function editRec(col, r, fields, op = 'edit', logLabel = '') {
   const DB = S.caps.db;
   if (!DB || !writable()) { toast('Changes need the live tracker and edit access.'); return; }
   const stamp = { updatedAt: new Date().toISOString(), updatedBy: S.userId || '' };
@@ -2778,7 +2989,8 @@ function editRec(col, r, fields, op = 'edit') {
   if (!entries.length) return;
   Object.assign(r, stamp);
   recWrite(col, r.id, 'update', patch, () => DB.doc(col + '/' + r.id).update(patch));
-  for (const en of entries) logEntry({ kind: 'rec', op, col, rid: r.id, name: recName(col, r), field: en.path, from: en.from, to: en.to });
+  if (logLabel) logEntry({ kind: 'rec', op, col, rid: r.id, name: recName(col, r), label: logLabel });
+  else for (const en of entries) logEntry({ kind: 'rec', op, col, rid: r.id, name: recName(col, r), field: en.path, from: en.from, to: en.to });
   queueRender();
 }
 function recDelete(col, r) {
@@ -2804,19 +3016,20 @@ function recUndo(en) {
     toast('Change undone.');
   }
 }
-function recRestoreLive() { S.contacts = S.live.contacts.map(clone); S.risks = S.live.risks.map(clone); S.d8s = S.live.eightd.map(clone); }
+function recRestoreLive() { S.contacts = S.live.contacts.map(clone); S.risks = S.live.risks.map(clone); S.d8s = S.live.eightd.map(clone); S.reviews = S.live.reviews.map(clone); }
 function startRecords(DB) {
   const sub = col => DB.collection(col).onSnapshot(snap => {
     const arr = snap.docs.map(d => ENSURE[col]({ ...clone(d.data()), id: d.id }));
     S.live[col] = arr.map(clone);
     overlayPending(col, arr);
-    if (col === 'contacts') S.contacts = arr; else if (col === 'risks') S.risks = arr; else S.d8s = arr;
+    if (col === 'contacts') S.contacts = arr; else if (col === 'risks') S.risks = arr; else if (col === 'reviews') S.reviews = arr; else S.d8s = arr;
     S.recLoaded = true;
     if (S.rec && S.rec.col === col && !recGet(col, S.rec.id) && !snap.metadata?.hasPendingWrites) S.rec = null;
     if (col === 'eightd' && S.d8open && !recGet('eightd', S.d8open) && !snap.metadata?.hasPendingWrites) S.d8open = null;
+    if (col === 'reviews' && S.rvOpen && !recGet('reviews', S.rvOpen) && !snap.metadata?.hasPendingWrites) S.rvOpen = null;
     ensureProfiles(); remoteRender();
   }, () => {});
-  sub('contacts'); sub('risks'); sub('eightd');
+  sub('contacts'); sub('risks'); sub('eightd'); sub('reviews');
   DB.collection('dismissed').onSnapshot(snap => { S.dismissed = new Set(snap.docs.map(d => d.id)); remoteRender(); }, () => {});
 }
 const dismissKey = k => String(k).replace(/[^A-Za-z0-9_\-.~:@+]/g, '_').slice(0, 180);
@@ -2839,7 +3052,7 @@ function sitePicker(field, ids, hint) {
     ${groups.map(([co, lab]) => { const ss = sitesAll().filter(s => (s.company || 'TBD') === co).sort((a, b) => a.name.localeCompare(b.name)); return ss.length ? `<div class="cg"><span class="sec-label">${esc(lab)}</span><div class="cgl">${ss.map(s => `<label><input type="checkbox" value="${esc(s.id)}"${ids.includes(s.id) ? ' checked' : ''}>${esc(s.name)}</label>`).join('')}</div></div>` : ''; }).join('')}</fieldset>`;
 }
 function rowsEd(field, rows, E, o = {}) {
-  const cols = rowCols(field);
+  const cols = rowCols(field, o.col);
   const body = rows.map((r, i) => `<tr data-ri="${i}">${cols.map(([k, l, type]) => `<td class="${type === 'check' ? 'ck' : type === 'date' ? 'dt' : ''}">${type === 'check'
       ? `<input type="checkbox" data-rowf="${k}"${r[k] ? ' checked' : ''}${E ? '' : ' disabled'} aria-label="${esc(l)}, row ${i + 1}">`
       : `<input type="${type === 'date' ? 'date' : 'text'}" data-rowf="${k}" value="${esc(r[k] ?? '')}"${E ? '' : ' readonly'} aria-label="${esc(l)}, row ${i + 1}">`}</td>`).join('')}${E ? `<td class="x"><button class="iconbtn" type="button" data-act="row-del" data-i="${i}" aria-label="Remove row ${i + 1}">${ICON.x}</button></td>` : ''}</tr>`).join('');
@@ -3233,10 +3446,11 @@ async function save8DWord(d) {
 const REC_LABEL = {
   contacts: { name: 'Name', org: 'Organization', title: 'Job title', func: 'Function', level: 'Escalation level', sites: 'Plants', email: 'Email', phone: 'Phone', notes: 'Notes' },
   risks: { title: 'Title', desc: 'What could happen', cat: 'Category', status: 'Status', response: 'Response', L: 'Likelihood', I: 'Impact', owner: 'Owner', due: 'Due', reviewed: 'Last reviewed', mitigation: 'Plan', contingency: 'Contingency', trigger: 'Early-warning sign', sites: 'Plants', actions: 'Actions', d8: '8D report' },
+  reviews: { date: 'Meeting date', time: 'Time', location: 'Location', facilitator: 'Facilitator', notetaker: 'Note taker', status: 'Status', nextDate: 'Next review date', nextLocation: 'Next review location', attendees: 'Attendees', decisions: 'Decisions', actions: 'Actions', items: 'Agenda facts', factsAt: 'Facts as of' },
   eightd: { title: 'Title', status: 'Status', customer: 'Customer', custPlant: 'Customer plant', custRef: 'Customer reference', product: 'Product', lots: 'Batch / lots', akzoSite: 'AkzoNobel site', opened: 'Date opened', target: 'Target closure', closed: 'Date closed', champion: 'Champion', leader: 'Team leader',
     d0: 'D0 response', team: 'D1 team', 'd2.statement': 'D2 problem statement', d3: 'D3 containment', d3v: 'D3 verification', 'd4.occ': 'D4 root cause', 'd4.esc': 'D4 escape point', d5: 'D5 corrective actions', d6: 'D6 actions', d6v: 'D6 validation', d7: 'D7 preventive actions', lessons: 'D7 lessons learned', 'd8.recognition': 'D8 recognition' },
 };
-const recLabel = (col, f) => REC_LABEL[col]?.[f] || (f.startsWith('d2.') ? 'D2 ' + f.slice(3) : f.startsWith('d4.') ? 'D4 ' + f.slice(3) : f.startsWith('d8.') ? 'D8 ' + f.slice(3) : f);
+const recLabel = (col, f) => REC_LABEL[col]?.[f] || (f.startsWith('notes.') ? `Notes on topic ${f.slice(6)}` : f.startsWith('d2.') ? 'D2 ' + f.slice(3) : f.startsWith('d4.') ? 'D4 ' + f.slice(3) : f.startsWith('d8.') ? 'D8 ' + f.slice(3) : f);
 function recVal(col, f, v) {
   if (v == null || v === '' || (Array.isArray(v) && !v.length)) return '(blank)';
   if (f === 'sites') return sitesLabel(v);
@@ -3252,6 +3466,8 @@ function recActivity(e, w, canUndo) {
   const link = r ? `<button class="linkbtn" type="button" data-act="rec-open" data-col="${esc(e.col)}" data-id="${esc(e.rid)}">${esc(recName(e.col, r))}</button>` : `<b>${esc(e.name || noun)}</b>`;
   let tx, undo = '';
   if (e.op === 'add') tx = `<b>${esc(w.name)}</b> ${e.label === 'restored' ? 'restored' : 'added'} the ${noun} ${link}${e.label && e.label !== 'restored' ? ' ' + esc(e.label) : ''}`;
+  else if (e.op === 'upload') tx = `<b>${esc(w.name)}</b> saved the meeting record for the ${noun} ${link} from <b>${esc(e.label)}</b>`;
+  else if (!e.field && e.label) tx = `<b>${esc(w.name)}</b> ${esc(e.label)} · ${link}`;
   else if (e.op === 'delete') { tx = `<b>${esc(w.name)}</b> deleted the ${noun} <b>${esc(e.name || '')}</b>`; if (canUndo && e.snapshot && !r) undo = `<button class="btn small" type="button" data-act="rec-undo" data-id="${esc(e.id)}">Restore</button>`; }
   else {
     tx = `<b>${esc(w.name)}</b> ${e.op === 'restore' ? 'undid a change on' : 'changed'} the ${noun} ${link} · ${esc(recLabel(e.col, e.field))}: <span class="old">${esc(recVal(e.col, e.field, e.from))}</span> → <b>${esc(recVal(e.col, e.field, e.to))}</b>`;
@@ -3269,6 +3485,10 @@ function appendRecordSheets(X, wb) {
     ...[...S.risks].sort((a, b) => rScore(b) - rScore(a)).map(r => [rScore(r) || '', rRating(rScore(r)), r.title, r.cat, sitesLabel(r.sites), r.L ?? '', r.I ?? '', r.status, r.response, r.owner, r.due, r.reviewed, r.desc, r.mitigation,
       r.actions.map(a => `${a.done ? '[done] ' : ''}${a.t}${a.owner ? ' (' + a.owner + ')' : ''}${a.due ? ' due ' + a.due : ''}`).join('\n'), r.contingency, r.trigger, recGet('eightd', r.d8)?.num || ''])],
     [7, 10, 44, 20, 26, 10, 8, 16, 11, 18, 12, 13, 50, 50, 50, 40, 40, 12]);
+  add('Monthly Reviews', [['Record ID', 'Month', 'Audience', 'Status', 'Meeting date', 'Facilitator', 'Attended', 'Decisions', 'Actions open', 'Actions done', 'Record saved from'],
+    ...[...S.reviews].sort((a, b) => b.month.localeCompare(a.month)).map(r => [r.code, monthLabel(r.month), r.audience === 'joint' ? 'Joint' : 'Internal', r.status, r.date, r.facilitator, r.attendees.filter(a => a.attended).map(a => a.name).join(', '), r.decisions.map(d => d.t).join('\n'), r.actions.filter(a => !a.done).length, r.actions.filter(a => a.done).length, r.srcFile])],
+    [18, 16, 10, 10, 14, 18, 40, 60, 12, 12, 34]);
+  add('Review Actions', [['Month', 'Action', 'Owner', 'Due', 'Related to', 'Done'], ...S.reviews.flatMap(r => r.actions.map(a => [monthLabel(r.month), a.t, a.owner, a.due, a.rel, a.done ? 'Yes' : 'No']))], [16, 60, 20, 12, 24, 8]);
   add('8D Reports', [['Report no.', 'Title', 'Status', 'Customer', 'Customer plant', 'Customer reference', 'Product', 'Opened', 'Target', 'Closed', 'Champion', 'Steps written', 'Problem statement', 'Root cause'],
     ...S.d8s.map(d => [d.num, d.title, d.status, d.customer, d.custPlant, d.custRef, d.product, d.opened, d.target, d.closed, d.champion, `${F8().SECTIONS.filter(s => F8().done(d, s.k)).length} of 9`, d.d2.statement, d.d4.occ])],
     [13, 40, 18, 22, 24, 18, 22, 11, 11, 11, 18, 12, 50, 50]);
@@ -3283,7 +3503,7 @@ function recFromEl(el) {
 function rowsFromDom(box) {
   return [...box.querySelectorAll('tr[data-ri]')].map(tr => Object.fromEntries([...tr.querySelectorAll('[data-rowf]')].map(i => [i.dataset.rowf, i.type === 'checkbox' ? i.checked : i.value.trim()])));
 }
-const blankRow = field => Object.fromEntries(rowCols(field).map(([k, , type]) => [k, type === 'check' ? false : '']));
+const blankRow = (field, col) => Object.fromEntries(rowCols(field, col).map(([k, , type]) => [k, type === 'check' ? false : '']));
 function refocusSearch(id) { const g = $('#' + id); if (g) { g.focus(); g.setSelectionRange(g.value.length, g.value.length); } }
 document.addEventListener('click', async e => {
   const el = e.target.closest('[data-act]'); if (!el) return;
@@ -3331,7 +3551,7 @@ document.addEventListener('click', async e => {
     case 'rk-reviewed': { const x = recFromEl(el); if (x) editRec('risks', x.r, { reviewed: today() }); break; }
     case 'row-add': {
       const x = recFromEl(el), box = el.closest('[data-rows]'); if (!x || !box) break;
-      const field = box.dataset.rows, rows = [...rowsFromDom(box), blankRow(field)];
+      const field = box.dataset.rows, rows = [...rowsFromDom(box), blankRow(field, x.col)];
       editRec(x.col, x.r, { [field]: rows });
       setTimeout(() => { const t = $(`[data-rec="${x.col}:${CSS.escape(x.r.id)}"] [data-rows="${field}"] tr[data-ri="${rows.length - 1}"] input`); if (t) t.focus(); }, 40);
       break;
@@ -3395,6 +3615,271 @@ document.addEventListener('keydown', e => {
   if (S.rec) { e.stopImmediatePropagation(); S.rec = null; S.confirmRecDelete = false; renderAll(); }
 });
 addEventListener('resize', () => { if (S.rec) $('#scrim').hidden = !narrow(); });
+
+/* ================= monthly state of the business ================= */
+const isoMonth = () => today().slice(0, 7);
+const isISO = x => /^\d{4}-\d{2}-\d{2}$/.test(String(x || ''));
+const normDate = raw => { const s = String(raw || '').trim(); if (!s || isISO(s)) return s; const d = new Date(s); return isNaN(d) || d.getFullYear() < 2000 ? null : `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+// A date typed in Word becomes ISO when it can be read; otherwise the words are kept with the text so nothing is lost.
+function withDate(obj, key, textKey = 't') { const raw = obj[key], iso = normDate(raw); if (iso === null) { obj[textKey] = `${obj[textKey]} (${String(raw).trim()})`; obj[key] = ''; } else obj[key] = iso; return obj; }
+const showDate = x => isISO(x) ? fDate(x) : (x || '');
+const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
+function coverageGaps() {
+  const all = sitesAll(); let gaps = 0;
+  for (const s of all) for (const col of COVER) { const org = col.org === 'cust' ? s.company : 'AkzoNobel'; if (!S.contacts.some(c => c.func === col.func && c.org === org && (c.sites.includes(s.id) || !c.sites.length))) gaps++; }
+  return { gaps, total: all.length * COVER.length };
+}
+// Open actions from earlier reviews. A joint (customer) agenda only carries actions from earlier joint reviews.
+const carriedFrom = (selfId, month, aud) => S.reviews.filter(x => x.id !== selfId && x.month <= month && (aud !== 'joint' || x.audience === 'joint'));
+const carriedFor = r => carriedFrom(r.id, r.month, r.audience).flatMap(x => x.actions.map((a, i) => ({ a, i, x }))).filter(c => !c.a.done && c.a.t);
+// The agenda: topics and the tracker facts behind each one. Joint agendas leave out anything commercial or speculative.
+function buildItems(aud, month, selfId) {
+  const internal = aud !== 'joint', ML = monthLabel(month), all = sitesAll(), T = totals();
+  const nm = arr => arr.map(s => s.name).join(', ');
+  const items = [], add = (t, mins, facts) => items.push({ n: items.length + 1, t, mins, lead: '', facts: facts.filter(Boolean) });
+  const carried = carriedFrom(selfId, month, aud).flatMap(x => x.actions.filter(a => !a.done && a.t).map(a => `${a.t} (${[a.owner || 'no owner', a.due ? 'due ' + showDate(a.due) : '', 'from ' + monthLabel(x.month)].filter(Boolean).join(', ')})`));
+  const util = T.max ? T.cur / T.max : null;
+  const closing = all.filter(s => s.status === 'Closure announced' || s.role === 'Sending (closing)');
+  const review = all.filter(s => ['Operating / Under Review', 'Partial shutdown / reduction'].includes(s.status) || s.role === 'Under review');
+  const recv = all.filter(s => s.role === 'Receiving' || (internal && s.role === 'Potential receiving'));
+  const tight = all.map(s => ({ s, m: M(s) })).filter(x => (x.m.projUtil && x.m.projUtil[1] > 1) || (isNum(x.m.util) && x.m.util >= 0.95));
+  const capFacts = [
+    `${all.length} plants tracked: ${all.filter(s => s.company === 'MBCI').length} MasterBrand, ${all.filter(s => s.company === 'AWC').length} American Woodmark.`,
+    isNum(util) ? `Cabinet capacity in use: ${fPct(util)} (${fN(T.cur)} of ${fN(T.max)} cabinets a day; ${fN(T.max - T.cur)} spare).` : '',
+  ];
+  const transFacts = [closing.length ? `Closing or sending volume: ${nm(closing)}.` : '', internal && review.length ? `Under review or reducing: ${nm(review)}.` : '', recv.length ? `Receiving${internal ? ' or likely to receive' : ''} volume: ${nm(recv)}.` : ''];
+  const moves = S.data.moves.map(m => { const a = site(m.from), b = site(m.to); return a && b ? { a, b, m } : null; }).filter(Boolean);
+  const open8 = S.d8s.filter(d => d.status !== 'Closed');
+  const d8Facts = open8.length ? open8.map(d => `${d.num || '8D'}: ${d.title || 'Untitled problem'} · ${d.status || 'Open'} · ${F8().SECTIONS.filter(s => F8().done(d, s.k)).length} of 9 steps written${d.custPlant ? ' · ' + d.custPlant : ''}`) : ['No open 8D reports.'];
+  const lvl = LEVELS.map(lv => { const cs = S.contacts.filter(c => c.level === lv); return cs.length ? `${lv}: ${cs.map(c => `${c.name} (${ORG_NAME[c.org] || c.org || 'organization not set'})`).join(', ')}` : ''; }).filter(Boolean);
+  add(internal ? 'Welcome, objectives and safety moment' : 'Welcome and objectives', 5, [`Review the MasterBrand + American Woodmark business for ${ML} and agree decisions, owners and dates.`]);
+  add('Actions from the last review', 10, carried.length ? carried : ['No open actions from earlier reviews.']);
+  if (internal) {
+    add('Network and capacity', 10, [...capFacts, tight.length ? `Running tight: ${tight.map(x => `${x.s.name} (${x.m.projUtil && x.m.projUtil[1] > 1 ? `expected ${fPct(x.m.projUtil[1])} of max` : `${fPct(x.m.util)} of max`})`).join(', ')}.` : 'No plant is above 95% of its max build.']);
+    add('Footprint changes and volume moves', 15, [...transFacts, ...moves.map(({ a, b, m }) => `${m.kind === 'Possible' ? 'Possible' : 'Expected'} move: ${a.name} → ${b.name}${m.note ? '. ' + m.note : ''}`)]);
+    const pres = all.filter(s => s.akzo === 'Akzo present' && s.gal > 0).sort((x, y) => y.gal - x.gal), weak = all.filter(s => s.akzo === 'Minimal' || s.akzo === 'No current supply');
+    const comp = {}; all.forEach(s => { if (s.akzo !== 'Akzo present' && s.competitor) comp[s.competitor] = (comp[s.competitor] || 0) + 1; });
+    add('AkzoNobel business', 15, [
+      T.gal ? `2025 Akzo volume: ${fCompact(T.gal)} gal and ${fUSD(T.sales)} net sales across ${all.filter(s => s.gal).length} plants.` : '',
+      pres.length && T.gal ? `${nm(pres)} carry ${fPct(pres.reduce((a, s) => a + s.gal, 0) / T.gal)} of Akzo gallons.` : '',
+      weak.length ? `Akzo is minimal or has no supply at ${weak.length} of ${all.length} plants.` : '',
+      Object.keys(comp).length ? `Main supplier where Akzo does not lead: ${Object.entries(comp).sort((x, y) => y[1] - x[1]).map(([k, v]) => `${k} (${plural(v, 'plant')})`).join(', ')}.` : '',
+      ...insights().filter(i => i.tag === 'Volume move').map(i => i.text),
+    ]);
+    const open = S.risks.filter(isOpenRisk).sort((x, y) => rScore(y) - rScore(x));
+    const hot = open.filter(r => ['High', 'Critical'].includes(rRating(rScore(r))));
+    const od = open.filter(r => overdue(r.due)).length + open.reduce((a, r) => a + r.actions.filter(x => !x.done && overdue(x.due)).length, 0);
+    const fresh = S.risks.filter(r => (r.createdAt || '').slice(0, 7) === month).length;
+    add('Risk register', 15, [
+      `${plural(open.length, 'open risk')}: ${hot.length} critical or high; ${plural(od, 'overdue item')}${fresh ? `; ${fresh} raised in ${ML}` : ''}.`,
+      ...open.slice(0, 5).map(r => `${rScore(r) || '–'} ${rRating(rScore(r))}: ${r.title || 'Untitled risk'} (${[r.owner || 'no owner', r.status, r.due ? 'due ' + fDate(r.due) : ''].filter(Boolean).join(', ')})`),
+    ]);
+    add('Quality and 8D reports', 10, d8Facts);
+    const tsr = all.filter(hasTSR), need = [...closing, ...review, ...recv].filter((s, i, a) => a.indexOf(s) === i && !hasTSR(s));
+    add('TSR interviews and data gaps', 5, [
+      `TSR answers recorded for ${tsr.length} of ${all.length} plants${tsr.length ? ` (${nm(tsr)})` : ''}.`,
+      need.length ? `Plants in transition still without TSR answers: ${nm(need)}.` : '',
+      ...checks().filter(c => c.sev !== 'info').slice(0, 3).map(c => c.t + '.'),
+    ]);
+    const cg = coverageGaps();
+    add('Points of contact and escalation', 5, [`${plural(S.contacts.length, 'contact')} in the directory; ${cg.gaps} of ${cg.total} plant-and-role slots have no named contact.`, ...lvl]);
+  } else {
+    add('Your network and capacity', 10, [...capFacts, ...transFacts]);
+    const planned = moves.filter(x => x.m.kind !== 'Possible');
+    add('Footprint changes and volume transfer plans', 15, [...planned.map(({ a, b }) => `Planned: ${a.name} → ${b.name}`), 'For each move: timing, lines and products, colors needed at the receiving plant, and trials before the first run.']);
+    add('Supply readiness and service', 10, [recv.length ? `Receiving plants to prepare: ${nm(recv)}.` : '', 'Delivery, lead-time and technical-service results for the month.']);
+    add('Quality and 8D reports', 10, d8Facts);
+    add('Points of contact and escalation', 5, lvl.length ? lvl : ['Confirm day-to-day and escalation contacts on both sides.']);
+  }
+  add('Decisions needed and asks', 10, ['Record each decision in the meeting record at the end of this agenda.']);
+  const [y, mo] = month.split('-').map(Number);
+  add('Actions and next review', 5, ['Agree an owner and a due date for each action.', `Next review: ${monthLabel(`${mo === 12 ? y + 1 : y}-${String(mo === 12 ? 1 : mo + 1).padStart(2, '0')}`)}.`]);
+  return items;
+}
+function createReview(month, aud) {
+  if (!/^\d{4}-\d{2}$/.test(month || '')) { toast('Pick a month first.'); return; }
+  const code = `SOB-${month}-${aud === 'joint' ? 'JNT' : 'INT'}`, id = code.toLowerCase();
+  const ex = S.reviews.find(r => r.id === id || r.code === code); if (ex) { openRV(ex.id); return; }
+  const attendees = S.contacts.filter(c => aud === 'joint' ? LEVELS.includes(c.level) : c.org === 'AkzoNobel').map(c => ({ name: c.name, org: ORG_NAME[c.org] || c.org, role: c.title || c.func, attended: false }));
+  const made = recAdd('reviews', { code, month, audience: aud === 'joint' ? 'joint' : 'internal', status: 'Agenda', items: buildItems(aud, month, id), factsAt: today(), attendees, notes: {}, decisions: [], actions: [] },
+    { id, label: aud === 'joint' ? '(joint with the customer)' : '(internal)' });
+  if (!made) return;
+  S.editing = true; openRV(made.id);
+}
+function openRV(id) {
+  S.rvOpen = id; S.rec = null; S.d8open = null; S.drawerOpen = false; S.confirmRVDelete = false; renderAll();
+  setTimeout(() => $('#rv [data-act="rv-close"]')?.focus({ preventScroll: true }), 30);
+}
+function closeRV() { S.rvOpen = null; S.confirmRVDelete = false; renderAll(); }
+const rvStatusPill = r => r.srcFile ? '<span class="pill"><i style="background:var(--good)"></i>Record saved</span>' : r.status === 'Held' ? '<span class="pill"><i style="background:var(--good)"></i>Held</span>' : '<span class="pill"><i style="background:var(--brand-2)"></i>Agenda ready</span>';
+function panelReviews() {
+  const E = writable(), dl = !!S.caps.downloads;
+  if (!S.rvPrep.month) S.rvPrep.month = isoMonth();
+  const head = `<div class="panel-head"><div><h2>Monthly state of the business</h2><p>Build each month's agenda from the tracker and download it as a Word file for the meeting. Afterwards, upload the completed file here: the attendance, notes, decisions and actions are kept on record, and open actions carry into next month's agenda.</p></div>
+    <div class="gridtools">${E ? '<button class="btn" type="button" data-act="rv-upload">Upload completed agenda</button>' : ''}</div></div>`;
+  if (!live()) return head + `<div class="card empty-state">Monthly reviews appear here when the app is connected to live data.</div>`;
+  const P = S.rvPrep, code = `SOB-${P.month}-${P.aud === 'joint' ? 'JNT' : 'INT'}`, ex = S.reviews.find(r => r.code === code);
+  const prep = E ? `<div class="card pad rvprep"><div><h3>Prepare an agenda</h3><p class="hint">Pick the month and who the meeting is for. The agenda pulls capacity, volume moves, ${P.aud === 'joint' ? '' : 'AkzoNobel business, risks, '}8D reports and contacts from the tracker as of today, plus any open actions from earlier reviews.</p></div>
+      <div class="rvprep-f"><label class="fld"><span>Month</span><input type="month" id="rv-month" value="${esc(P.month)}"></label>
+        <div class="fld"><span>Meeting</span><div class="seg" role="group" aria-label="Who the meeting is for"><button type="button" data-act="rv-aud" data-v="internal" aria-pressed="${P.aud !== 'joint'}">Internal AkzoNobel</button><button type="button" data-act="rv-aud" data-v="joint" aria-pressed="${P.aud === 'joint'}">Joint with customer</button></div></div>
+        <button class="btn primary" type="button" data-act="rv-create">${ex ? `Open the ${esc(monthLabel(P.month))} agenda` : `Create the ${esc(monthLabel(P.month))} agenda`}</button></div>
+      <p class="rvprep-n ${P.aud === 'joint' ? '' : 'int'}">${P.aud === 'joint' ? 'Joint agendas leave out AkzoNobel sales, competitor names, the risk register and unconfirmed moves, so they can go to the customer.' : 'Internal agendas include AkzoNobel sales, competitors and the risk register. Keep them inside AkzoNobel.'}</p></div>` : '';
+  const list = [...S.reviews].sort((a, b) => b.month.localeCompare(a.month) || a.audience.localeCompare(b.audience));
+  const rows = list.map(r => {
+    const open = r.actions.filter(a => !a.done).length;
+    const meta = [r.date ? `Meeting ${r.date}` : '', r.attendees.some(a => a.attended) ? `${r.attendees.filter(a => a.attended).length} attended` : '', r.decisions.length ? plural(r.decisions.length, 'decision') : '', r.actions.length ? `${open} of ${plural(r.actions.length, 'action')} open` : ''].filter(Boolean).join(' · ');
+    return `<div class="rvr"><button class="rvr-open" type="button" data-act="rv-open" data-id="${esc(r.id)}"><span class="rvr-m">${esc(monthLabel(r.month))}</span><span class="rvr-t"><b>${r.audience === 'joint' ? 'Joint review with the customer' : 'Internal AkzoNobel review'}</b><span class="muted">${esc(meta || 'Agenda ready for the meeting')}</span></span>${rvStatusPill(r)}</button>${dl ? `<button class="btn small" type="button" data-act="rv-word" data-id="${esc(r.id)}">Word</button>` : ''}</div>`;
+  }).join('');
+  const listHtml = list.length ? `<div class="card rvlist">${rows}</div>` : `<div class="card empty-state"><b style="color:var(--ink)">No reviews on record yet.</b><br>${E ? 'Create the first agenda above.' : 'Agendas appear here once someone on the team creates one.'}</div>`;
+  const acts = S.reviews.flatMap(r => r.actions.map((a, i) => ({ a, i, r }))).filter(x => !x.a.done && x.a.t).sort((x, y) => (x.a.due || '9').localeCompare(y.a.due || '9'));
+  const actHtml = acts.length ? `<div class="panel-head" style="margin-top:4px"><div><h2 style="font-size:19px">Open actions from reviews</h2><p>Tick an action when it is done. Whatever is still open is listed in the next month's agenda.</p></div></div>
+    <div class="tablewrap"><table class="t rva"><thead><tr><th class="ck">Done</th><th>Action</th><th>Owner</th><th>Due</th><th>From</th></tr></thead><tbody>${acts.map(({ a, i, r }) => `<tr><td class="ck"><input type="checkbox" data-act="rva-done" data-id="${esc(r.id)}" data-i="${i}"${E ? '' : ' disabled'} aria-label="Mark done: ${esc(a.t)}"></td><td>${esc(a.t)}${a.rel ? `<div class="muted">${esc(a.rel)}</div>` : ''}</td><td>${esc(a.owner || '—')}</td><td class="${overdue(a.due) ? 'od' : ''}">${esc(showDate(a.due) || '—')}</td><td><button class="linkbtn" type="button" data-act="rv-open" data-id="${esc(r.id)}">${esc(monthLabel(r.month))}</button></td></tr>`).join('')}</tbody></table></div>` : '';
+  return head + prep + `<div class="panel-head"><div><h2 style="font-size:19px">Reviews on record</h2></div></div>` + listHtml + actHtml;
+}
+function renderRV() {
+  const el = $('#rv'), r = S.rvOpen ? recGet('reviews', S.rvOpen) : null;
+  document.body.classList.toggle('rv-on', !!r);
+  if (!r) { el.hidden = true; el.innerHTML = ''; return; }
+  el.hidden = false;
+  const E = S.editing && writable(), ro = !E, internal = r.audience !== 'joint';
+  const T = (label, f, v, o = {}) => rf.text(label, f, v, { ...o, ro });
+  const hasNote = it => !!(r.notes[it.n] || '').trim();
+  const nNotes = r.items.filter(hasNote).length, carried = carriedFor(r);
+  const body = `
+    <section class="d8-sec" id="rv-info"><h3><span class="d8-n info">i</span>Meeting details</h3><div class="form f3">
+      ${rf.sel('Status', 'status', r.status, ['Agenda', 'Held'], { ro })}${T('Meeting date', 'date', r.date, { ph: 'e.g. Nov 5, 2026' })}${T('Time', 'time', r.time, { ph: 'e.g. 10:00–11:30 ET' })}
+      ${T('Location / Teams', 'location', r.location, { wide: 1 })}${T('Facilitator', 'facilitator', r.facilitator, { list: 'dl-people' })}${T('Note taker', 'notetaker', r.notetaker, { list: 'dl-people' })}
+      ${T('Next review date', 'nextDate', r.nextDate)}${T('Next review location', 'nextLocation', r.nextLocation)}</div>
+      <p class="rv-meta">Record ID <b>${esc(r.code)}</b> · tracker facts as of ${esc(r.factsAt ? fDate(r.factsAt) : '—')}${E ? ' · <button class="linkbtn" type="button" data-act="rv-refresh">Refresh the facts from today\'s tracker</button>' : ''}</p>
+      ${internal ? '<p class="rv-warn"><b>Internal review.</b> This agenda includes AkzoNobel sales, competitor and risk-register data. For a meeting with the customer, create a joint agenda instead.</p>' : ''}
+      ${r.srcFile ? `<p class="rv-src">Meeting record saved from <b>${esc(r.srcFile)}</b>${r.srcAt ? ` on ${esc(fDate(r.srcAt))}` : ''}${r.srcBy ? ` by ${esc(who(r.srcBy).name)}` : ''}.</p>` : ''}</section>
+    <section class="d8-sec" id="rv-att"><h3><span class="d8-n info">✓</span>Attendees</h3>${rowsEd('attendees', r.attendees, E, { col: 'reviews', add: 'Add a person', empty: 'No attendees listed yet.' })}</section>
+    ${r.items.map(it => `<section class="d8-sec" id="rv-${it.n}"><h3><span class="d8-n${hasNote(it) ? ' ok' : ''}">${it.n}</span>${esc(it.t)}${it.mins ? `<span class="rv-min">${it.mins} min</span>` : ''}</h3>
+      ${it.facts.length ? `<div class="rv-facts"><span class="sec-label">From the tracker</span><ul>${it.facts.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>` : ''}
+      <div class="form">${rf.area('Notes', 'notes.' + it.n, r.notes[it.n] || '', { ro, rows: 3, ph: E ? 'What was discussed and agreed' : '' })}</div></section>`).join('')}
+    <section class="d8-sec" id="rv-rec"><h3><span class="d8-n info">✎</span>Meeting record</h3>
+      ${carried.length ? `<p class="hint" style="margin-bottom:12px">${plural(carried.length, 'open action')} from earlier reviews ${carried.length === 1 ? 'is' : 'are'} listed under topic 2 and at the top of the Word file's actions table.</p>` : ''}
+      <span class="sec-label rv-sl">Decisions</span>${rowsEd('decisions', r.decisions, E, { col: 'reviews', add: 'Add a decision', empty: 'No decisions recorded yet.' })}
+      <span class="sec-label rv-sl">Actions</span>${rowsEd('actions', r.actions, E, { col: 'reviews', add: 'Add an action', empty: 'No actions recorded yet.' })}</section>
+    ${E ? `<div class="d8-del">${S.confirmRVDelete ? `<div class="confirm"><span>Delete the <b>${esc(monthLabel(r.month))}</b> review for everyone? You can restore it from Activity.</span><button class="btn small danger" type="button" data-act="rv-del-confirm">Delete</button><button class="btn small" type="button" data-act="rv-del-cancel">Keep it</button></div>` : '<button class="btn small danger" type="button" data-act="rv-del">Delete this review</button>'}</div>` : ''}`;
+  el.innerHTML = `<div class="d8-in${ro ? ' ro' : ''}" role="dialog" aria-modal="true" aria-labelledby="rv-title">
+    <header class="d8-head"><div class="d8-top"><div><div class="d8-kick">AkzoNobel · State of the business</div><h2 id="rv-title">${esc(monthLabel(r.month))} · ${internal ? 'Internal review' : 'Joint review with the customer'}</h2></div>
+      <div class="d8-x">${S.caps.downloads ? `<button class="btn small" type="button" data-act="rv-word" data-id="${esc(r.id)}">Download agenda</button>` : ''}${writable() ? `<button class="btn small" type="button" data-act="rv-upload">Upload completed</button><button class="btn small${E ? ' on' : ''}" type="button" data-act="edit-toggle">${E ? 'Done editing' : 'Edit'}</button>` : ''}<button class="iconbtn" type="button" data-act="rv-close" aria-label="Close the review">${ICON.x}</button></div></div>
+      <nav class="d8-steps" aria-label="Agenda topics">${r.items.map(it => `<button type="button" class="${hasNote(it) ? 'ok' : ''}" data-act="rv-jump" data-k="${it.n}" title="${esc(it.t)}">${it.n}</button>`).join('')}<button type="button" class="${r.decisions.length || r.actions.length ? 'ok' : ''}" data-act="rv-jump" data-k="rec">Record</button><span class="d8-cnt">${nNotes} of ${plural(r.items.length, 'topic')} with notes · ${plural(r.decisions.length, 'decision')} · ${plural(r.actions.length, 'action')}</span></nav></header>
+    <div class="d8-body" data-ctx="rv" data-rec="reviews:${esc(r.id)}">${body}</div>${peopleList()}</div>`;
+}
+async function saveDocx(bytes, filename) {
+  const dl = S.caps.downloads; if (!dl) { toast('Downloads are not available in this view.'); return; }
+  try { await dl.save({ filename, data: new Blob([bytes], { type: DOCX_MIME }) }); toast('Word file saved.'); }
+  catch (e) {
+    if (e?.code === 'declined') return;
+    if (e?.code === 'rejected_extension' || e?.code === 'extension_not_enabled') toast('Word files cannot be saved from this view. Download it from the team site instead.', 6000);
+    else toast(e?.code === 'rate_limited' ? 'A save prompt is already open.' : 'The file could not be saved in this view.', 4000);
+  }
+}
+function saveReviewWord(r) {
+  if (!S.caps.downloads) { toast('Downloads are not available in this view.'); return; }
+  const me = who(S.userId).name, by = ['You', 'Someone', 'A teammate'].includes(me) ? '' : me;
+  let bytes;
+  try { bytes = window.FPSOB.docx(ensureReview(clone(r)), { by, carried: carriedFor(r).map(c => c.a), monthLabel: monthLabel(r.month), fmtDate: showDate }); }
+  catch (e) { console.error(e); toast('The Word file could not be built.', 5000); return; }
+  saveDocx(bytes, `State_of_the_Business_${fileSafe(monthLabel(r.month))}_${r.audience === 'joint' ? 'Joint' : 'Internal'}.docx`);
+}
+const DET_LABEL = { date: 'date', time: 'time', location: 'location', facilitator: 'facilitator', notetaker: 'note taker', nextDate: 'next review', nextLocation: 'next location' };
+async function handleReviewUpload(file) {
+  if (!writable()) return;
+  if (!/\.docx$/i.test(file.name)) { toast('Upload the Word (.docx) agenda that was downloaded from this tab.', 5000); return; }
+  let P;
+  try { P = await window.FPSOB.parse(await file.arrayBuffer()); }
+  catch (e) { console.error(e); toast(e?.code === 'nolib' ? 'The file reader could not load. Check your connection and try again.' : 'That file could not be read as a Word document. Save it as .docx and try again.', 6000); return; }
+  if (!P.code) { toast('This file has no Record ID, so it is not an agenda from this tab. Download the agenda here, fill it in, then upload it.', 7000); return; }
+  const target = S.reviews.find(r => r.code === P.code) || null;
+  const doneRx = /^(done|closed|complete|completed|finished|yes|y|x|✓|✔)\b/i;
+  const others = S.reviews.filter(r => r !== target).flatMap(r => r.actions.map((a, i) => ({ a, i, r })));
+  const carried = [], newActions = [];
+  for (const row of P.actions) {
+    const hit = others.find(o => norm(o.a.t) === norm(row.t));
+    if (hit) carried.push({ rid: hit.r.id, i: hit.i, done: doneRx.test(row.status) });
+    else newActions.push(withDate({ t: row.t, owner: row.owner, due: row.due, rel: '', done: doneRx.test(row.status) }, 'due'));
+  }
+  S.pendingRV = { file: file.name, P, target, carried, newActions };
+  renderRVModal();
+}
+function renderRVModal() {
+  const m = $('#modal'), U = S.pendingRV;
+  if (!U) { if (m.dataset.rv) { m.hidden = true; m.innerHTML = ''; delete m.dataset.rv; } return; }
+  m.dataset.rv = '1';
+  const P = U.P, r = U.target, nTopics = Object.keys(P.topics).length || (r ? r.items.length : 0), att = P.attendees.filter(a => a.attended).length;
+  const det = Object.entries(P.details).filter(([, v]) => v).map(([k, v]) => `${DET_LABEL[k]} <b>${esc(v)}</b>`);
+  const lines = [
+    r ? `Saves into the <b>${esc(monthLabel(r.month))} ${r.audience === 'joint' ? 'joint' : 'internal'} review</b> (${esc(P.code)}).` : `No review with Record ID <b>${esc(P.code)}</b> is on record yet, so a new one is created.`,
+    det.length ? `Meeting details: ${det.join(', ')}.` : '',
+    P.hasAttendees ? `${plural(P.attendees.length, 'attendee')} listed, ${att} marked as attended.` : '',
+    `Notes on ${Object.keys(P.notes).length} of ${plural(nTopics, 'topic')}.`,
+    P.hasDecisions ? `${plural(P.decisions.length, 'decision')}.` : '',
+    P.hasActions ? `${plural(U.newActions.length, 'action')} for this review${U.carried.length ? `; ${U.carried.filter(c => c.done).length} of ${plural(U.carried.length, 'earlier action')} marked done` : ''}.` : '',
+  ].filter(Boolean);
+  m.innerHTML = `<div class="modal-in" role="dialog" aria-modal="true" aria-labelledby="rvu-title"><header><h2 id="rvu-title">Save the meeting record from ${esc(U.file)}</h2></header><div class="mb"><ul>${lines.map(l => `<li>${l}</li>`).join('')}</ul>
+    <p class="muted" style="font-size:13.5px">What the file holds replaces this review's notes, attendance, decisions and actions. The Word file itself is not stored; its contents are.</p></div>
+    <footer><button class="btn" type="button" data-act="rvu-cancel">Cancel</button><button class="btn primary" type="button" data-act="rvu-apply">Save to the record</button></footer></div>`;
+  m.hidden = false; m.querySelector('[data-act="rvu-apply"]')?.focus();
+}
+function applyRVUpload() {
+  const U = S.pendingRV; if (!U || !S.caps.db || !writable()) return;
+  const P = U.P;
+  let r = U.target && recGet('reviews', U.target.id);
+  if (!r) {
+    const m = P.code.match(/^SOB-(\d{4}-\d{2})-(INT|JNT)$/); if (!m) return;
+    r = recAdd('reviews', { code: P.code, month: m[1], audience: m[2] === 'JNT' ? 'joint' : 'internal', status: 'Held', items: Object.entries(P.topics).map(([n, t]) => ({ n: +n, t, mins: 0, facts: [] })).sort((a, b) => a.n - b.n), notes: {}, attendees: [], decisions: [], actions: [] }, { id: P.code.toLowerCase(), label: 'from an uploaded agenda' });
+    if (!r) return;
+  }
+  const f = {};
+  for (const [k, v] of Object.entries(P.details)) if (v) f[k] = v;
+  for (const [n, t] of Object.entries(P.notes)) f['notes.' + n] = t;
+  if (P.hasAttendees) f.attendees = P.attendees.map(a => ({ name: a.name, org: a.org, role: a.role, attended: !!a.attended }));
+  if (P.hasDecisions) f.decisions = P.decisions.map(d => withDate({ ...d }, 'date'));
+  if (P.hasActions) f.actions = U.newActions;
+  Object.assign(f, { status: 'Held', srcFile: U.file, srcAt: new Date().toISOString(), srcBy: S.userId || '' });
+  editRec('reviews', r, f, 'upload', U.file);
+  const byRev = {};
+  for (const c of U.carried) if (c.done) (byRev[c.rid] = byRev[c.rid] || []).push(c.i);
+  for (const [rid, idx] of Object.entries(byRev)) {
+    const x = recGet('reviews', rid); if (!x) continue;
+    editRec('reviews', x, { actions: x.actions.map((a, i) => idx.includes(i) ? { ...a, done: true } : a) }, 'edit', `marked ${plural(idx.length, 'action')} done at the ${monthLabel(r.month)} review`);
+  }
+  S.pendingRV = null; renderRVModal(); openRV(r.id);
+  toast('Meeting record saved. Open actions carry into next month\'s agenda.', 5000);
+}
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el) return;
+  switch (el.dataset.act) {
+    case 'rv-aud': S.rvPrep.aud = el.dataset.v; renderTabs(); break;
+    case 'rv-create': createReview(S.rvPrep.month, S.rvPrep.aud); break;
+    case 'rv-open': if (recGet('reviews', el.dataset.id)) openRV(el.dataset.id); break;
+    case 'rv-close': closeRV(); break;
+    case 'rv-word': { const r = recGet('reviews', el.dataset.id); if (r) saveReviewWord(r); break; }
+    case 'rv-upload': if (writable()) $('#rv-file').click(); break;
+    case 'rv-jump': { const t = $(el.dataset.k === 'rec' ? '#rv-rec' : '#rv-' + el.dataset.k); if (t) t.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'start' }); break; }
+    case 'rv-refresh': { const r = recGet('reviews', S.rvOpen); if (r) { editRec('reviews', r, { items: buildItems(r.audience, r.month, r.id), factsAt: today() }, 'edit', 'refreshed the agenda facts from the tracker'); toast('Agenda facts refreshed from today\'s tracker.'); } break; }
+    case 'rva-done': { const r = recGet('reviews', el.dataset.id), i = +el.dataset.i; if (r && r.actions[i]) editRec('reviews', r, { actions: r.actions.map((a, j) => j === i ? { ...a, done: el.checked } : a) }); break; }
+    case 'rvu-cancel': S.pendingRV = null; renderRVModal(); break;
+    case 'rvu-apply': applyRVUpload(); break;
+    case 'rv-del': S.confirmRVDelete = true; renderRV(); break;
+    case 'rv-del-cancel': S.confirmRVDelete = false; renderRV(); break;
+    case 'rv-del-confirm': { const r = recGet('reviews', S.rvOpen); if (!r) break; recDelete('reviews', r); closeRV(); toast(`${monthLabel(r.month)} review deleted. Restore it from Activity if that was a mistake.`, 5000); break; }
+    default: break;
+  }
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.id === 'rv-file') { const f = t.files && t.files[0]; t.value = ''; if (f) handleReviewUpload(f); return; }
+  if (t.id === 'rv-month') { S.rvPrep.month = t.value || isoMonth(); renderTabs(); }
+});
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (S.pendingRV) { e.stopImmediatePropagation(); S.pendingRV = null; renderRVModal(); return; }
+  if (S.rvOpen) { e.stopImmediatePropagation(); closeRV(); }
+}, true);
 
 
 /* ================= events ================= */
