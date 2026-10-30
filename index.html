@@ -3636,7 +3636,7 @@ const carriedFor = r => carriedFrom(r.id, r.month, r.audience).flatMap(x => x.ac
 const DOWNTIME = ['', 'New Year shutdowns and start-of-year inventory counts', 'Presidents Day', 'quarter-end inventory counts', 'Good Friday and Easter', 'Memorial Day', 'quarter-end inventory counts',
   'Independence Day week shutdowns and mid-year inventory', 'summer maintenance shutdowns', 'Labor Day and quarter-end inventory counts', 'fall maintenance windows', 'Thanksgiving week down shifts', 'Christmas to New Year shutdowns and year-end physical inventory'];
 const OPS_WORDS = /\b(shift|shifts|holiday|inventory|shut ?down|shutdowns?|down ?days?|overtime|saturday|furlough|maintenance|outage|curtail)/i;
-// The agenda: the team's eight standing topics, each with the tracker facts behind it.
+// The agenda: the team's nine standing topics, each with the tracker facts behind it.
 // Joint agendas leave out anything commercial or speculative and prompt for it instead.
 function buildItems(aud, month, selfId) {
   const internal = aud !== 'joint', ML = monthLabel(month), all = sitesAll(), T = totals();
@@ -3722,7 +3722,22 @@ function buildItems(aud, month, selfId) {
     rnd.length ? `R&D / color contacts: ${rnd.map(c => `${c.name} (${ORG_NAME[c.org] || c.org})`).join(', ')}.` : '',
   ]);
 
-  // 7. Risks / concerns
+  // 7. VOT: current opportunity and challenges
+  if (internal) {
+    const opps = all.filter(s => ['Growth Opportunity', 'Potential Opportunity'].includes(s.opp));
+    const watch = all.filter(s => ['Risk', 'To Assess'].includes(s.opp));
+    const comp = all.filter(s => s.akzo !== 'Akzo present' && s.competitor && s.gal > 0).sort((a, b) => b.gal - a.gal);
+    const head = insights().find(i => i.tag === 'Spare capacity');
+    add('VOT: Current opportunity and challenges', 10, [
+      ...opps.map(s => `Opportunity at ${s.name} (${s.opp})${s.action ? ': ' + s.action : ''}`),
+      head ? head.text : '',
+      ...watch.map(s => `Challenge at ${s.name} (${s.opp === 'Risk' ? 'flagged as a risk' : 'still to assess'})${s.action ? ': ' + s.action : ''}`),
+      comp.length ? `Plants where a competitor leads and Akzo still sells: ${comp.slice(0, 4).map(s => `${s.name} (${s.competitor}, ${fCompact(s.gal)} gal Akzo)`).join(', ')}.` : '',
+      'Current VOT opportunities and challenges: what has changed this month and what support is needed.',
+    ]);
+  } else add('VOT: Current opportunity and challenges', 10, ['Current opportunities and challenges from each side.', 'What has changed this month and what support is needed.']);
+
+  // 8. Risks / concerns
   if (internal) {
     const hot = openRisks.filter(r => ['High', 'Critical'].includes(rRating(rScore(r))));
     const od = openRisks.filter(r => overdue(r.due)).length + openRisks.reduce((a, r) => a + r.actions.filter(x => !x.done && overdue(x.due)).length, 0);
@@ -3734,7 +3749,7 @@ function buildItems(aud, month, selfId) {
     ]);
   } else add('Risks / concerns', 10, ['Concerns raised by either side, and what each needs from the other.']);
 
-  // 8. Actions and next steps
+  // 9. Actions and next steps
   const carried = carriedFrom(selfId, month, aud).flatMap(x => x.actions.filter(a => !a.done && a.t).map(a => `Open: ${a.t} (${[a.owner || 'no owner', a.due ? 'due ' + showDate(a.due) : '', 'from ' + monthLabel(x.month)].filter(Boolean).join(', ')})`));
   add('Actions and next steps', 10, [...(carried.length ? carried : ['No open actions from earlier reviews.']), 'Agree an owner and a due date for each new action.', `Next review: ${monthLabel(nextYM)}.`]);
   return items;
@@ -3774,7 +3789,7 @@ function panelReviews() {
     <div class="gridtools">${E ? '<button class="btn" type="button" data-act="rv-upload">Upload completed agenda</button>' : ''}</div></div>`;
   if (!live()) return head + `<div class="card empty-state">Monthly reviews appear here when the app is connected to live data.</div>`;
   const P = S.rvPrep, code = `SOB-${P.month}-${P.aud === 'joint' ? 'JNT' : 'INT'}`, ex = S.reviews.find(r => r.code === code);
-  const prep = E ? `<div class="card pad rvprep"><div><h3>Prepare an agenda</h3><p class="hint">Pick the month and who the meeting is for. Eight topics: financials, volume, average cabinets and parts per day, changes in operations, operations update, NPI / LWR, risks / concerns, and actions. Each pulls the tracker's facts as of today, plus any open actions from earlier reviews.</p></div>
+  const prep = E ? `<div class="card pad rvprep"><div><h3>Prepare an agenda</h3><p class="hint">Pick the month and who the meeting is for. Nine topics: financials, volume, average cabinets and parts per day, changes in operations, operations update, NPI / LWR, VOT opportunity and challenges, risks / concerns, and actions. Each pulls the tracker's facts as of today, plus any open actions from earlier reviews.</p></div>
       <div class="rvprep-f"><label class="fld"><span>Month</span><input type="month" id="rv-month" value="${esc(P.month)}"></label>
         <div class="fld"><span>Meeting</span><div class="seg" role="group" aria-label="Who the meeting is for"><button type="button" data-act="rv-aud" data-v="internal" aria-pressed="${P.aud !== 'joint'}">Internal AkzoNobel</button><button type="button" data-act="rv-aud" data-v="joint" aria-pressed="${P.aud === 'joint'}">Joint with customer</button></div></div>
         <button class="btn primary" type="button" data-act="rv-create">${ex ? `Open the ${esc(monthLabel(P.month))} agenda` : `Create the ${esc(monthLabel(P.month))} agenda`}</button></div>
@@ -3890,7 +3905,7 @@ function applyRVUpload() {
   }
   const f = {};
   for (const [k, v] of Object.entries(P.details)) if (v) f[k] = v;
-  for (const [n, t] of Object.entries(P.notes)) f['notes.' + n] = t;
+  for (const [n, t] of Object.entries(P.notes)) { const title = (P.topics[n] || '').toLowerCase(), m = title && r.items.find(it => it.t.toLowerCase() === title); f['notes.' + (m ? m.n : n)] = t; }
   if (P.hasAttendees) f.attendees = P.attendees.map(a => ({ name: a.name, org: a.org, role: a.role, attended: !!a.attended }));
   if (P.hasDecisions) f.decisions = P.decisions.map(d => withDate({ ...d }, 'date'));
   if (P.hasActions) f.actions = U.newActions;
