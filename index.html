@@ -3632,69 +3632,124 @@ function coverageGaps() {
 // Open actions from earlier reviews. A joint (customer) agenda only carries actions from earlier joint reviews.
 const carriedFrom = (selfId, month, aud) => S.reviews.filter(x => x.id !== selfId && x.month <= month && (aud !== 'joint' || x.audience === 'joint'));
 const carriedFor = r => carriedFrom(r.id, r.month, r.audience).flatMap(x => x.actions.map((a, i) => ({ a, i, x }))).filter(c => !c.a.done && c.a.t);
-// The agenda: topics and the tracker facts behind each one. Joint agendas leave out anything commercial or speculative.
+// Holiday and inventory down-shift reminders by calendar month (US plants; Mexico and Canada observe their own days too).
+const DOWNTIME = ['', 'New Year shutdowns and start-of-year inventory counts', 'Presidents Day', 'quarter-end inventory counts', 'Good Friday and Easter', 'Memorial Day', 'quarter-end inventory counts',
+  'Independence Day week shutdowns and mid-year inventory', 'summer maintenance shutdowns', 'Labor Day and quarter-end inventory counts', 'fall maintenance windows', 'Thanksgiving week down shifts', 'Christmas to New Year shutdowns and year-end physical inventory'];
+const OPS_WORDS = /\b(shift|shifts|holiday|inventory|shut ?down|shutdowns?|down ?days?|overtime|saturday|furlough|maintenance|outage|curtail)/i;
+// The agenda: the team's eight standing topics, each with the tracker facts behind it.
+// Joint agendas leave out anything commercial or speculative and prompt for it instead.
 function buildItems(aud, month, selfId) {
   const internal = aud !== 'joint', ML = monthLabel(month), all = sitesAll(), T = totals();
+  const [y, mo] = month.split('-').map(Number), nextYM = `${mo === 12 ? y + 1 : y}-${String(mo === 12 ? 1 : mo + 1).padStart(2, '0')}`, nextMo = mo === 12 ? 1 : mo + 1;
   const nm = arr => arr.map(s => s.name).join(', ');
   const items = [], add = (t, mins, facts) => items.push({ n: items.length + 1, t, mins, lead: '', facts: facts.filter(Boolean) });
-  const carried = carriedFrom(selfId, month, aud).flatMap(x => x.actions.filter(a => !a.done && a.t).map(a => `${a.t} (${[a.owner || 'no owner', a.due ? 'due ' + showDate(a.due) : '', 'from ' + monthLabel(x.month)].filter(Boolean).join(', ')})`));
-  const util = T.max ? T.cur / T.max : null;
   const closing = all.filter(s => s.status === 'Closure announced' || s.role === 'Sending (closing)');
   const review = all.filter(s => ['Operating / Under Review', 'Partial shutdown / reduction'].includes(s.status) || s.role === 'Under review');
   const recv = all.filter(s => s.role === 'Receiving' || (internal && s.role === 'Potential receiving'));
-  const tight = all.map(s => ({ s, m: M(s) })).filter(x => (x.m.projUtil && x.m.projUtil[1] > 1) || (isNum(x.m.util) && x.m.util >= 0.95));
-  const capFacts = [
-    `${all.length} plants tracked: ${all.filter(s => s.company === 'MBCI').length} MasterBrand, ${all.filter(s => s.company === 'AWC').length} American Woodmark.`,
-    isNum(util) ? `Cabinet capacity in use: ${fPct(util)} (${fN(T.cur)} of ${fN(T.max)} cabinets a day; ${fN(T.max - T.cur)} spare).` : '',
-  ];
-  const transFacts = [closing.length ? `Closing or sending volume: ${nm(closing)}.` : '', internal && review.length ? `Under review or reducing: ${nm(review)}.` : '', recv.length ? `Receiving${internal ? ' or likely to receive' : ''} volume: ${nm(recv)}.` : ''];
-  const moves = S.data.moves.map(m => { const a = site(m.from), b = site(m.to); return a && b ? { a, b, m } : null; }).filter(Boolean);
-  const open8 = S.d8s.filter(d => d.status !== 'Closed');
-  const d8Facts = open8.length ? open8.map(d => `${d.num || '8D'}: ${d.title || 'Untitled problem'} · ${d.status || 'Open'} · ${F8().SECTIONS.filter(s => F8().done(d, s.k)).length} of 9 steps written${d.custPlant ? ' · ' + d.custPlant : ''}`) : ['No open 8D reports.'];
-  const lvl = LEVELS.map(lv => { const cs = S.contacts.filter(c => c.level === lv); return cs.length ? `${lv}: ${cs.map(c => `${c.name} (${ORG_NAME[c.org] || c.org || 'organization not set'})`).join(', ')}` : ''; }).filter(Boolean);
-  add(internal ? 'Welcome, objectives and safety moment' : 'Welcome and objectives', 5, [`Review the MasterBrand + American Woodmark business for ${ML} and agree decisions, owners and dates.`]);
-  add('Actions from the last review', 10, carried.length ? carried : ['No open actions from earlier reviews.']);
+  const moves = S.data.moves.map(m => { const a = site(m.from), b = site(m.to); return a && b ? { a, b, m } : null; }).filter(Boolean).filter(x => internal || x.m.kind !== 'Possible');
+  const rows = all.map(s => ({ s, m: M(s) }));
+  const openRisks = S.risks.filter(isOpenRisk).sort((x, y2) => rScore(y2) - rScore(x));
+
+  // 1. Financials
   if (internal) {
-    add('Network and capacity', 10, [...capFacts, tight.length ? `Running tight: ${tight.map(x => `${x.s.name} (${x.m.projUtil && x.m.projUtil[1] > 1 ? `expected ${fPct(x.m.projUtil[1])} of max` : `${fPct(x.m.util)} of max`})`).join(', ')}.` : 'No plant is above 95% of its max build.']);
-    add('Footprint changes and volume moves', 15, [...transFacts, ...moves.map(({ a, b, m }) => `${m.kind === 'Possible' ? 'Possible' : 'Expected'} move: ${a.name} → ${b.name}${m.note ? '. ' + m.note : ''}`)]);
-    const pres = all.filter(s => s.akzo === 'Akzo present' && s.gal > 0).sort((x, y) => y.gal - x.gal), weak = all.filter(s => s.akzo === 'Minimal' || s.akzo === 'No current supply');
-    const comp = {}; all.forEach(s => { if (s.akzo !== 'Akzo present' && s.competitor) comp[s.competitor] = (comp[s.competitor] || 0) + 1; });
-    add('AkzoNobel business', 15, [
-      T.gal ? `2025 Akzo volume: ${fCompact(T.gal)} gal and ${fUSD(T.sales)} net sales across ${all.filter(s => s.gal).length} plants.` : '',
-      pres.length && T.gal ? `${nm(pres)} carry ${fPct(pres.reduce((a, s) => a + s.gal, 0) / T.gal)} of Akzo gallons.` : '',
+    const bySales = all.filter(s => s.sales > 0).sort((a, b) => b.sales - a.sales);
+    const ups = rows.filter(x => x.m.up?.usd);
+    add('Financials', 10, [
+      T.sales ? `2025 AkzoNobel net sales: ${fUSD(T.sales)} on ${fCompact(T.gal)} gal${T.gal ? ` (average $${(T.sales / T.gal).toFixed(2)}/gal)` : ''}.` : '',
+      bySales.length ? `Largest by sales: ${bySales.slice(0, 3).map(s => `${s.name} ${fUSD(s.sales)} (${fPct(s.sales / T.sales)})`).join(', ')}.` : '',
+      ...ups.map(({ s, m }) => `${s.name}: the expected volume is worth about ${fRange(m.up.usd[0], m.up.usd[1], fUSD)} a year if gallons per cabinet hold.`),
+      `Bring ${ML} and year-to-date sales against plan, the price-index position and any open invoicing or payment items.`,
+    ]);
+  } else add('Financials', 10, ['Pricing and price-index updates for the month.', 'Open invoicing, credit or payment items from either side.']);
+
+  // 2. Volume
+  if (internal) {
+    const byGal = all.filter(s => s.gal > 0).sort((a, b) => b.gal - a.gal);
+    const weak = all.filter(s => s.akzo === 'Minimal' || s.akzo === 'No current supply');
+    add('Volume', 10, [
+      T.gal ? `2025 Akzo volume: ${fCompact(T.gal)} gal across ${byGal.length} plants. Largest: ${byGal.slice(0, 3).map(s => `${s.name} ${fCompact(s.gal)} gal (${fPct(s.gal / T.gal)})`).join(', ')}.` : '',
       weak.length ? `Akzo is minimal or has no supply at ${weak.length} of ${all.length} plants.` : '',
-      Object.keys(comp).length ? `Main supplier where Akzo does not lead: ${Object.entries(comp).sort((x, y) => y[1] - x[1]).map(([k, v]) => `${k} (${plural(v, 'plant')})`).join(', ')}.` : '',
-      ...insights().filter(i => i.tag === 'Volume move').map(i => i.text),
+      ...moves.map(({ a, b, m }) => `${m.kind === 'Possible' ? 'Possible' : 'Expected'} move: ${a.name} → ${b.name}${a.gal ? ` (${fCompact(a.gal)} gal at ${a.name} in 2025)` : ''}${m.note ? '. ' + m.note : ''}`),
+      `Bring ${ML} gallons by plant against last year and the forecast.`,
     ]);
-    const open = S.risks.filter(isOpenRisk).sort((x, y) => rScore(y) - rScore(x));
-    const hot = open.filter(r => ['High', 'Critical'].includes(rRating(rScore(r))));
-    const od = open.filter(r => overdue(r.due)).length + open.reduce((a, r) => a + r.actions.filter(x => !x.done && overdue(x.due)).length, 0);
+  } else add('Volume', 10, [...moves.map(({ a, b }) => `Planned transfer: ${a.name} → ${b.name}.`), 'Volume by plant for the month against the forecast.']);
+
+  // 3. Average cabinets / parts per day
+  const withRate = rows.filter(x => isNum(x.m.cur)).sort((a, b) => (b.m.util ?? -1) - (a.m.util ?? -1));
+  const noRate = rows.filter(x => !isNum(x.m.cur));
+  add('Average cabinets / parts per day', 10, [
+    T.max ? `Network: ${fN(T.cur)} of ${fN(T.max)} cabinets a day (${fPct(T.cur / T.max)} of max; ${fN(T.max - T.cur)} spare).` : '',
+    ...withRate.map(({ s, m }) => `${s.name}: ${fN(m.cur)} ${m.u === 'parts' ? 'parts' : 'cabinets'} a day${isNum(m.max) ? `, ${fPct(m.util)} of its ${fN(m.max)} max` : ''}${internal && isNum(m.lo) ? `; ${fRange(m.lo, m.hi)} expected after transfers` : ''}.`),
+    noRate.length ? `No current daily rate recorded: ${nm(noRate.map(x => x.s))}.` : '',
+  ]);
+
+  // 4. Changes in operations, including down shifts for holidays or inventory
+  const sched = all.filter(s => s.days || s.shifts).map(s => `${s.name}: ${[s.days, s.shifts ? `shifts ${s.shifts}` : ''].filter(Boolean).join('; ')}`);
+  const heard = internal ? [
+    ...all.flatMap(s => [s.intel, s.proj?.note].filter(t => t && OPS_WORDS.test(t)).map(t => `${s.name}: ${t}`)),
+    ...S.notes.filter(n => (n.at || '').slice(0, 7) === month && OPS_WORDS.test(n.text)).map(n => `${site(n.sid)?.name || 'Plant'} (team note): ${n.text}`),
+  ] : [];
+  add('Changes in operations, including down shifts for holidays or inventory', 10, [
+    `Confirm down shifts and shutdown dates by plant: ${DOWNTIME[mo]} in ${monthLabel(month).split(' ')[0]}, and ${DOWNTIME[nextMo]} in ${monthLabel(nextYM).split(' ')[0]}.`,
+    closing.length ? `Closing or sending volume: ${nm(closing)}.` : '',
+    internal && review.length ? `Under review or reducing: ${nm(review)}.` : '',
+    recv.length ? `Receiving${internal ? ' or likely to receive' : ''} volume: ${nm(recv)}.` : '',
+    sched.length ? `Schedules on record: ${sched.join('; ')}.` : '',
+    ...heard.slice(0, 6),
+  ]);
+
+  // 5. Operations update: open orders, quality complaints, corrective actions, shipping / OTIF
+  const open8 = S.d8s.filter(d => d.status !== 'Closed');
+  const closed8 = S.d8s.filter(d => d.status === 'Closed' && (d.closed || '').slice(0, 7) === month);
+  const ca = open8.flatMap(d => d.d5.filter(x => x.action).map(x => `${d.num || '8D'}: ${x.action}${x.owner ? ` (${x.owner}${x.due ? ', due ' + showDate(x.due) : ''})` : ''}`));
+  const logi = internal ? openRisks.filter(r => ['Logistics', 'Supply continuity'].includes(r.cat)) : [];
+  add('Operations update: open orders, quality complaints, corrective actions, shipping / OTIF', 15, [
+    'Open orders and backorders by plant.',
+    open8.length ? `Quality complaints open (8D): ${open8.map(d => `${d.num || '8D'} ${d.title || 'Untitled problem'} (${d.status || 'Open'}, ${F8().SECTIONS.filter(s => F8().done(d, s.k)).length} of 9 steps${d.custPlant ? ', ' + d.custPlant : ''})`).join('; ')}.` : 'No open quality complaints (8D reports) in the tracker.',
+    closed8.length ? `Closed in ${ML}: ${closed8.map(d => d.num || d.title).join(', ')}.` : '',
+    ...ca.slice(0, 5).map(t => `Corrective action: ${t}`),
+    'Shipping and OTIF for the month: on-time in-full, late or short shipments, and causes.',
+    ...logi.slice(0, 3).map(r => `Supply risk on watch: ${r.title}.`),
+  ]);
+
+  // 6. NPI / LWR updates
+  const rnd = S.contacts.filter(c => c.func === 'R&D / color and product');
+  const qual = internal ? openRisks.filter(r => r.cat === 'Quality / qualification') : [];
+  add('NPI / LWR updates', 10, [
+    'New product introductions and lab work requests: status, trial dates and approvals.',
+    ...moves.map(({ a, b, m }) => `${b.name}: products and colors to qualify for ${m.kind === 'Possible' ? 'possible ' : ''}volume from ${a.name}.`),
+    ...qual.slice(0, 3).map(r => `Qualification risk: ${r.title}.`),
+    rnd.length ? `R&D / color contacts: ${rnd.map(c => `${c.name} (${ORG_NAME[c.org] || c.org})`).join(', ')}.` : '',
+  ]);
+
+  // 7. Risks / concerns
+  if (internal) {
+    const hot = openRisks.filter(r => ['High', 'Critical'].includes(rRating(rScore(r))));
+    const od = openRisks.filter(r => overdue(r.due)).length + openRisks.reduce((a, r) => a + r.actions.filter(x => !x.done && overdue(x.due)).length, 0);
     const fresh = S.risks.filter(r => (r.createdAt || '').slice(0, 7) === month).length;
-    add('Risk register', 15, [
-      `${plural(open.length, 'open risk')}: ${hot.length} critical or high; ${plural(od, 'overdue item')}${fresh ? `; ${fresh} raised in ${ML}` : ''}.`,
-      ...open.slice(0, 5).map(r => `${rScore(r) || '–'} ${rRating(rScore(r))}: ${r.title || 'Untitled risk'} (${[r.owner || 'no owner', r.status, r.due ? 'due ' + fDate(r.due) : ''].filter(Boolean).join(', ')})`),
+    add('Risks / concerns', 10, [
+      `${plural(openRisks.length, 'open risk')}: ${hot.length} critical or high; ${plural(od, 'overdue item')}${fresh ? `; ${fresh} raised in ${ML}` : ''}.`,
+      ...openRisks.slice(0, 5).map(r => `${rScore(r) || '–'} ${rRating(rScore(r))}: ${r.title || 'Untitled risk'} (${[r.owner || 'no owner', r.status, r.due ? 'due ' + fDate(r.due) : ''].filter(Boolean).join(', ')})`),
+      'Any new concerns to add to the register.',
     ]);
-    add('Quality and 8D reports', 10, d8Facts);
-    const tsr = all.filter(hasTSR), need = [...closing, ...review, ...recv].filter((s, i, a) => a.indexOf(s) === i && !hasTSR(s));
-    add('TSR interviews and data gaps', 5, [
-      `TSR answers recorded for ${tsr.length} of ${all.length} plants${tsr.length ? ` (${nm(tsr)})` : ''}.`,
-      need.length ? `Plants in transition still without TSR answers: ${nm(need)}.` : '',
-      ...checks().filter(c => c.sev !== 'info').slice(0, 3).map(c => c.t + '.'),
-    ]);
-    const cg = coverageGaps();
-    add('Points of contact and escalation', 5, [`${plural(S.contacts.length, 'contact')} in the directory; ${cg.gaps} of ${cg.total} plant-and-role slots have no named contact.`, ...lvl]);
-  } else {
-    add('Your network and capacity', 10, [...capFacts, ...transFacts]);
-    const planned = moves.filter(x => x.m.kind !== 'Possible');
-    add('Footprint changes and volume transfer plans', 15, [...planned.map(({ a, b }) => `Planned: ${a.name} → ${b.name}`), 'For each move: timing, lines and products, colors needed at the receiving plant, and trials before the first run.']);
-    add('Supply readiness and service', 10, [recv.length ? `Receiving plants to prepare: ${nm(recv)}.` : '', 'Delivery, lead-time and technical-service results for the month.']);
-    add('Quality and 8D reports', 10, d8Facts);
-    add('Points of contact and escalation', 5, lvl.length ? lvl : ['Confirm day-to-day and escalation contacts on both sides.']);
-  }
-  add('Decisions needed and asks', 10, ['Record each decision in the meeting record at the end of this agenda.']);
-  const [y, mo] = month.split('-').map(Number);
-  add('Actions and next review', 5, ['Agree an owner and a due date for each action.', `Next review: ${monthLabel(`${mo === 12 ? y + 1 : y}-${String(mo === 12 ? 1 : mo + 1).padStart(2, '0')}`)}.`]);
+  } else add('Risks / concerns', 10, ['Concerns raised by either side, and what each needs from the other.']);
+
+  // 8. Actions and next steps
+  const carried = carriedFrom(selfId, month, aud).flatMap(x => x.actions.filter(a => !a.done && a.t).map(a => `Open: ${a.t} (${[a.owner || 'no owner', a.due ? 'due ' + showDate(a.due) : '', 'from ' + monthLabel(x.month)].filter(Boolean).join(', ')})`));
+  add('Actions and next steps', 10, [...(carried.length ? carried : ['No open actions from earlier reviews.']), 'Agree an owner and a due date for each new action.', `Next review: ${monthLabel(nextYM)}.`]);
   return items;
+}
+// Rebuild the topics and facts. Notes follow their topic by title; notes on a topic that no longer exists move to the last topic.
+function refreshReview(r) {
+  const items = buildItems(r.audience, r.month, r.id), notes = {}, left = [];
+  for (const it of r.items) {
+    const txt = (r.notes[it.n] || '').trim(); if (!txt) continue;
+    const m = items.find(x => x.t === it.t);
+    if (m) notes[m.n] = txt; else left.push(`${it.t}: ${txt}`);
+  }
+  if (left.length) { const last = items[items.length - 1].n; notes[last] = [notes[last], ...left].filter(Boolean).join('\n\n'); }
+  for (const k of Object.keys(r.notes)) if (!(k in notes)) notes[k] = '';
+  editRec('reviews', r, { items, factsAt: today(), notes }, 'edit', 'refreshed the agenda from the tracker');
 }
 function createReview(month, aud) {
   if (!/^\d{4}-\d{2}$/.test(month || '')) { toast('Pick a month first.'); return; }
@@ -3719,7 +3774,7 @@ function panelReviews() {
     <div class="gridtools">${E ? '<button class="btn" type="button" data-act="rv-upload">Upload completed agenda</button>' : ''}</div></div>`;
   if (!live()) return head + `<div class="card empty-state">Monthly reviews appear here when the app is connected to live data.</div>`;
   const P = S.rvPrep, code = `SOB-${P.month}-${P.aud === 'joint' ? 'JNT' : 'INT'}`, ex = S.reviews.find(r => r.code === code);
-  const prep = E ? `<div class="card pad rvprep"><div><h3>Prepare an agenda</h3><p class="hint">Pick the month and who the meeting is for. The agenda pulls capacity, volume moves, ${P.aud === 'joint' ? '' : 'AkzoNobel business, risks, '}8D reports and contacts from the tracker as of today, plus any open actions from earlier reviews.</p></div>
+  const prep = E ? `<div class="card pad rvprep"><div><h3>Prepare an agenda</h3><p class="hint">Pick the month and who the meeting is for. Eight topics: financials, volume, average cabinets and parts per day, changes in operations, operations update, NPI / LWR, risks / concerns, and actions. Each pulls the tracker's facts as of today, plus any open actions from earlier reviews.</p></div>
       <div class="rvprep-f"><label class="fld"><span>Month</span><input type="month" id="rv-month" value="${esc(P.month)}"></label>
         <div class="fld"><span>Meeting</span><div class="seg" role="group" aria-label="Who the meeting is for"><button type="button" data-act="rv-aud" data-v="internal" aria-pressed="${P.aud !== 'joint'}">Internal AkzoNobel</button><button type="button" data-act="rv-aud" data-v="joint" aria-pressed="${P.aud === 'joint'}">Joint with customer</button></div></div>
         <button class="btn primary" type="button" data-act="rv-create">${ex ? `Open the ${esc(monthLabel(P.month))} agenda` : `Create the ${esc(monthLabel(P.month))} agenda`}</button></div>
@@ -3750,7 +3805,7 @@ function renderRV() {
       ${rf.sel('Status', 'status', r.status, ['Agenda', 'Held'], { ro })}${T('Meeting date', 'date', r.date, { ph: 'e.g. Nov 5, 2026' })}${T('Time', 'time', r.time, { ph: 'e.g. 10:00–11:30 ET' })}
       ${T('Location / Teams', 'location', r.location, { wide: 1 })}${T('Facilitator', 'facilitator', r.facilitator, { list: 'dl-people' })}${T('Note taker', 'notetaker', r.notetaker, { list: 'dl-people' })}
       ${T('Next review date', 'nextDate', r.nextDate)}${T('Next review location', 'nextLocation', r.nextLocation)}</div>
-      <p class="rv-meta">Record ID <b>${esc(r.code)}</b> · tracker facts as of ${esc(r.factsAt ? fDate(r.factsAt) : '—')}${E ? ' · <button class="linkbtn" type="button" data-act="rv-refresh">Refresh the facts from today\'s tracker</button>' : ''}</p>
+      <p class="rv-meta">Record ID <b>${esc(r.code)}</b> · tracker facts as of ${esc(r.factsAt ? fDate(r.factsAt) : '—')}${E ? ' · <button class="linkbtn" type="button" data-act="rv-refresh">Refresh the agenda from today\'s tracker</button>' : ''}</p>
       ${internal ? '<p class="rv-warn"><b>Internal review.</b> This agenda includes AkzoNobel sales, competitor and risk-register data. For a meeting with the customer, create a joint agenda instead.</p>' : ''}
       ${r.srcFile ? `<p class="rv-src">Meeting record saved from <b>${esc(r.srcFile)}</b>${r.srcAt ? ` on ${esc(fDate(r.srcAt))}` : ''}${r.srcBy ? ` by ${esc(who(r.srcBy).name)}` : ''}.</p>` : ''}</section>
     <section class="d8-sec" id="rv-att"><h3><span class="d8-n info">✓</span>Attendees</h3>${rowsEd('attendees', r.attendees, E, { col: 'reviews', add: 'Add a person', empty: 'No attendees listed yet.' })}</section>
@@ -3758,7 +3813,7 @@ function renderRV() {
       ${it.facts.length ? `<div class="rv-facts"><span class="sec-label">From the tracker</span><ul>${it.facts.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>` : ''}
       <div class="form">${rf.area('Notes', 'notes.' + it.n, r.notes[it.n] || '', { ro, rows: 3, ph: E ? 'What was discussed and agreed' : '' })}</div></section>`).join('')}
     <section class="d8-sec" id="rv-rec"><h3><span class="d8-n info">✎</span>Meeting record</h3>
-      ${carried.length ? `<p class="hint" style="margin-bottom:12px">${plural(carried.length, 'open action')} from earlier reviews ${carried.length === 1 ? 'is' : 'are'} listed under topic 2 and at the top of the Word file's actions table.</p>` : ''}
+      ${carried.length ? `<p class="hint" style="margin-bottom:12px">${plural(carried.length, 'open action')} from earlier reviews ${carried.length === 1 ? 'is' : 'are'} listed under Actions and next steps and at the top of the Word file's actions table.</p>` : ''}
       <span class="sec-label rv-sl">Decisions</span>${rowsEd('decisions', r.decisions, E, { col: 'reviews', add: 'Add a decision', empty: 'No decisions recorded yet.' })}
       <span class="sec-label rv-sl">Actions</span>${rowsEd('actions', r.actions, E, { col: 'reviews', add: 'Add an action', empty: 'No actions recorded yet.' })}</section>
     ${E ? `<div class="d8-del">${S.confirmRVDelete ? `<div class="confirm"><span>Delete the <b>${esc(monthLabel(r.month))}</b> review for everyone? You can restore it from Activity.</span><button class="btn small danger" type="button" data-act="rv-del-confirm">Delete</button><button class="btn small" type="button" data-act="rv-del-cancel">Keep it</button></div>` : '<button class="btn small danger" type="button" data-act="rv-del">Delete this review</button>'}</div>` : ''}`;
@@ -3860,7 +3915,7 @@ document.addEventListener('click', e => {
     case 'rv-word': { const r = recGet('reviews', el.dataset.id); if (r) saveReviewWord(r); break; }
     case 'rv-upload': if (writable()) $('#rv-file').click(); break;
     case 'rv-jump': { const t = $(el.dataset.k === 'rec' ? '#rv-rec' : '#rv-' + el.dataset.k); if (t) t.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'start' }); break; }
-    case 'rv-refresh': { const r = recGet('reviews', S.rvOpen); if (r) { editRec('reviews', r, { items: buildItems(r.audience, r.month, r.id), factsAt: today() }, 'edit', 'refreshed the agenda facts from the tracker'); toast('Agenda facts refreshed from today\'s tracker.'); } break; }
+    case 'rv-refresh': { const r = recGet('reviews', S.rvOpen); if (r) { refreshReview(r); toast('Agenda refreshed from today\'s tracker.'); } break; }
     case 'rva-done': { const r = recGet('reviews', el.dataset.id), i = +el.dataset.i; if (r && r.actions[i]) editRec('reviews', r, { actions: r.actions.map((a, j) => j === i ? { ...a, done: el.checked } : a) }); break; }
     case 'rvu-cancel': S.pendingRV = null; renderRVModal(); break;
     case 'rvu-apply': applyRVUpload(); break;
