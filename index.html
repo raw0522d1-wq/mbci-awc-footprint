@@ -3222,7 +3222,11 @@ async function save8DWord(d) {
   catch (e) { console.error(e); toast('The Word file could not be built.', 5000); return; }
   const filename = d ? `${fileSafe(d.num || '8D')}_${fileSafe(d.title)}.docx` : 'AkzoNobel_8D_Form.docx';
   try { await dl.save({ filename, data: new Blob([bytes], { type: DOCX_MIME }) }); toast('Word file saved.'); }
-  catch (e) { if (e?.code !== 'declined') toast(e?.code === 'rate_limited' ? 'A save prompt is already open.' : 'The file could not be saved in this view.', 4000); }
+  catch (e) {
+    if (e?.code === 'declined') return;
+    if (e?.code === 'rejected_extension' || e?.code === 'extension_not_enabled') toast('Word files cannot be saved from this view. Download the 8D from the team site instead.', 6000);
+    else toast(e?.code === 'rate_limited' ? 'A save prompt is already open.' : 'The file could not be saved in this view.', 4000);
+  }
 }
 
 /* ---------- activity rows for contacts, risks and 8Ds ---------- */
