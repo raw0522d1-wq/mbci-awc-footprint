@@ -522,6 +522,206 @@ footer.src{font-size:13px;color:var(--muted);line-height:1.5;max-width:110ch}
 @media (prefers-reduced-motion: reduce){
   *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
 }
+
+/* ---------- points of contact ---------- */
+.tabs .badge.crit{background:color-mix(in srgb,var(--crit) 22%,var(--surface));color:var(--crit-ink)}
+.poc-tools .search{max-width:300px}
+.pgroup{display:flex;flex-direction:column;gap:10px}
+.pgroup h3{font-size:18px;display:flex;align-items:center;gap:8px}
+.pgroup h3 i{width:10px;height:10px;border-radius:50%;flex:none}
+.pgroup h3 .muted{font-size:14px;font-weight:500}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
+.pcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;min-width:0}
+.pc-open{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:start;padding:14px 14px 10px;border-radius:var(--r)}
+.pc-open:hover{background:var(--surface-2)}
+.pc-open:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+.cav{width:38px;height:38px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font:700 14px/1 var(--font-ui);flex:none}
+.pc-main{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pc-nm{font-weight:700;font-size:15.5px}
+.pc-tt{font-size:13.5px;color:var(--ink-2)}
+.pc-sc{font-size:13px;color:var(--muted);display:flex;gap:4px;align-items:center}
+.pc-sc svg{width:13px;height:13px;flex:none}
+.pc-lv{font-size:11.5px}
+.pc-links{display:flex;flex-wrap:wrap;gap:4px 14px;padding:0 14px 12px 64px;font-size:13.5px}
+.pc-links a{text-decoration:none;overflow-wrap:anywhere}
+.pc-links a:hover{text-decoration:underline}
+.sug{display:flex;flex-direction:column}
+.sug-h{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;padding:12px 16px}
+.sug-tg{all:unset;cursor:pointer;display:flex;gap:6px;align-items:baseline;font-size:15px}
+.sug-tg:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.sug-tg .chev{width:14px;color:var(--muted)}
+.sug-r{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:start;padding:12px 16px;border-top:1px solid var(--line-2)}
+.sug-r.two{grid-template-columns:minmax(0,1fr) auto}
+.sug-r p{font-size:14px;color:var(--ink-2);margin-top:4px;max-width:90ch}
+.sug-r .muted{font-size:13px}
+.sug-b{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.cov-intro{font-size:14.5px;color:var(--ink-2)}
+table.cov tbody tr,table.esc tbody tr,table.re tbody tr{cursor:default}
+table.cov tbody tr:hover td,table.esc tbody tr:hover td,table.re tbody tr:hover td{background:none}
+table.cov th[scope=row],table.esc th[scope=row]{white-space:nowrap;background:var(--surface);position:static;font:600 14px/1.3 var(--font-ui);letter-spacing:0;text-transform:none;color:var(--ink)}
+table.cov td{min-width:130px}
+.cov-co{font-size:12.5px;display:flex;gap:5px;align-items:center;font-weight:500;color:var(--muted)}
+.cov-co i{width:8px;height:8px;border-radius:50%}
+.cov-side{display:block;font:500 11px/1.3 var(--font-ui);color:var(--muted);text-transform:none;letter-spacing:0;margin-top:2px}
+.cov-p{all:unset;cursor:pointer;display:block;font-size:14px;font-weight:600;color:var(--brand);padding:1px 0}
+.cov-p.wide{font-style:italic;font-weight:500;color:var(--ink-2)}
+.cov-p:hover{text-decoration:underline}
+.cov-p:focus-visible,.cov-add:focus-visible,.esc-p:focus-visible,.prow:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+.gapt{font-size:13px;color:var(--muted)}
+.cov-add{all:unset;cursor:pointer;display:block;margin-top:3px;font-size:12.5px;font-weight:600;color:var(--brand)}
+.esc-n{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--surface-3);font-size:12px;margin-right:8px}
+.esc-p{all:unset;cursor:pointer;display:flex;flex-direction:column;padding:4px 0}
+.esc-p b{font-size:14px;color:var(--brand)}
+.esc-p span{font-size:12.5px;color:var(--ink-2)}
+table.esc thead th i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+table.esc td{min-width:170px}
+/* ---------- risks ---------- */
+.score{display:inline-flex;align-items:center;gap:6px;padding:3px 9px 3px 3px;border-radius:999px;background:color-mix(in srgb,var(--c) 16%,var(--surface));font-size:12px;font-weight:700;color:var(--ink);white-space:nowrap;flex:none}
+.score b{display:inline-grid;place-items:center;min-width:24px;height:22px;padding:0 5px;border-radius:999px;background:var(--c);color:var(--t,#fff);font-size:12.5px}
+.rtop{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:14px;align-items:stretch}
+.heat{display:grid;grid-template-columns:auto repeat(5,minmax(38px,1fr));gap:4px;align-items:stretch}
+.heat .hl{font-size:12.5px;color:var(--ink-2);display:flex;align-items:center;gap:6px;padding-right:6px;white-space:nowrap}
+.heat .hl b,.heat .hi b{font-weight:700;color:var(--ink)}
+.heat .hi{font-size:11.5px;color:var(--ink-2);text-align:center;line-height:1.25;padding-top:4px;display:flex;flex-direction:column}
+.heat .hx{grid-column:2/-1;font-size:12px;color:var(--muted);text-align:center}
+.hc{all:unset;box-sizing:border-box;cursor:pointer;min-height:42px;border-radius:6px;background:color-mix(in srgb,var(--c) 13%,var(--surface));display:grid;place-items:center;font:700 16px/1 var(--font-ui);color:var(--ink);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 30%,transparent)}
+.hc.has{background:color-mix(in srgb,var(--c) 45%,var(--surface))}
+.hc:hover{box-shadow:inset 0 0 0 2px var(--c)}
+.hc.sel{box-shadow:inset 0 0 0 3px var(--ink)}
+.hc:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.heat-leg{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;font-size:12.5px;color:var(--ink-2)}
+.heat-leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.rtiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+div.kpi{cursor:default}
+div.kpi:hover{border-color:var(--line)}
+table.rk td{vertical-align:middle}
+table.rk .rk-t{min-width:260px}
+table.rk .rk-t .muted{font-size:12.5px;margin-top:2px}
+table.rk td.od{color:var(--crit-ink);font-weight:600}
+.d8tag{font-weight:700;color:var(--brand)}
+.d8list{display:flex;flex-direction:column}
+.d8r{display:flex;gap:10px;align-items:center;padding:6px 10px;border-top:1px solid var(--line-2)}
+.d8r:first-child{border-top:0}
+.d8r-open{all:unset;box-sizing:border-box;cursor:pointer;flex:1;min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:6px;border-radius:8px}
+.d8r-open:hover{background:var(--surface-2)}
+.d8r-open:focus-visible{outline:2px solid var(--focus)}
+.d8r-num{font:700 13.5px/1 var(--font-cond);color:var(--brand);letter-spacing:.03em}
+.d8r-t{display:flex;flex-direction:column;min-width:0}
+.d8r-t .muted{font-size:12.5px}
+.d8prog{display:inline-flex;gap:3px}
+.d8prog i{width:10px;height:10px;border-radius:2px;background:var(--line)}
+.d8prog i.ok{background:var(--brand-2)}
+/* drawer lists and forms */
+.plist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.plist li{display:flex;align-items:center;gap:6px}
+.prow{all:unset;box-sizing:border-box;cursor:pointer;flex:1;min-width:0;display:flex;gap:10px;align-items:center;padding:6px;border-radius:8px}
+.prow:hover{background:var(--surface-2)}
+.prow>span:last-child{display:flex;flex-direction:column;min-width:0}
+.prow b{font-size:14px}
+.prow .muted{font-size:12.5px}
+.prow .cav{width:30px;height:30px;font-size:12px}
+.plist .iconbtn{width:32px;height:32px}
+.assess{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center}
+.minimat{display:grid;grid-template-columns:repeat(5,16px);gap:2px}
+.minimat i{width:16px;height:16px;border-radius:3px;background:color-mix(in srgb,var(--c) 30%,var(--surface))}
+.minimat i.on{background:var(--c);box-shadow:0 0 0 2px var(--ink)}
+.ract{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ract li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px}
+.ract .ck{flex:none;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff;margin-top:1px}
+.ract li.done .ck{background:var(--good);border-color:var(--good)}
+.ract li.done>span:last-child{color:var(--ink-2)}
+.ract .muted{display:block;font-size:12.5px}
+.odt{color:var(--crit-ink)}
+.lvlpick{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+.lvlpick button{all:unset;box-sizing:border-box;cursor:pointer;text-align:center;padding:7px 2px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);font-size:11.5px;line-height:1.2;color:var(--ink-2);display:flex;flex-direction:column;gap:3px;align-items:center}
+.lvlpick button b{font-size:15px;color:var(--ink)}
+.lvlpick button:hover{border-color:var(--brand-2)}
+.lvlpick button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.lvlpick button[aria-pressed="true"] b{color:var(--on-brand)}
+.lvlpick button:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+.hint{font-size:12.5px;color:var(--muted)}
+.inrow{display:flex;gap:6px;align-items:center}
+.inrow input{flex:1;min-width:0}
+.chkgrp{grid-column:1/-1;border:0;margin:0;padding:0;min-width:0;display:flex;flex-direction:column;gap:10px}
+.chkgrp legend{font-size:12.5px;font-weight:600;color:var(--ink-2);padding:0;margin-bottom:6px}
+.cg{display:flex;flex-direction:column;gap:6px}
+.cgl{display:flex;flex-wrap:wrap;gap:6px}
+.cgl label{display:inline-flex;gap:6px;align-items:center;padding:5px 10px 5px 8px;border:1px solid var(--line);border-radius:999px;font-size:13.5px;cursor:pointer;background:var(--surface-2)}
+.cgl label:has(input:checked){background:color-mix(in srgb,var(--brand-2) 16%,var(--surface));border-color:var(--brand-2)}
+.cgl input{accent-color:var(--brand);margin:0}
+.d8card{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);font-size:14px}
+.d8card .d8prog{margin-top:6px}
+.d8card-b{display:flex;gap:6px;flex-wrap:wrap}
+.rowsed{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.rowsed .tablewrap{width:100%}
+table.re{min-width:560px}
+table.re th,table.re td{padding:5px 6px;vertical-align:middle}
+table.re td input[type=text],table.re td input[type=date]{width:100%;min-width:90px;min-height:34px;border:1px solid var(--line);border-radius:6px;background:var(--surface-2);padding:4px 8px;font-size:14px}
+table.re td input:focus{outline:2px solid var(--focus);outline-offset:0;border-color:transparent;background:var(--surface)}
+table.re td input[readonly]{background:transparent;border-color:transparent}
+table.re .ck{width:52px;text-align:center}
+table.re .ck input{width:18px;height:18px;accent-color:var(--brand)}
+table.re .dt{width:150px}
+table.re .x{width:44px}
+table.re .x .iconbtn{width:30px;height:30px}
+.re-empty{font-size:13.5px}
+.fld textarea{field-sizing:content;max-height:340px}
+/* ---------- 8D editor ---------- */
+.d8{position:fixed;inset:0;z-index:60;background:rgba(8,17,26,.55);display:flex;justify-content:center;align-items:stretch;padding:24px 16px}
+body.d8-on{overflow:hidden}
+.d8-in{width:min(1060px,100%);background:var(--bg);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow-lg);position:relative}
+.d8-head{background:var(--head-bg);color:var(--head-ink);border-bottom:4px solid var(--head-strip);padding:16px 20px 0}
+.d8-top{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:flex-start;justify-content:space-between}
+.d8-top>div:first-child{flex:1 1 380px;min-width:0}
+#recdrawer .dr-top h2{font-size:24px;line-height:1.15}
+.d8-kick{font:600 12px/1 var(--font-cond);letter-spacing:.12em;text-transform:uppercase;color:var(--head-ink-2)}
+.d8-head h2{color:var(--head-ink);font-size:clamp(20px,2.4vw,26px);margin-top:6px}
+.d8-x{display:flex;gap:6px;align-items:center;flex:none}
+.d8-head .btn{background:transparent;color:var(--head-ink);border-color:rgba(255,255,255,.4)}
+.d8-head .btn:hover{background:rgba(255,255,255,.12)}
+.d8-head .btn.on{background:#fff;color:#005192;border-color:#fff}
+.d8-head .iconbtn{color:var(--head-ink);border-color:rgba(255,255,255,.4)}
+.d8-head .iconbtn:hover{background:rgba(255,255,255,.12);color:#fff}
+.d8-steps{display:flex;gap:4px;align-items:center;flex-wrap:wrap;padding:14px 0 12px}
+.d8-steps button{all:unset;cursor:pointer;font:700 13px/1 var(--font-cond);padding:6px 9px;border-radius:6px;background:rgba(255,255,255,.12);color:var(--head-ink-2)}
+.d8-steps button.ok{background:var(--head-strip);color:#fff}
+.d8-steps button:hover{background:rgba(255,255,255,.24)}
+.d8-steps button.ok:hover{filter:brightness(1.1)}
+.d8-steps button:focus-visible{outline:2px solid #fff}
+.d8-cnt{font-size:13px;color:var(--head-ink-2);margin-left:8px}
+.d8-body{overflow:auto;flex:1;padding:4px 20px 40px}
+.d8-sec{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-top:14px;scroll-margin-top:12px}
+.d8-sec h3{display:flex;align-items:center;gap:10px;font-size:19px;margin-bottom:4px}
+.d8-n{display:inline-grid;place-items:center;min-width:34px;height:26px;padding:0 6px;border-radius:6px;background:var(--surface-3);color:var(--ink-2);font:700 14px/1 var(--font-cond)}
+.d8-n.ok{background:var(--brand-2);color:#fff}
+.d8-g{font-size:13.5px;color:var(--ink-2);margin:2px 0 12px;font-style:italic;max-width:90ch}
+.form.f3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.form.whys{grid-template-columns:1fr}
+.form.whys .fld{flex-direction:row;align-items:center;gap:10px}
+.form.whys .fld>span{width:58px;flex:none}
+.d8-risk{font-size:13.5px;margin-top:12px;display:flex;flex-direction:column;gap:4px;padding:10px 12px;background:var(--surface-2);border-radius:8px}
+.d8-foot{font-size:13.5px;color:var(--ink-2);margin-top:16px;padding:10px 14px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px}
+.d8-del{margin-top:14px}
+.d8-in.ro .fld input,.d8-in.ro .fld textarea,.d8-in.ro .fld select{background:transparent;border-style:dashed;opacity:1;color:var(--ink)}
+@media (max-width:1000px){ .rtop{grid-template-columns:1fr} }
+@media (max-width:820px){
+  .d8{padding:0} .d8-in{border-radius:0}
+  .form.f3{grid-template-columns:1fr 1fr}
+  .d8-head{padding:12px 14px 0} .d8-body{padding:4px 10px 60px} .d8-sec{padding:14px 12px}
+  .d8r-open{grid-template-columns:auto minmax(0,1fr)} .d8r-open .d8prog,.d8r-open .pill{grid-column:2}
+}
+@media (max-width:520px){
+  .heat .hl>span,.heat .hi>span{display:none}
+  .heat{grid-template-columns:auto repeat(5,minmax(30px,1fr))}
+  .form.f3{grid-template-columns:1fr}
+  .pgrid{grid-template-columns:1fr}
+  .gridtools .gsel{flex:1 1 150px}
+  .pc-links{padding-left:14px}
+  .sug-r,.sug-r.two{grid-template-columns:1fr} .sug-b{justify-content:flex-start}
+  .rtiles .kpi .v{font-size:24px}
+  .assess{grid-template-columns:1fr}
+  .d8-steps button{padding:6px 7px}
+}
 </style>
 <style>html,body{margin:0}
 /* Password gate for the web build */
@@ -621,6 +821,7 @@ body.fp-locked > *:not(#fp-lock):not(script){display:none!important}
             <button type="button" data-act="color-by" data-mode="akzo" aria-pressed="false">Akzo position</button>
             <button type="button" data-act="color-by" data-mode="opp" aria-pressed="false">Opportunity</button>
             <button type="button" data-act="color-by" data-mode="status" aria-pressed="false">Status</button>
+            <button type="button" data-act="color-by" data-mode="risk" aria-pressed="false">Risk</button>
           </div>
           <label class="switch"><input type="checkbox" id="moves-toggle" checked>Volume moves</label>
         </div>
@@ -670,6 +871,8 @@ body.fp-locked > *:not(#fp-lock):not(script){display:none!important}
   <nav class="tabs" role="tablist" aria-label="Workbenches" id="tabs">
     <button role="tab" type="button" data-act="tab" data-tab="capacity" aria-selected="true" aria-controls="panel">Capacity</button>
     <button role="tab" type="button" data-act="tab" data-tab="akzo" aria-selected="false" aria-controls="panel">AkzoNobel business</button>
+    <button role="tab" type="button" data-act="tab" data-tab="risks" aria-selected="false" aria-controls="panel">Risks &amp; 8D <span class="badge crit" id="risk-badge" hidden></span></button>
+    <button role="tab" type="button" data-act="tab" data-tab="contacts" aria-selected="false" aria-controls="panel">Points of contact <span class="badge" id="poc-badge" hidden></span></button>
     <button role="tab" type="button" data-act="tab" data-tab="brands" aria-selected="false" aria-controls="panel">Brands</button>
     <button role="tab" type="button" data-act="tab" data-tab="grid" aria-selected="false" aria-controls="panel">All data</button>
     <button role="tab" type="button" data-act="tab" data-tab="tsr" aria-selected="false" aria-controls="panel">TSR questions</button>
@@ -683,6 +886,8 @@ body.fp-locked > *:not(#fp-lock):not(script){display:none!important}
 
 <div class="scrim" id="scrim" hidden data-act="close-drawer"></div>
 <aside class="drawer" id="drawer" hidden aria-label="Plant details"></aside>
+<aside class="drawer" id="recdrawer" hidden aria-label="Contact or risk details"></aside>
+<div class="d8" id="d8" hidden></div>
 <div class="modal" id="modal" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <input type="file" id="import-file" accept=".xlsx,.xls,.csv" hidden>
@@ -992,6 +1197,210 @@ window.FP = (() => {
   start().catch(e => { console.error(e); rejectRef(e); showError('Something went wrong.', 'Reload the page and try again.'); });
 })();
 </script>
+<script>/* AkzoNobel-styled 8D report as a Word (.docx) file, built in the browser.
+   window.FP8D.docx(report | null, ctx) returns the file bytes; null gives a blank form.
+   It writes only the 8D fields, never sales or capacity figures, so the file can go to the customer. */
+window.FP8D = (() => {
+  const SECTIONS = [
+    { k: 'd0', n: 'D0', t: 'Prepare and emergency response', g: 'Describe the symptom and any emergency actions taken to protect the customer, such as stopping shipments, quarantining stock or sorting at the line.' },
+    { k: 'd1', n: 'D1', t: 'Establish the team', g: 'Name a cross-functional team from AkzoNobel and the customer with the knowledge, time and authority to solve the problem. Identify the champion and the team leader.' },
+    { k: 'd2', n: 'D2', t: 'Describe the problem', g: 'State the problem in measurable terms. Use 5W2H (what, where, when, who, why, how, how many) and Is / Is not to define what the problem is and what it is not.' },
+    { k: 'd3', n: 'D3', t: 'Interim containment actions', g: 'Actions that protect the customer until the permanent fix is in place. Record who did what and when, and verify that the containment works.' },
+    { k: 'd4', n: 'D4', t: 'Root cause and escape point', g: 'Find and verify the root cause of the occurrence, and the point where the problem should have been caught but was not. Use 5 Whys, a fishbone diagram or a fault tree.' },
+    { k: 'd5', n: 'D5', t: 'Permanent corrective actions', g: 'Choose the corrective actions that remove each root cause, and prove they work before putting them in place.' },
+    { k: 'd6', n: 'D6', t: 'Implement and validate', g: 'Put the permanent corrective actions in place, remove the interim containment, and confirm the results with data over time.' },
+    { k: 'd7', n: 'D7', t: 'Prevent recurrence', g: 'Change the systems that let the problem happen: FMEA, control plans, specifications, work instructions and training. Share the lessons with similar products and plants.' },
+    { k: 'd8', n: 'D8', t: 'Recognize the team and close', g: 'Confirm the customer agrees the issue is resolved, recognize the team, and sign off the report.' },
+  ];
+  const ROWS = {
+    team: [['name', 'Name', 2700], ['org', 'Company', 2200], ['role', 'Role on the team', 2500], ['contact', 'Phone / email', 2680]],
+    d3: [['action', 'Containment action', 4080], ['owner', 'Owner', 1900], ['date', 'Date', 1400], ['result', 'Result / effectiveness', 2700]],
+    d5: [['action', 'Corrective action', 3000], ['cause', 'Root cause addressed', 2280], ['owner', 'Owner', 1500], ['due', 'Due', 1200], ['verify', 'Proof it works', 2100]],
+    d6: [['action', 'Action put in place', 3780], ['owner', 'Owner', 1900], ['date', 'Date', 1500], ['result', 'Validation result', 2900]],
+    d7: [['action', 'Preventive action', 4380], ['kind', 'System changed', 2400], ['owner', 'Owner', 1900], ['due', 'Due', 1400]],
+  };
+  const W2H = [['what', 'What', 'What is the defect or failure?'], ['where', 'Where', 'Plant, line, product, position on the part'], ['when', 'When', 'First seen, how often, since which batch'],
+    ['who', 'Who', 'Who found it, who is affected'], ['why', 'Why it matters', 'Effect on the customer and the end user'], ['how', 'How', 'How it was detected, how it shows up'], ['howMany', 'How many', 'Quantity, extent, cost']];
+  const STATUS = ['Open', 'Containment (D3)', 'Root cause (D4)', 'Corrective action (D5–D6)', 'Prevention (D7)', 'Closed'];
+  const filled = v => String(v ?? '').trim() !== '';
+  const anyRow = rows => (rows || []).some(r => Object.values(r || {}).some(filled));
+  // A step counts as done once its key content is written.
+  const done = (d, k) => {
+    if (!d) return false;
+    switch (k) {
+      case 'd0': return filled(d.d0);
+      case 'd1': return (d.team || []).some(r => filled(r.name));
+      case 'd2': return filled(d.d2?.statement);
+      case 'd3': return anyRow(d.d3);
+      case 'd4': return filled(d.d4?.occ);
+      case 'd5': return anyRow(d.d5);
+      case 'd6': return anyRow(d.d6);
+      case 'd7': return anyRow(d.d7) || filled(d.lessons);
+      case 'd8': return filled(d.closed) || filled(d.d8?.custDate) || filled(d.d8?.akzoDate);
+      default: return false;
+    }
+  };
+
+  /* ---------- XML helpers ---------- */
+  const NAVY = '005192', CYAN = '008CCA', PALE = '8BBAD8', LIGHT = 'C8DCF0', CARD = 'F5F8FC', LABEL = 'EAF2FA', INK = '1F2D3A', GREY = '5B6B7B';
+  const xe = s => String(s ?? '').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F￾￿]/g, '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  function run(text, o = {}) {
+    const rp = `<w:rPr>${o.font ? `<w:rFonts w:ascii="${o.font}" w:hAnsi="${o.font}" w:cs="${o.font}"/>` : ''}${o.b ? '<w:b/><w:bCs/>' : ''}${o.i ? '<w:i/><w:iCs/>' : ''}${o.caps ? '<w:caps/>' : ''}${o.color ? `<w:color w:val="${o.color}"/>` : ''}${o.sz ? `<w:sz w:val="${o.sz}"/><w:szCs w:val="${o.sz}"/>` : ''}</w:rPr>`;
+    const lines = String(text ?? '').split(/\r?\n/);
+    return `<w:r>${rp}${lines.map((l, i) => `${i ? '<w:br/>' : ''}<w:t xml:space="preserve">${xe(l)}</w:t>`).join('')}</w:r>`;
+  }
+  function para(runs, o = {}) {
+    const pp = `<w:pPr>${o.style ? `<w:pStyle w:val="${o.style}"/>` : ''}${o.keep ? '<w:keepNext/>' : ''}${o.bdr ? `<w:pBdr>${o.bdr}</w:pBdr>` : ''}${o.fill ? `<w:shd w:val="clear" w:color="auto" w:fill="${o.fill}"/>` : ''}${o.tabs ? `<w:tabs>${o.tabs}</w:tabs>` : ''}<w:spacing w:before="${o.before ?? 0}" w:after="${o.after ?? 0}"/>${o.ind ? `<w:ind w:left="${o.ind}" w:right="${o.ind}"/>` : ''}${o.jc ? `<w:jc w:val="${o.jc}"/>` : ''}</w:pPr>`;
+    return `<w:p>${pp}${Array.isArray(runs) ? runs.join('') : runs || ''}</w:p>`;
+  }
+  const border = (c = PALE, sz = 4) => ['top', 'left', 'bottom', 'right', 'insideH', 'insideV'].map(s => `<w:${s} w:val="single" w:sz="${sz}" w:space="0" w:color="${c}"/>`).join('');
+  function cell(content, w, o = {}) {
+    const tp = `<w:tcPr><w:tcW w:w="${w}" w:type="dxa"/>${o.span ? `<w:gridSpan w:val="${o.span}"/>` : ''}${o.fill ? `<w:shd w:val="clear" w:color="auto" w:fill="${o.fill}"/>` : ''}<w:vAlign w:val="${o.v || 'top'}"/></w:tcPr>`;
+    return `<w:tc>${tp}${content || para('')}</w:tc>`;
+  }
+  function row(cells, o = {}) {
+    const rp = (o.h || o.header || o.keep !== false) ? `<w:trPr><w:cantSplit/>${o.h ? `<w:trHeight w:val="${o.h}" w:hRule="atLeast"/>` : ''}${o.header ? '<w:tblHeader/>' : ''}</w:trPr>` : '';
+    return `<w:tr>${rp}${cells.join('')}</w:tr>`;
+  }
+  function table(widths, rows, o = {}) {
+    const total = widths.reduce((a, b) => a + b, 0);
+    return `<w:tbl><w:tblPr><w:tblW w:w="${total}" w:type="dxa"/><w:tblBorders>${o.noBorder ? border('FFFFFF', 0).replace(/single/g, 'nil') : border(o.bc)}</w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="${o.pad ?? 50}" w:type="dxa"/><w:left w:w="100" w:type="dxa"/><w:bottom w:w="${o.pad ?? 50}" w:type="dxa"/><w:right w:w="100" w:type="dxa"/></w:tblCellMar><w:tblLook w:val="0000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="1" w:noVBand="1"/></w:tblPr><w:tblGrid>${widths.map(w => `<w:gridCol w:w="${w}"/>`).join('')}</w:tblGrid>${rows.join('')}</w:tbl>`;
+  }
+  const lab = (t, keep) => para(run(t, { b: 1, color: NAVY, sz: 17 }), { keep });
+  const val = (t, o = {}) => para(run(t, { sz: 19, color: o.muted ? GREY : INK, i: o.muted }));
+  const gap = (h = 120) => para('', { after: h });
+
+  /* ---------- document parts ---------- */
+  function sectionHead(s, isDone, blank) {
+    return para([run(`${s.n}  `, { b: 1, color: 'FFFFFF', sz: 24 }), run(s.t, { b: 1, color: 'FFFFFF', sz: 22 }), !blank && isDone ? run('     ✓', { color: 'DDF2FF', sz: 18, font: 'Segoe UI Symbol' }) + run(' complete', { color: 'DDF2FF', sz: 16 }) : ''],
+      { keep: 1, fill: NAVY, before: 280, after: 0, bdr: `<w:left w:val="single" w:sz="36" w:space="6" w:color="${CYAN}"/>` })
+      + para(run(s.g, { i: 1, color: GREY, sz: 16 }), { keep: 1, fill: CARD, before: 0, after: 100, bdr: `<w:left w:val="single" w:sz="36" w:space="6" w:color="${LIGHT}"/>` });
+  }
+  // One labelled box: a shaded label row over a writing area.
+  function box(label, value, blank, h = 900) {
+    return table([10080], [row([cell(lab(label, 1), 10080, { fill: LABEL })], { keep: true }), row([cell(val(value), 10080)], { h: blank || !filled(value) ? h : 360 })]) + gap(100);
+  }
+  // Label / value pairs, two per row.
+  function pairs(list, blank) {
+    const rows = [];
+    for (let i = 0; i < list.length; i += 2) {
+      const a = list[i], b = list[i + 1];
+      rows.push(row([cell(lab(a[0]), 1900, { fill: LABEL, v: 'center' }), cell(val(blank ? '' : a[1]), 3140, { v: 'center' }),
+        b ? cell(lab(b[0]), 1900, { fill: LABEL, v: 'center' }) : cell('', 1900, { fill: LABEL }), cell(val(blank || !b ? '' : b[1]), 3140, { v: 'center' })], { h: 400 }));
+    }
+    return table([1900, 3140, 1900, 3140], rows) + gap(100);
+  }
+  function rowsTable(key, data, blank, minRows = 3, fd = x => x) {
+    const cols = ROWS[key];
+    const items = blank ? [] : (data || []).filter(r => Object.values(r || {}).some(filled));
+    const n = Math.max(blank ? 5 : minRows, items.length + (blank ? 0 : 1));
+    const head = row(cols.map(([, h, w]) => cell(para(run(h, { b: 1, color: NAVY, sz: 17 })), w, { fill: LIGHT, v: 'center' })), { header: true, h: 360 });
+    const body = Array.from({ length: n }, (_, i) => row(cols.map(([k, , w]) => cell(val((k === 'date' || k === 'due') ? fd(items[i]?.[k] ?? '') : (items[i]?.[k] ?? '')), w)), { h: 420 }));
+    return table(cols.map(c => c[2]), [head, ...body]) + gap(100);
+  }
+  function labelled(list, blank, labW = 2300) {
+    return table([labW, 10080 - labW], list.map(([l, v, hint]) => row([cell(para([run(l, { b: 1, color: NAVY, sz: 17 }), hint ? run('\n' + hint, { color: GREY, sz: 14, i: 1 }) : '']), labW, { fill: LABEL }), cell(val(blank ? '' : v), 10080 - labW)], { h: 480 }))) + gap(100);
+  }
+
+  function body(d, ctx) {
+    const blank = !d; d = d || {};
+    const D2 = d.d2 || {}, D4 = d.d4 || {}, D8 = d.d8 || {};
+    const fd = ctx.fmtDate || (x => x || '');
+    let h = '';
+    h += para(run('8D Problem Solving Report', { b: 1, color: NAVY, sz: 40 }), { after: 40 });
+    h += para(run(blank ? 'Problem title: ' : (d.title || 'Untitled problem'), { color: blank ? GREY : INK, sz: 26 }), { after: 60 });
+    h += para('', { bdr: `<w:bottom w:val="single" w:sz="18" w:space="1" w:color="${CYAN}"/>`, after: 160 });
+    h += pairs([['Report no.', d.num], ['Status', d.status], ['Customer', d.customer], ['Customer plant', d.custPlant], ['Customer reference', d.custRef], ['AkzoNobel site', d.akzoSite],
+      ['Product / code', d.product], ['Batch / lot no.', d.lots], ['Date opened', fd(d.opened)], ['Target closure', fd(d.target)], ['8D champion', d.champion], ['Team leader', d.leader], ['Date closed', fd(d.closed)], ['Prepared by', blank ? '' : [ctx.by, fd(ctx.today)].filter(Boolean).join(', ')]], blank);
+    // progress strip
+    h += table(Array(9).fill(1120), [row(SECTIONS.map(s => { const ok = !blank && done(d, s.k); return cell(para([run(s.n, { b: 1, color: ok ? 'FFFFFF' : GREY, sz: 18 }), run(ok ? '  ✓' : '', { color: 'FFFFFF', sz: 18, font: 'Segoe UI Symbol' })], { jc: 'center' }), 1120, { fill: ok ? CYAN : 'EEF3F8', v: 'center' }); }), { h: 380 })], { bc: 'FFFFFF' });
+    const S = Object.fromEntries(SECTIONS.map(s => [s.k, s]));
+    const head = k => sectionHead(S[k], done(d, k), blank);
+    h += head('d0') + box('Symptoms and emergency response actions', d.d0, blank, 1300);
+    h += head('d1') + rowsTable('team', d.team, blank, 4, fd);
+    h += head('d2') + box('Problem statement', D2.statement, blank, 900) + labelled(W2H.map(([k, l, hint]) => [l, D2[k], hint]), blank) + box('Is / Is not (where the problem is, and where it could be but is not)', D2.isnot, blank, 1100);
+    h += head('d3') + rowsTable('d3', d.d3, blank, 3, fd) + box('How the containment was verified', d.d3v, blank, 700);
+    h += head('d4') + labelled([1, 2, 3, 4, 5].map(i => [`Why ${i}?`, D4['w' + i]]), blank, 1500)
+      + box('Root cause of the occurrence', D4.occ, blank, 800) + box('Escape point: why the problem was not detected', D4.esc, blank, 800)
+      + labelled([['Analysis method', D4.method, '5 Whys, fishbone, fault tree…'], ['How the root cause was verified', D4.verify]], blank);
+    h += head('d5') + rowsTable('d5', d.d5, blank, 3, fd);
+    h += head('d6') + rowsTable('d6', d.d6, blank, 3, fd) + box('Validation evidence (data showing the fix works over time)', d.d6v, blank, 800);
+    h += head('d7') + rowsTable('d7', d.d7, blank, 3, fd) + box('Lessons learned and where else they apply', d.lessons, blank, 900);
+    h += head('d8') + box('Team recognition and closing comments', D8.recognition, blank, 800);
+    const sw = [2000, 3200, 3080, 1800];
+    h += table(sw, [row(['', 'Name', 'Signature', 'Date'].map((t, i) => cell(para(run(t, { b: 1, color: NAVY, sz: 17 })), sw[i], { fill: LIGHT })), { header: true }),
+      row([cell(lab('Customer'), sw[0], { fill: LABEL, v: 'center' }), cell(val(blank ? '' : D8.custName), sw[1], { v: 'center' }), cell('', sw[2]), cell(val(blank ? '' : fd(D8.custDate)), sw[3], { v: 'center' })], { h: 640 }),
+      row([cell(lab('AkzoNobel'), sw[0], { fill: LABEL, v: 'center' }), cell(val(blank ? '' : D8.akzoName), sw[1], { v: 'center' }), cell('', sw[2]), cell(val(blank ? '' : fd(D8.akzoDate)), sw[3], { v: 'center' })], { h: 640 })]);
+    return h + gap(0);
+  }
+
+  const NS = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
+  const XML = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n';
+  function header(d) {
+    const right = d && d.num ? `8D Problem Solving Report  ·  ${d.num}` : '8D Problem Solving Report';
+    return `${XML}<w:hdr ${NS}>${table([4000, 6080], [row([cell(para(run('AkzoNobel', { b: 1, color: 'FFFFFF', sz: 30 }), { before: 40, after: 40 }), 4000, { fill: NAVY, v: 'center' }),
+      cell(para(run(right, { color: 'FFFFFF', sz: 17 }), { jc: 'right' }), 6080, { fill: NAVY, v: 'center' })], { h: 520 })], { noBorder: 1, pad: 40 })}${para('', { bdr: `<w:top w:val="single" w:sz="24" w:space="0" w:color="${CYAN}"/>`, after: 0 })}</w:hdr>`;
+  }
+  function footer(d, ctx) {
+    const left = d ? [d.customer && `Customer: ${d.customer}`, d.num].filter(Boolean).join('  ·  ') : 'AkzoNobel 8D form';
+    const f = instr => `<w:fldSimple w:instr=" ${instr} "><w:r><w:rPr><w:color w:val="${GREY}"/><w:sz w:val="16"/></w:rPr><w:t>1</w:t></w:r></w:fldSimple>`;
+    return `${XML}<w:ftr ${NS}>${para([run(left, { color: GREY, sz: 16 }), `<w:r><w:tab/></w:r>`, run('Page ', { color: GREY, sz: 16 }), f('PAGE'), run(' of ', { color: GREY, sz: 16 }), f('NUMPAGES')],
+      { tabs: '<w:tab w:val="right" w:pos="10080"/>', bdr: `<w:top w:val="single" w:sz="4" w:space="4" w:color="${PALE}"/>` })}</w:ftr>`;
+  }
+  const styles = `${XML}<w:styles ${NS}><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:eastAsia="Arial" w:cs="Arial"/><w:color w:val="${INK}"/><w:sz w:val="19"/><w:szCs w:val="19"/><w:lang w:val="en-US"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="0" w:line="252" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults>`
+    + `<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/></w:style>`
+    + `<w:style w:type="table" w:default="1" w:styleId="TableNormal"><w:name w:val="Normal Table"/><w:uiPriority w:val="99"/><w:semiHidden/><w:tblPr><w:tblInd w:w="0" w:type="dxa"/><w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="108" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="108" w:type="dxa"/></w:tblCellMar></w:tblPr></w:style></w:styles>`;
+  const settings = `${XML}<w:settings ${NS}><w:defaultTabStop w:val="720"/><w:characterSpacingControl w:val="doNotCompress"/><w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat></w:settings>`;
+
+  function docx(d, ctx = {}) {
+    const doc = `${XML}<w:document ${NS}><w:body>${body(d, ctx)}<w:sectPr><w:headerReference w:type="default" r:id="rIdH"/><w:footerReference w:type="default" r:id="rIdF"/><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1440" w:right="1080" w:bottom="1080" w:left="1080" w:header="400" w:footer="440" w:gutter="0"/></w:sectPr></w:body></w:document>`;
+    const now = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+    const title = d ? `${d.num ? d.num + ' ' : ''}${d.title || '8D report'}` : 'AkzoNobel 8D form';
+    const files = [
+      ['[Content_Types].xml', `${XML}<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>`
+        + '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>'
+        + '<Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/><Override PartName="/word/header1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/>'
+        + '<Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/></Types>'],
+      ['_rels/.rels', `${XML}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/></Relationships>`],
+      ['docProps/core.xml', `${XML}<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${xe(title)}</dc:title><dc:creator>${xe(ctx.by || 'AkzoNobel')}</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`],
+      ['word/_rels/document.xml.rels', `${XML}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdS" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rIdT" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml"/><Relationship Id="rIdH" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header" Target="header1.xml"/><Relationship Id="rIdF" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/></Relationships>`],
+      ['word/document.xml', doc], ['word/styles.xml', styles], ['word/settings.xml', settings], ['word/header1.xml', header(d)], ['word/footer1.xml', footer(d, ctx)],
+    ];
+    const te = new TextEncoder();
+    return zip(files.map(([name, text]) => ({ name, data: te.encode(text) })));
+  }
+
+  /* ---------- minimal ZIP writer (stored entries) ---------- */
+  const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+  const crc32 = u => { let c = 0xFFFFFFFF; for (let i = 0; i < u.length; i++) c = CRC[(c ^ u[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+  function zip(files) {
+    const te = new TextEncoder(), parts = [], central = [];
+    const dt = new Date(), time = (dt.getHours() << 11) | (dt.getMinutes() << 5) | (dt.getSeconds() >> 1), date = ((dt.getFullYear() - 1980) << 9) | ((dt.getMonth() + 1) << 5) | dt.getDate();
+    let off = 0;
+    for (const f of files) {
+      const name = te.encode(f.name), data = f.data, crc = crc32(data);
+      const L = new DataView(new ArrayBuffer(30));
+      L.setUint32(0, 0x04034b50, true); L.setUint16(4, 20, true); L.setUint16(6, 0x0800, true); L.setUint16(8, 0, true); L.setUint16(10, time, true); L.setUint16(12, date, true);
+      L.setUint32(14, crc, true); L.setUint32(18, data.length, true); L.setUint32(22, data.length, true); L.setUint16(26, name.length, true); L.setUint16(28, 0, true);
+      parts.push(new Uint8Array(L.buffer), name, data);
+      const C = new DataView(new ArrayBuffer(46));
+      C.setUint32(0, 0x02014b50, true); C.setUint16(4, 20, true); C.setUint16(6, 20, true); C.setUint16(8, 0x0800, true); C.setUint16(10, 0, true); C.setUint16(12, time, true); C.setUint16(14, date, true);
+      C.setUint32(16, crc, true); C.setUint32(20, data.length, true); C.setUint32(24, data.length, true); C.setUint16(28, name.length, true); C.setUint32(42, off, true);
+      central.push(new Uint8Array(C.buffer), name);
+      off += 30 + name.length + data.length;
+    }
+    const cdSize = central.reduce((a, c) => a + c.length, 0);
+    const E = new DataView(new ArrayBuffer(22));
+    E.setUint32(0, 0x06054b50, true); E.setUint16(8, files.length, true); E.setUint16(10, files.length, true); E.setUint32(12, cdSize, true); E.setUint32(16, off, true);
+    const all = [...parts, ...central, new Uint8Array(E.buffer)];
+    const out = new Uint8Array(all.reduce((a, c) => a + c.length, 0));
+    let p = 0; for (const c of all) { out.set(c, p); p += c.length; }
+    return out;
+  }
+
+  return { SECTIONS, ROWS, W2H, STATUS, done, docx };
+})();
+</script>
 <script>(() => {
 'use strict';
 
@@ -1107,7 +1516,7 @@ async function ensureProfiles() {
   const u = S.caps.user; if (!u || profBusy) return;
   const ids = new Set();
   S.log.forEach(e => e.by && ids.add(e.by)); S.notes.forEach(n => n.by && ids.add(n.by));
-  sitesAll().forEach(s => s.updatedBy && ids.add(s.updatedBy)); S.peers.forEach(p => p.by && ids.add(p.by));
+  sitesAll().forEach(s => s.updatedBy && ids.add(s.updatedBy)); S.peers.forEach(p => p.by && ids.add(p.by)); if (S.contacts) recPeople().forEach(id => ids.add(id));
   if (S.userId) ids.add(S.userId);
   const missing = [...ids].filter(id => !(id in S.prof));
   if (!missing.length) return;
@@ -1392,6 +1801,7 @@ function showTip(e, s, keyboard) {
     <div class="r"><span>Akzo 2025</span><b class="num">${isNum(s.gal) ? fN(s.gal) + ' gal' : '—'}${isNum(s.sales) ? ' · ' + fUSD(s.sales) : ''}</b></div>
     <div class="r"><span>Akzo position</span><b>${esc(s.akzo || 'TBD')}</b></div>
     ${s.competitor ? `<div class="r"><span>Competitor</span><b>${esc(s.competitor)}</b></div>` : ''}
+    ${riskTipLine(s)}
     ${viewers.length ? `<div class="k">${esc(viewers.map(p => who(p.by).name).join(', '))} looking at this now</div>` : ''}
     <div class="k">${S.placing ? '' : 'Click for details'}</div>`;
   tipPos(e, el, keyboard);
@@ -1528,7 +1938,9 @@ function renderHelp() {
       <li><b>Click any plant</b> on the map or in the list to see capacity, Akzo volume, brands, volume moves and team notes.</li>
       <li><b>Color the map</b> by company, Akzo position, opportunity or status. Click a brand on the Brands tab to light up the plants that make it.</li>
       <li><b>Press Edit data</b> to update a plant, a table cell or a TSR answer. Changes save as you go, show up for everyone right away, and carry your name.</li>
-      <li><b>Activity</b> lists every change and note, newest first, with <b>Undo</b>. <b>Export Excel</b> gives you the tracker as a workbook.</li>
+      <li><b>Risks &amp; 8D</b> holds the risk register: score each risk by likelihood × impact, plan actions, and start an 8D report you can send to the customer as a Word file.</li>
+      <li><b>Points of contact</b> lists who to call at MBCI, AWC and AkzoNobel, which plants each person covers, and the escalation path.</li>
+      <li><b>Activity</b> lists every change and note, newest first, with <b>Undo</b>. <b>Export Excel</b> gives you the tracker, contacts and risks as a workbook.</li>
     </ol></div>`;
 }
 
@@ -1570,8 +1982,8 @@ function renderRail() {
 }
 
 /* ================= tabs ================= */
-const TABS = ['capacity', 'akzo', 'brands', 'grid', 'tsr', 'checks', 'activity'];
-function renderTabs() { renderTabBadges(); $('#panel').innerHTML = ({ capacity: panelCapacity, akzo: panelAkzo, brands: panelBrands, grid: panelGrid, tsr: panelTSR, checks: panelChecks, activity: panelActivity }[S.tab] || panelCapacity)(); }
+const TABS = ['capacity', 'akzo', 'risks', 'contacts', 'brands', 'grid', 'tsr', 'checks', 'activity'];
+function renderTabs() { renderTabBadges(); $('#panel').innerHTML = ({ capacity: panelCapacity, akzo: panelAkzo, risks: panelRisks, contacts: panelContacts, brands: panelBrands, grid: panelGrid, tsr: panelTSR, checks: panelChecks, activity: panelActivity }[S.tab] || panelCapacity)(); }
 function renderTabBadges() {
   $$('#tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === S.tab)));
   const n = checks().filter(c => c.sev !== 'info').length;
@@ -1579,6 +1991,9 @@ function renderTabBadges() {
   const day = Date.now() - 86400000;
   const recent = [...S.log, ...S.notes].filter(e => e.by && e.by !== S.userId && new Date(e.at).getTime() > day).length;
   const ab = $('#act-badge'); ab.textContent = recent || ''; ab.hidden = !recent;
+  const hot = S.risks.filter(r => isOpenRisk(r) && ['High', 'Critical'].includes(rRating(rScore(r)))).length;
+  const rb = $('#risk-badge'); if (rb) { rb.textContent = hot || ''; rb.hidden = !hot; rb.title = hot ? `${hot} open high or critical risk${hot > 1 ? 's' : ''}` : ''; }
+  const cb = $('#poc-badge'); if (cb) { cb.textContent = S.contacts.length || ''; cb.hidden = !S.contacts.length; }
 }
 
 function panelCapacity() {
@@ -1821,7 +2236,8 @@ function panelActivity() {
   const siteLink = (sid, nm) => site(sid) ? `<button class="linkbtn" type="button" data-act="open-site" data-sid="${esc(sid)}">${esc(site(sid).name)}</button>` : `<b>${esc(nm || 'a plant')}</b>`;
   const row = e => {
     const w = who(e.by); let tx = '', undo = '';
-    if (e.t === 'note') tx = `<b>${esc(w.name)}</b> added a note on ${siteLink(e.sid)}<span class="quote">${esc(e.text)}</span>`;
+    if (e.kind === 'rec') ({ tx, undo } = recActivity(e, w, canUndo));
+    else if (e.t === 'note') tx = `<b>${esc(w.name)}</b> added a note on ${siteLink(e.sid)}<span class="quote">${esc(e.text)}</span>`;
     else if (e.kind === 'edit' || e.kind === 'restore') {
       tx = `<b>${esc(w.name)}</b> ${e.kind === 'restore' ? 'undid a change on' : 'changed'} ${siteLink(e.sid, e.site)} · ${esc(e.label || labelFor(e.field))}: <span class="old">${esc(fmtVal(e.field, e.from))}</span> → <b>${esc(fmtVal(e.field, e.to))}</b>`;
       if (canUndo && e.field && site(e.sid)) undo = `<button class="btn small" type="button" data-act="undo" data-id="${esc(e.id)}">Undo</button>`;
@@ -1834,7 +2250,7 @@ function panelActivity() {
   };
   const intro = !live() ? 'Activity appears here when the app is connected to live data.' : canUndo ? 'Every change and team note, newest first. Undo puts the old value back for everyone.' : `Every change and team note, newest first.${writable() ? ' Press Edit data to undo a change.' : ''}`;
   return `<div class="panel-head"><div><h2>Recent activity</h2><p>${intro}</p></div></div>
-    <div class="card acts">${items.length ? items.map(row).join('') : '<div class="empty-state">No changes yet. When someone edits a plant or posts a note, it shows up here with their name.</div>'}</div>`;
+    <div class="card acts">${items.length ? items.map(row).join('') : '<div class="empty-state">No changes yet. When someone edits a plant, a contact or a risk, or posts a note, it shows up here with their name.</div>'}</div>`;
 }
 
 /* ================= drawer ================= */
@@ -1898,6 +2314,7 @@ function renderDrawer() {
       <div class="dr-sec"><h3>Consolidation</h3>${kv([['Role', s.role], ['Volume destination', s.destination], ['Reason / logic', s.reason]])}<div style="margin-top:12px">${moveView}</div></div>
       <div class="dr-sec"><h3>AkzoNobel</h3>${kv([['Akzo position', s.akzo], ['Competitor', s.competitor], ['Gallons 2025', isNum(s.gal) ? fN(s.gal) + ' gal' : ''], ['Net sales 2025', isNum(s.sales) ? '$' + fN(s.sales) : ''], ['$ per gallon', m.usdPerGal ? '$' + m.usdPerGal.toFixed(2) : ''], ['Opportunity / risk', s.opp], ['Confidence', s.confidence]])}
         ${m.up?.usd ? `<p style="margin-top:12px;font-size:14px;color:var(--ink-2)">If the expected ${fRange(m.lo, m.hi)} ${m.uLabel}/day lands and gallons per ${m.uLabel === 'cab' ? 'cabinet' : 'part'} hold: <b style="color:var(--ink)">+${fRange(m.up.gal[0], m.up.gal[1], fCompact)} gal, ${fRange(m.up.usd[0], m.up.usd[1], fUSD)} a year</b>.</p>` : ''}</div>
+      ${plantRecSections(s)}
       ${notesSec}
       <div class="dr-sec"><h3>Brands made here</h3><div class="chips">${brandChips}</div></div>
       <div class="dr-sec"><h3>Local intelligence</h3><p class="para${s.intel ? '' : ' empty'}">${esc(s.intel || 'Nothing recorded yet.')}</p></div>
@@ -1921,6 +2338,7 @@ function renderDrawer() {
         ${fld.sel('Akzo position', 'akzo', s.akzo, L.akzo || [])}${fld.text('Competitor', 'competitor', s.competitor, { list: 'dl-competitor' })}
         ${fld.num('Akzo gallons 2025', 'gal', s.gal)}${fld.num('Akzo net sales 2025 ($)', 'sales', s.sales)}
         ${fld.sel('Opportunity / risk', 'opp', s.opp, L.opp || [])}${fld.sel('Confidence', 'confidence', s.confidence, L.confidence || [])}</div></div>
+      ${plantRecSections(s)}
       ${notesSec}
       <div class="dr-sec"><h3>Brands made here</h3><div class="chips">${brandChips}</div>${brandAdd}</div>
       <div class="dr-sec"><h3>Notes &amp; actions</h3><div class="form">${fld.area('Local intelligence / comments', 'intel', s.intel)}${fld.area('Action needed', 'action', s.action)}${fld.text('Owner', 'owner', s.owner)}
@@ -1955,16 +2373,17 @@ function renderSources() {
 let renderQueued = false;
 function isTyping() {
   const a = document.activeElement;
-  return !!(a && a.matches && a.matches('input:not([type=checkbox]), textarea, select') && a.closest('[data-ctx], .drawer') && a.id !== 'grid-q');
+  return !!(a && a.matches && a.matches('input:not([type=checkbox]), textarea, select') && a.closest('[data-ctx], .drawer, #d8') && !['grid-q', 'poc-q', 'rk-q'].includes(a.id));
 }
 function renderAll(opt = {}) {
   if (!S.data) return;
   const a = document.activeElement;
-  const key = a && a !== document.body ? { ctx: a.closest('[data-ctx]')?.dataset.ctx, sid: a.closest('[data-sid]')?.dataset.sid, f: a.dataset?.f, tsr: a.dataset?.tsr, mv: a.closest('[data-mv]')?.dataset.mv, mvf: a.dataset?.mvf, id: a.id } : null;
-  const scrolls = ['.dr-body', '.gridwrap', '#rail-list', '.tsr-sites'].map(sel => [sel, $(sel)?.scrollTop || 0, $(sel)?.scrollLeft || 0]);
+  const key = a && a !== document.body ? { ctx: a.closest('[data-ctx]')?.dataset.ctx, sid: a.closest('[data-sid]')?.dataset.sid, f: a.dataset?.f, tsr: a.dataset?.tsr, mv: a.closest('[data-mv]')?.dataset.mv, mvf: a.dataset?.mvf, id: a.id,
+    rf: a.dataset?.rf, rowf: a.dataset?.rowf, ri: a.closest('[data-ri]')?.dataset.ri, rows: a.closest('[data-rows]')?.dataset.rows } : null;
+  const scrolls = ['#drawer .dr-body', '#recdrawer .dr-body', '.d8-body', '.gridwrap', '#rail-list', '.tsr-sites'].map(sel => [sel, $(sel)?.scrollTop || 0, $(sel)?.scrollLeft || 0]);
   renderHeader(); renderNotice(); renderHelp(); renderKPIs(); renderInsights(); renderRail(); renderLegend(); renderOverlay();
   if (opt.skipPanel) renderTabBadges(); else renderTabs();
-  if (!opt.skipDrawer) renderDrawer();
+  if (!opt.skipDrawer) { renderDrawer(); renderRec(); renderD8(); }
   for (const [sel, t, l] of scrolls) { const el = $(sel); if (el) { el.scrollTop = t; el.scrollLeft = l; } }
   if (key) {
     let el = null;
@@ -1972,7 +2391,9 @@ function renderAll(opt = {}) {
     else if (key.ctx) {
       const root = $(`[data-ctx="${key.ctx}"]`);
       if (root) {
-        if (key.mv && key.mvf) el = root.querySelector(`[data-mv="${CSS.escape(key.mv)}"] [data-mvf="${key.mvf}"]`);
+        if (key.rowf && key.rows) el = root.querySelector(`[data-rows="${CSS.escape(key.rows)}"] [data-ri="${key.ri}"] [data-rowf="${CSS.escape(key.rowf)}"]`);
+        else if (key.rf) el = root.querySelector(`[data-rf="${CSS.escape(key.rf)}"]`);
+        else if (key.mv && key.mvf) el = root.querySelector(`[data-mv="${CSS.escape(key.mv)}"] [data-mvf="${key.mvf}"]`);
         else if (key.tsr) el = root.querySelector(`[data-tsr="${key.tsr}"]`);
         else if (key.f) el = root.querySelector(`${key.sid ? `[data-sid="${CSS.escape(key.sid)}"] ` : ''}[data-f="${CSS.escape(key.f)}"]`) || root.querySelector(`[data-f="${CSS.escape(key.f)}"]`);
       }
@@ -1986,7 +2407,7 @@ function remoteRender() {
   if (!isTyping()) return queueRender();
   S.renderDeferred = true;
   if (remoteQueued) return; remoteQueued = true;
-  setTimeout(() => { remoteQueued = false; if (!isTyping()) return queueRender(); const a = document.activeElement; renderAll({ skipDrawer: !!a.closest('#drawer'), skipPanel: !!a.closest('#panel') }); }, 0);
+  setTimeout(() => { remoteQueued = false; if (!isTyping()) return queueRender(); const a = document.activeElement; renderAll({ skipDrawer: !!a.closest('#drawer, #recdrawer, #d8'), skipPanel: !!a.closest('#panel') }); }, 0);
 }
 let remoteQueued = false;
 document.addEventListener('focusout', () => { if (S.renderDeferred) setTimeout(() => { if (!isTyping() && S.renderDeferred) { S.renderDeferred = false; queueRender(); } }, 0); });
@@ -2013,6 +2434,7 @@ function onWriteError(e) {
   else say('A change did not save because the connection dropped. Check your connection and make the change again.');
   if (S.liveSites) S.data.sites = S.liveSites.map(x => ensureSite(clone(x)));
   if (S.liveMoves) S.data.moves = clone(S.liveMoves);
+  recRestoreLive();
   queueRender();
 }
 function logEntry(e) {
@@ -2098,6 +2520,7 @@ async function exportXlsx() {
   const wsb = X.utils.aoa_to_sheet([['Company', 'Brand', 'Tier', 'Made at', 'Note'], ...brandList().map(b => [b.company, b.name, b.tier, D.sites.filter(s => s.company === b.company && s.brands.some(x => norm(x) === norm(b.name))).map(s => s.name).join(', '), b.note])]);
   wsb['!cols'] = [{ wch: 9 }, { wch: 34 }, { wch: 24 }, { wch: 34 }, { wch: 60 }];
   X.utils.book_append_sheet(wb, wsb, 'Brands');
+  if (live()) appendRecordSheets(X, wb);
   const Ls = D.lists, keys = [['company', 'Company'], ['status', 'Status'], ['opp', 'Opportunity / Risk'], ['confidence', 'Confidence'], ['akzo', 'Akzo Position'], ['role', 'Consolidation Role']];
   const maxLen = Math.max(...keys.map(([k]) => (Ls[k] || []).length));
   X.utils.book_append_sheet(wb, X.utils.aoa_to_sheet([keys.map(k => k[1]), ...Array.from({ length: maxLen }, (_, i) => keys.map(([k]) => (Ls[k] || [])[i] || ''))]), 'Lists');
@@ -2222,15 +2645,763 @@ function renderModal() {
   m.querySelector(any ? '[data-act="modal-apply"]' : '[data-act="modal-cancel"]')?.focus();
 }
 
+/* ================= points of contact, risks and 8D reports ================= */
+const ORGS = ['AkzoNobel', 'MBCI', 'AWC', 'Other'];
+const ORG_NAME = { AkzoNobel: 'AkzoNobel', MBCI: 'MasterBrand (MBCI)', AWC: 'American Woodmark (AWC)', Other: 'Other' };
+const orgVar = o => o === 'AkzoNobel' ? 'var(--brand)' : coVar(o);
+const FUNCS = ['Account / sales', 'Technical service (TSR)', 'Purchasing / sourcing', 'Quality', 'Plant / operations', 'Finishing / process engineering', 'R&D / color and product', 'Supply chain / logistics', 'Customer service', 'Finance', 'EHS', 'Executive', 'Other'];
+const LEVELS = ['Day-to-day', 'Escalation 1', 'Escalation 2', 'Executive sponsor'];
+const COVER = [
+  { h: 'Akzo account lead', org: 'AkzoNobel', func: 'Account / sales' },
+  { h: 'Akzo TSR', org: 'AkzoNobel', func: 'Technical service (TSR)' },
+  { h: 'Purchasing', org: 'cust', func: 'Purchasing / sourcing' },
+  { h: 'Quality', org: 'cust', func: 'Quality' },
+  { h: 'Plant / operations', org: 'cust', func: 'Plant / operations' },
+  { h: 'Finishing / process', org: 'cust', func: 'Finishing / process engineering' },
+];
+const RISK_CATS = ['Volume transfer', 'Capacity', 'Supply continuity', 'Quality / qualification', 'Commercial / share', 'Pricing / cost', 'Logistics', 'Regulatory / EHS', 'Integration / organization', 'Other'];
+const RISK_STATUS = ['Open', 'Mitigating', 'Monitoring', 'Issue · 8D open', 'Closed'];
+const STATUS_VAR = { Open: 'var(--warn)', Mitigating: 'var(--brand-2)', Monitoring: 'var(--neutral)', 'Issue · 8D open': 'var(--crit)', Closed: 'var(--good)' };
+const RESPONSES = ['Mitigate', 'Accept', 'Transfer', 'Avoid'];
+const L_LABEL = ['', 'Rare', 'Unlikely', 'Possible', 'Likely', 'Almost certain'];
+const I_LABEL = ['', 'Minimal', 'Minor', 'Moderate', 'Major', 'Severe'];
+const L_HELP = ['', 'Not expected in the next 12 months', 'Could happen; no sign of it yet', 'Some signs it could happen', 'Expected unless we act', 'Already starting to happen'];
+const I_HELP = ['', 'No effect on Akzo volume or on the customer', 'Small volume, or a short disruption', 'Plant-level volume, or a customer complaint', 'Major volume (60K+ gal) or a line stoppage', 'Account-level volume, or the relationship at risk'];
+const rScore = r => (r.L || 0) * (r.I || 0);
+const rRating = sc => !sc ? 'Unscored' : sc <= 4 ? 'Low' : sc <= 9 ? 'Medium' : sc <= 15 ? 'High' : 'Critical';
+const RATING_VAR = { Low: 'var(--good)', Medium: 'var(--warn)', High: 'var(--serious)', Critical: 'var(--crit)', Unscored: 'var(--tbd)' };
+const isOpenRisk = r => r.status !== 'Closed';
+const scoreBadge = r => { const sc = rScore(r), rt = rRating(sc); return `<span class="score" style="--c:${RATING_VAR[rt]};--t:${rt === 'Medium' || rt === 'Unscored' ? '#1a1300' : '#fff'}" title="${esc(rt)}: likelihood ${r.L || '?'} × impact ${r.I || '?'}"><b class="num">${sc || '–'}</b>${esc(rt)}</span>`; };
+const d8StatusPill = st => `<span class="pill"><i style="background:${st === 'Closed' ? 'var(--good)' : 'var(--brand-2)'}"></i>${esc(st || 'Open')}</span>`;
+const riskStatusPill = st => `<span class="pill"><i style="background:${STATUS_VAR[st] || 'var(--tbd)'}"></i>${esc(st || 'Status not set')}</span>`;
+const COL_NOUN = { contacts: 'contact', risks: 'risk', eightd: '8D report' };
+const DOCX_MIME = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+const F8 = () => window.FP8D;
+const ROW_COLS = {
+  actions: [['t', 'Action', 'text'], ['owner', 'Owner', 'text'], ['due', 'Due', 'date'], ['done', 'Done', 'check']],
+};
+const rowCols = field => ROW_COLS[field] || (F8()?.ROWS[field] || []).map(([k, l]) => [k, l, k === 'date' || k === 'due' ? 'date' : 'text']);
+
+Object.assign(S, {
+  contacts: [], risks: [], d8s: [], dismissed: new Set(), live: { contacts: [], risks: [], eightd: [] }, recLoaded: false,
+  rec: null, d8open: null, d8return: null, confirmRecDelete: false, confirmD8Delete: false,
+  poc: { view: 'directory', q: '', org: 'all', func: 'all', site: 'all' },
+  riskF: { q: '', status: 'open', cat: 'all', site: 'all', cell: null }, sugOpen: null,
+});
+
+const str = v => v == null ? '' : String(v);
+function ensureContact(c) {
+  for (const k of ['name', 'org', 'title', 'func', 'level', 'email', 'phone', 'notes', 'updatedAt', 'updatedBy', 'createdAt', 'createdBy']) c[k] = str(c[k]);
+  c.sites = Array.isArray(c.sites) ? c.sites.filter(Boolean) : [];
+  return c;
+}
+function ensureRisk(r) {
+  for (const k of ['title', 'desc', 'cat', 'status', 'response', 'owner', 'mitigation', 'contingency', 'trigger', 'due', 'reviewed', 'source', 'd8', 'updatedAt', 'updatedBy', 'createdAt', 'createdBy']) r[k] = str(r[k]);
+  for (const k of ['L', 'I']) r[k] = isNum(r[k]) && r[k] >= 1 && r[k] <= 5 ? Math.round(r[k]) : null;
+  r.sites = Array.isArray(r.sites) ? r.sites.filter(Boolean) : [];
+  r.actions = Array.isArray(r.actions) ? r.actions.map(a => ({ t: str(a?.t), owner: str(a?.owner), due: str(a?.due), done: !!a?.done })) : [];
+  if (!r.status) r.status = 'Open';
+  return r;
+}
+function ensureD8(d) {
+  for (const k of ['num', 'title', 'status', 'riskId', 'customer', 'custPlant', 'custRef', 'product', 'lots', 'akzoSite', 'opened', 'target', 'closed', 'champion', 'leader', 'd0', 'd3v', 'd6v', 'lessons', 'updatedAt', 'updatedBy', 'createdAt', 'createdBy']) d[k] = str(d[k]);
+  const obj = (k, keys) => { const o = d[k] && typeof d[k] === 'object' && !Array.isArray(d[k]) ? d[k] : {}; for (const x of keys) o[x] = str(o[x]); d[k] = o; };
+  obj('d2', ['statement', 'what', 'where', 'when', 'who', 'why', 'how', 'howMany', 'isnot']);
+  obj('d4', ['w1', 'w2', 'w3', 'w4', 'w5', 'occ', 'esc', 'method', 'verify']);
+  obj('d8', ['recognition', 'custName', 'custDate', 'akzoName', 'akzoDate']);
+  for (const k of ['team', 'd3', 'd5', 'd6', 'd7']) d[k] = Array.isArray(d[k]) ? d[k].map(row => { const o = {}; for (const [c] of rowCols(k)) o[c] = str(row?.[c]); return o; }) : [];
+  if (!d.status) d.status = 'Open';
+  return d;
+}
+const ENSURE = { contacts: ensureContact, risks: ensureRisk, eightd: ensureD8 };
+const recArr = col => col === 'contacts' ? S.contacts : col === 'risks' ? S.risks : S.d8s;
+const recGet = (col, id) => recArr(col).find(x => x.id === id);
+const recName = (col, r) => col === 'contacts' ? (r.name || 'Unnamed contact') : col === 'risks' ? (r.title || 'Untitled risk') : [r.num, r.title || '8D report'].filter(Boolean).join(' ');
+const sitesLabel = ids => (ids || []).map(id => site(id)?.name || 'a removed plant').join(', ');
+const initials = n => String(n || '?').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') || '?';
+const cAv = c => `<span class="cav" style="--c:${orgVar(c.org)}" aria-hidden="true">${esc(initials(c.name))}</span>`;
+const scopeLabel = c => c.sites.length ? sitesLabel(c.sites) : c.org === 'MBCI' || c.org === 'AWC' ? `All ${c.org} plants` : 'All plants';
+const telHref = p => 'tel:' + String(p).replace(/[^\d+]/g, '');
+const fileSafe = s => (String(s || '').normalize('NFD').replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '_').slice(0, 48)) || 'report';
+const overdue = d => d && d < today();
+const recPeople = () => [...S.contacts, ...S.risks, ...S.d8s].flatMap(r => [r.updatedBy, r.createdBy]).filter(Boolean);
+
+/* ---------- writes ---------- */
+// Writes not yet confirmed by the store. Snapshots that arrive before a write lands are shown with these
+// applied on top, so a record created and edited straight away never flickers back to an older version.
+const PEND = [];
+function recWrite(col, id, op, data, fn) {
+  const ent = { col, id, op, data: data && clone(data) }; PEND.push(ent);
+  const p = enqueue(col + '/' + id, fn);
+  const done = () => { const i = PEND.indexOf(ent); if (i >= 0) PEND.splice(i, 1); };
+  p.then(done, done);
+  return p;
+}
+function overlayPending(col, arr) {
+  for (const e of PEND) {
+    if (e.col !== col) continue;
+    const i = arr.findIndex(x => x.id === e.id);
+    if (e.op === 'delete') { if (i >= 0) arr.splice(i, 1); }
+    else if (e.op === 'set') { const doc = ENSURE[col]({ ...clone(e.data), id: e.id }); if (i >= 0) arr[i] = doc; else arr.push(doc); }
+    else if (i >= 0) arr[i] = ENSURE[col]({ ...deepMerge(arr[i], clone(e.data)), id: e.id });
+  }
+  return arr;
+}
+function recAdd(col, body, opt = {}) {
+  const DB = S.caps.db;
+  if (!DB || !writable()) { toast('Changes need the live tracker and edit access.'); return null; }
+  const ref = DB.collection(col).doc();
+  const now = new Date().toISOString();
+  const doc = ENSURE[col]({ ...clone(body), createdAt: now, createdBy: S.userId || '', updatedAt: now, updatedBy: S.userId || '' });
+  delete doc.id;
+  const local = { ...clone(doc), id: ref.id };
+  recArr(col).push(local);
+  recWrite(col, ref.id, 'set', doc, () => ref.set(doc));
+  logEntry({ kind: 'rec', op: 'add', col, rid: ref.id, name: recName(col, doc), label: opt.label || '' });
+  queueRender();
+  return local;
+}
+// Change fields on a contact, risk or 8D for everyone; each change is logged with its old value so it can be undone.
+function editRec(col, r, fields, op = 'edit') {
+  const DB = S.caps.db;
+  if (!DB || !writable()) { toast('Changes need the live tracker and edit access.'); return; }
+  const stamp = { updatedAt: new Date().toISOString(), updatedBy: S.userId || '' };
+  let patch = { ...stamp };
+  const entries = [];
+  for (const [path, val] of Object.entries(fields)) {
+    const from = getPath(r, path);
+    if (JSON.stringify(from ?? '') === JSON.stringify(val ?? '')) continue;
+    patch = deepMerge(patch, pathPatch(path, val));
+    entries.push({ path, from: from ?? '', to: val ?? '' });
+    setPath(r, path, val);
+  }
+  if (!entries.length) return;
+  Object.assign(r, stamp);
+  recWrite(col, r.id, 'update', patch, () => DB.doc(col + '/' + r.id).update(patch));
+  for (const en of entries) logEntry({ kind: 'rec', op, col, rid: r.id, name: recName(col, r), field: en.path, from: en.from, to: en.to });
+  queueRender();
+}
+function recDelete(col, r) {
+  const DB = S.caps.db; if (!DB || !writable()) return;
+  const arr = recArr(col), i = arr.indexOf(r); if (i >= 0) arr.splice(i, 1);
+  recWrite(col, r.id, 'delete', null, () => DB.doc(col + '/' + r.id).delete());
+  const snap = clone(r); delete snap.id;
+  logEntry({ kind: 'rec', op: 'delete', col, rid: r.id, name: recName(col, r), snapshot: snap });
+  queueRender();
+}
+function recUndo(en) {
+  const DB = S.caps.db; if (!DB || !writable() || !en) return;
+  const r = recGet(en.col, en.rid);
+  if (en.op === 'delete' && en.snapshot && !r) {
+    const body = ENSURE[en.col](clone(en.snapshot));
+    recArr(en.col).push({ ...clone(body), id: en.rid });
+    recWrite(en.col, en.rid, 'set', body, () => DB.doc(en.col + '/' + en.rid).set(body));
+    logEntry({ kind: 'rec', op: 'add', col: en.col, rid: en.rid, name: recName(en.col, body), label: 'restored' });
+    toast(`${recName(en.col, body)} restored.`); queueRender();
+  } else if (en.field && r) {
+    let v = en.from; if (v === '' && (en.field === 'L' || en.field === 'I')) v = null;
+    editRec(en.col, r, { [en.field]: v }, 'restore');
+    toast('Change undone.');
+  }
+}
+function recRestoreLive() { S.contacts = S.live.contacts.map(clone); S.risks = S.live.risks.map(clone); S.d8s = S.live.eightd.map(clone); }
+function startRecords(DB) {
+  const sub = col => DB.collection(col).onSnapshot(snap => {
+    const arr = snap.docs.map(d => ENSURE[col]({ ...clone(d.data()), id: d.id }));
+    S.live[col] = arr.map(clone);
+    overlayPending(col, arr);
+    if (col === 'contacts') S.contacts = arr; else if (col === 'risks') S.risks = arr; else S.d8s = arr;
+    S.recLoaded = true;
+    if (S.rec && S.rec.col === col && !recGet(col, S.rec.id) && !snap.metadata?.hasPendingWrites) S.rec = null;
+    if (col === 'eightd' && S.d8open && !recGet('eightd', S.d8open) && !snap.metadata?.hasPendingWrites) S.d8open = null;
+    ensureProfiles(); remoteRender();
+  }, () => {});
+  sub('contacts'); sub('risks'); sub('eightd');
+  DB.collection('dismissed').onSnapshot(snap => { S.dismissed = new Set(snap.docs.map(d => d.id)); remoteRender(); }, () => {});
+}
+const dismissKey = k => String(k).replace(/[^A-Za-z0-9_\-.~:@+]/g, '_').slice(0, 180);
+function dismiss(key) {
+  const DB = S.caps.db; if (!DB || !writable()) return;
+  const k = dismissKey(key); S.dismissed.add(k);
+  enqueue('dismissed/' + k, () => DB.doc('dismissed/' + k).set({ at: new Date().toISOString(), by: S.userId || '' }));
+  queueRender();
+}
+
+/* ---------- shared bits ---------- */
+const rf = {
+  text: (label, f, v, o = {}) => `<label class="fld${o.wide ? ' wide' : ''}"><span>${label}</span><input type="${o.type || 'text'}" data-rf="${f}" value="${esc(v ?? '')}"${o.list ? ` list="${o.list}"` : ''}${o.ph ? ` placeholder="${esc(o.ph)}"` : ''}${o.ro ? ' readonly' : ''}${o.type === 'email' ? ' autocomplete="off"' : ''}></label>`,
+  sel: (label, f, v, list, o = {}) => { const arr = [...list]; if (v && !arr.includes(v)) arr.push(v); return `<label class="fld${o.wide ? ' wide' : ''}"><span>${label}</span><select data-rf="${f}"${o.ro ? ' disabled' : ''}><option value="">—</option>${arr.map(x => `<option${x === v ? ' selected' : ''}>${esc(x)}</option>`).join('')}</select></label>`; },
+  area: (label, f, v, o = {}) => `<label class="fld${o.half ? '' : ' wide'}"><span>${label}</span><textarea data-rf="${f}" rows="${o.rows || 3}"${o.ph ? ` placeholder="${esc(o.ph)}"` : ''}${o.ro ? ' readonly' : ''}>${esc(v ?? '')}</textarea></label>`,
+};
+function sitePicker(field, ids, hint) {
+  const groups = [['MBCI', 'MasterBrand (MBCI)'], ['AWC', 'American Woodmark (AWC)'], ['Other', 'Other'], ['TBD', 'Company TBD']];
+  return `<fieldset class="chkgrp wide" data-rf="${field}" data-kind="sites"><legend>Plants</legend>${hint ? `<p class="hint">${esc(hint)}</p>` : ''}
+    ${groups.map(([co, lab]) => { const ss = sitesAll().filter(s => (s.company || 'TBD') === co).sort((a, b) => a.name.localeCompare(b.name)); return ss.length ? `<div class="cg"><span class="sec-label">${esc(lab)}</span><div class="cgl">${ss.map(s => `<label><input type="checkbox" value="${esc(s.id)}"${ids.includes(s.id) ? ' checked' : ''}>${esc(s.name)}</label>`).join('')}</div></div>` : ''; }).join('')}</fieldset>`;
+}
+function rowsEd(field, rows, E, o = {}) {
+  const cols = rowCols(field);
+  const body = rows.map((r, i) => `<tr data-ri="${i}">${cols.map(([k, l, type]) => `<td class="${type === 'check' ? 'ck' : type === 'date' ? 'dt' : ''}">${type === 'check'
+      ? `<input type="checkbox" data-rowf="${k}"${r[k] ? ' checked' : ''}${E ? '' : ' disabled'} aria-label="${esc(l)}, row ${i + 1}">`
+      : `<input type="${type === 'date' ? 'date' : 'text'}" data-rowf="${k}" value="${esc(r[k] ?? '')}"${E ? '' : ' readonly'} aria-label="${esc(l)}, row ${i + 1}">`}</td>`).join('')}${E ? `<td class="x"><button class="iconbtn" type="button" data-act="row-del" data-i="${i}" aria-label="Remove row ${i + 1}">${ICON.x}</button></td>` : ''}</tr>`).join('');
+  return `<div class="rowsed" data-rows="${field}"><div class="tablewrap"><table class="t re"><thead><tr>${cols.map(([, l, type]) => `<th class="${type === 'check' ? 'ck' : type === 'date' ? 'dt' : ''}">${esc(l)}</th>`).join('')}${E ? '<th class="x"><span class="sr">Remove</span></th>' : ''}</tr></thead>
+    <tbody>${body || `<tr><td colspan="${cols.length + (E ? 1 : 0)}" class="muted re-empty">${esc(o.empty || 'Nothing recorded yet.')}</td></tr>`}</tbody></table></div>
+    ${E ? `<button class="btn small" type="button" data-act="row-add">+ ${esc(o.add || 'Add a row')}</button>` : ''}</div>`;
+}
+const peopleList = () => {
+  const names = new Set(S.contacts.map(c => c.name).filter(Boolean));
+  sitesAll().forEach(s => { if (s.owner) names.add(s.owner); if (s.tsrBy) names.add(s.tsrBy); });
+  return `<datalist id="dl-people">${[...names].sort().map(n => `<option>${esc(n)}</option>`).join('')}</datalist>`;
+};
+const whoLineRec = r => r.updatedAt ? `Last changed ${ago(r.updatedAt)} by ${who(r.updatedBy).name}` : '';
+
+/* ---------- risk suggestions from the tracker ---------- */
+const impactFromGal = g => g >= 150000 ? 5 : g >= 60000 ? 4 : g >= 20000 ? 3 : g > 0 ? 2 : 1;
+function riskSuggestions() {
+  if (!S.data) return [];
+  const out = [], all = sitesAll(), seen = new Set();
+  const push = x => { if (!seen.has(x.key)) { seen.add(x.key); out.push(x); } };
+  for (const m of S.data.moves) {
+    const a = site(m.from), b = site(m.to); if (!a || !b) continue;
+    const exp = m.kind !== 'Possible', g = a.gal || 0, toAkzo = b.akzo === 'Akzo present';
+    push({ key: `move-${m.id}-supply`, cat: 'Volume transfer', sites: [a.id, b.id], L: exp ? 4 : 2, I: impactFromGal(g),
+      title: `${a.name} → ${b.name}: keeping supply right through the transfer`,
+      desc: `${exp ? 'Expected' : 'Possible'} volume move. ${a.name} used about ${fN(g)} gal of Akzo coatings in 2025. Moving lines can break color match, line settings and approved products at ${b.name}${toAkzo ? '' : ', where Akzo does not supply today'}.`,
+      mitigation: `Agree a transfer plan with both site teams: products and colors needed at ${b.name}, line trials and approvals before the first production run, and safety stock at both plants through the cut-over.`,
+      trigger: `Dates set for the last run at ${a.name} or the first run at ${b.name}.` });
+    if (!toAkzo && b.competitor && g > 0) push({ key: `move-${m.id}-share`, cat: 'Commercial / share', sites: [a.id, b.id], L: exp ? 4 : 3, I: impactFromGal(g),
+      title: `Volume moving to ${b.name} could go to ${b.competitor}`,
+      desc: `${b.name} is supplied mainly by ${b.competitor}. If ${a.name}'s volume follows the receiving plant's supplier, Akzo loses about ${fN(g)} gal a year.`,
+      mitigation: `Propose Akzo products for the transferred lines at ${b.name}, backed by the approvals and color standards already running at ${a.name}.`,
+      trigger: `The customer chooses a supplier for the new lines at ${b.name}.` });
+  }
+  for (const s of all) {
+    const m = M(s), g = s.gal || 0;
+    if (m.projUtil && m.projUtil[1] > 1) push({ key: `cap-over-${s.id}`, cat: 'Capacity', sites: [s.id], L: 3, I: Math.max(3, impactFromGal(g)),
+      title: `${s.name}: expected build is above its historical max`,
+      desc: `${fRange(m.lo, m.hi)} ${m.uLabel}/day expected against a max of ${fN(m.max)} (${fPct(m.projUtil[1])}). Extra shifts, Saturdays or a slower ramp change how much coating the plant needs and when.`,
+      mitigation: 'Confirm the ramp plan, shifts and timing with the plant, and size inventory and technical support to the new run rate.', trigger: 'The plant adds shifts or Saturday work.' });
+    else if (isNum(m.util) && m.util >= 0.95) push({ key: `cap-full-${s.id}`, cat: 'Capacity', sites: [s.id], L: 3, I: 3,
+      title: `${s.name} is running at ${fPct(m.util)} of its max`, desc: 'Little room to absorb transferred volume without extra shifts; delays or overtime at this plant change coating demand.',
+      mitigation: 'Ask the TSR how the plant would absorb more volume, and plan inventory for overtime weeks.', trigger: 'The plant announces overtime or delays.' });
+    if (s.status === 'Closure announced' && g > 0 && !S.data.moves.some(x => x.from === s.id)) push({ key: `close-${s.id}`, cat: 'Volume transfer', sites: [s.id], L: 4, I: impactFromGal(g),
+      title: `${s.name} is closing with no destination recorded for its volume`, desc: `About ${fN(g)} gal of Akzo volume a year (2025) has no recorded destination.`,
+      mitigation: 'Find out from the site team and purchasing where each line is going, then add the volume moves on the map.', trigger: 'Closure date or line-transfer plan announced.' });
+    if (s.status === 'Operating / Under Review' || s.status === 'Partial shutdown / reduction') push({ key: `review-${s.id}`, cat: 'Volume transfer', sites: [s.id], L: 3, I: impactFromGal(g),
+      title: `${s.name} is ${s.status === 'Partial shutdown / reduction' ? 'reducing output' : 'under review'}`, desc: `Akzo supplied about ${fN(g)} gal here in 2025. A decision could move or cut that volume.`,
+      mitigation: 'Keep close to the site team and purchasing on the review; prepare a plan for where the volume could go.', trigger: 'Review outcome or headcount changes announced.' });
+    if (s.opp === 'Risk') push({ key: `opp-${s.id}`, cat: 'Commercial / share', sites: [s.id], L: 3, I: impactFromGal(g),
+      title: `${s.name} is flagged as a risk for Akzo`, desc: s.intel || s.reason || 'Marked “Risk” under Opportunity / risk in the tracker.', mitigation: s.action || '', trigger: '' });
+  }
+  const taken = new Set(S.risks.map(r => r.source).filter(Boolean));
+  return out.filter(x => !taken.has(x.key) && !S.dismissed.has(dismissKey(x.key)));
+}
+function contactSuggestions() {
+  const have = new Set(S.contacts.map(c => norm(c.name))), out = new Map();
+  for (const s of sitesAll()) {
+    const add = (raw, func, why) => {
+      const nm = String(raw || '').trim(); if (nm.length < 3 || have.has(norm(nm))) return;
+      const k = norm(nm), e = out.get(k) || { name: nm, func, sites: [], why: [] };
+      if (!e.sites.includes(s.id)) e.sites.push(s.id);
+      e.why.push(`${why} at ${s.name}`); out.set(k, e);
+    };
+    if (s.tsrBy) add(s.tsrBy, 'Technical service (TSR)', 'TSR respondent');
+    for (const nm of String(s.owner || '').split(/[/,;&]| and /)) add(nm, 'Account / sales', 'Plant owner');
+  }
+  return [...out.values()].filter(e => !S.dismissed.has(dismissKey('poc-' + slug(e.name))));
+}
+
+/* ---------- Points of contact tab ---------- */
+function panelContacts() {
+  const P = S.poc, E = writable();
+  const views = [['directory', 'Directory'], ['coverage', 'Plant coverage'], ['escalation', 'Escalation path']];
+  const head = `<div class="panel-head"><div><h2>Points of contact</h2><p>Who to call at MasterBrand, American Woodmark and AkzoNobel, by plant, function and escalation level.${E ? ' Add people as you meet them; the team sees each change right away.' : ''}</p></div>
+    <div class="gridtools"><div class="seg" role="group" aria-label="View">${views.map(([k, l]) => `<button type="button" data-act="poc-view" data-v="${k}" aria-pressed="${P.view === k}">${l}</button>`).join('')}</div>
+    ${E ? '<button class="btn primary" type="button" data-act="rec-new" data-col="contacts">+ Add contact</button>' : ''}</div></div>`;
+  if (!live()) return head + `<div class="card empty-state">Contacts appear here when the app is connected to live data.</div>`;
+  return head + (P.view === 'coverage' ? pocCoverage() : P.view === 'escalation' ? pocEscalation() : pocDirectory());
+}
+function pocDirectory() {
+  const P = S.poc, q = norm(P.q), E = writable();
+  const list = S.contacts.filter(c => (P.org === 'all' || c.org === P.org) && (P.func === 'all' || c.func === P.func)
+    && (P.site === 'all' || c.sites.includes(P.site) || (!c.sites.length && (c.org === 'AkzoNobel' || c.org === site(P.site)?.company)))
+    && (!q || [c.name, c.title, c.func, c.email, c.phone, c.notes, c.level, scopeLabel(c)].some(x => norm(x).includes(q))));
+  const opt = (arr, v, all) => `<option value="all">${all}</option>` + arr.map(([k, l]) => `<option value="${esc(k)}"${k === v ? ' selected' : ''}>${esc(l)}</option>`).join('');
+  const tools = `<div class="gridtools poc-tools">
+      <input class="search" type="search" id="poc-q" placeholder="Find a name, title or plant" value="${esc(P.q)}" aria-label="Find a contact">
+      <select class="gsel" id="poc-org" aria-label="Organization">${opt(ORGS.map(o => [o, ORG_NAME[o]]), P.org, 'All organizations')}</select>
+      <select class="gsel" id="poc-func" aria-label="Function">${opt(FUNCS.map(f => [f, f]), P.func, 'All functions')}</select>
+      <select class="gsel" id="poc-site" aria-label="Plant">${opt([...sitesAll()].sort((a, b) => a.name.localeCompare(b.name)).map(s => [s.id, s.name]), P.site, 'All plants')}</select>
+      ${list.some(c => c.email) ? `<button class="btn" type="button" data-act="poc-copy">Copy ${list.filter(c => c.email).length} email${list.filter(c => c.email).length > 1 ? 's' : ''}</button>` : ''}</div>`;
+  const lvlIdx = c => { const i = LEVELS.indexOf(c.level); return i < 0 ? 9 : i; };
+  const card = c => `<article class="pcard">
+      <button class="pc-open" type="button" data-act="rec-open" data-col="contacts" data-id="${esc(c.id)}">${cAv(c)}
+        <span class="pc-main"><span class="pc-nm">${esc(c.name || 'Unnamed contact')}</span><span class="pc-tt">${esc([c.title, c.func].filter(Boolean).join(' · ') || 'No title yet')}</span><span class="pc-sc">${ICON.pin}${esc(scopeLabel(c))}</span></span>
+        ${c.level ? `<span class="pill ghost pc-lv">${esc(c.level)}</span>` : ''}</button>
+      ${c.email || c.phone ? `<div class="pc-links">${c.email ? `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : ''}${c.phone ? `<a href="${esc(telHref(c.phone))}">${esc(c.phone)}</a>` : ''}</div>` : ''}</article>`;
+  let body = '';
+  for (const o of ORGS) {
+    const rows = list.filter(c => (ORGS.includes(c.org) ? c.org : 'Other') === o).sort((a, b) => lvlIdx(a) - lvlIdx(b) || a.name.localeCompare(b.name));
+    if (rows.length) body += `<section class="pgroup"><h3><i style="background:${orgVar(o)}"></i>${esc(ORG_NAME[o])} <span class="muted">${rows.length}</span></h3><div class="pgrid">${rows.map(card).join('')}</div></section>`;
+  }
+  if (!S.contacts.length) body = `<div class="card empty-state"><b style="color:var(--ink)">No contacts yet.</b><br>Add the people the team works with: buyers, quality and plant leads at MBCI and AWC, and the AkzoNobel account and TSR owners for each plant.${E ? '<br><br><button class="btn primary" type="button" data-act="rec-new" data-col="contacts">+ Add the first contact</button>' : ''}</div>`;
+  else if (!body) body = `<div class="card empty-state">No contact matches these filters.</div>`;
+  const sug = contactSuggestions();
+  const sugHtml = sug.length ? `<div class="card sug"><div class="sug-h"><div><b>Names already in the tracker</b><span class="muted"> · ${sug.length} not in the directory yet</span></div></div>
+      ${sug.map(e => `<div class="sug-r two"><div><b>${esc(e.name)}</b><div class="muted">${esc(e.why.join('; '))}</div></div>
+        ${E ? `<div class="sug-b"><button class="btn small" type="button" data-act="poc-sug-add" data-name="${esc(e.name)}">Add as AkzoNobel contact</button><button class="btn small quiet" type="button" data-act="sug-dismiss" data-key="${esc('poc-' + slug(e.name))}">Not needed</button></div>` : ''}</div>`).join('')}</div>` : '';
+  return tools + body + sugHtml;
+}
+function pocCoverage() {
+  const E = writable(), all = [...sitesAll()].sort((a, b) => (a.company || 'z').localeCompare(b.company || 'z') || a.name.localeCompare(b.name));
+  const match = (s, col) => {
+    const org = col.org === 'cust' ? s.company : 'AkzoNobel';
+    const hits = S.contacts.filter(c => c.func === col.func && c.org === org);
+    return { direct: hits.filter(c => c.sites.includes(s.id)), wide: hits.filter(c => !c.sites.length), org };
+  };
+  const totals = COVER.map(() => 0);
+  const rows = all.map(s => `<tr><th scope="row"><button class="linkbtn" type="button" data-act="open-site" data-sid="${esc(s.id)}">${esc(s.name)}</button><div class="muted cov-co"><i style="background:${coVar(s.company)}"></i>${esc(s.company || 'TBD')}</div></th>
+    ${COVER.map((col, ci) => {
+      const m = match(s, col);
+      if (m.direct.length || m.wide.length) totals[ci]++;
+      const nm = (c, wide) => `<button class="cov-p${wide ? ' wide' : ''}" type="button" data-act="rec-open" data-col="contacts" data-id="${esc(c.id)}" title="${esc([c.title, wide ? 'covers all plants' : ''].filter(Boolean).join(' · '))}">${esc(c.name || 'Unnamed')}</button>`;
+      const inner = m.direct.map(c => nm(c)).join('') + m.wide.map(c => nm(c, 1)).join('');
+      const canAdd = E && (col.org !== 'cust' || ['MBCI', 'AWC'].includes(s.company));
+      return `<td class="${inner ? '' : 'cov-gap'}">${inner || '<span class="gapt">No one</span>'}${!inner && canAdd ? `<button class="cov-add" type="button" data-act="poc-add" data-sid="${esc(s.id)}" data-org="${esc(m.org)}" data-func="${esc(col.func)}" aria-label="Add ${esc(col.h)} for ${esc(s.name)}">+ Add</button>` : ''}</td>`;
+    }).join('')}</tr>`).join('');
+  const gaps = all.length * COVER.length - totals.reduce((a, b) => a + b, 0);
+  return `<p class="cov-intro">${gaps ? `<b>${gaps} gap${gaps > 1 ? 's' : ''}</b> across ${all.length} plants.` : 'Every plant has a name in every column.'} Names in <i>italics</i> cover all of that company's plants.${E ? ' Use <b>+ Add</b> to fill a gap.' : ''}</p>
+    <div class="tablewrap"><table class="t cov"><thead><tr><th>Plant</th>${COVER.map(c => `<th>${esc(c.h)}<span class="cov-side">${c.org === 'cust' ? 'Customer' : 'AkzoNobel'}</span></th>`).join('')}</tr></thead>
+    <tbody>${rows}</tbody><tfoot><tr><td>Covered</td>${totals.map(t => `<td class="num">${t} of ${all.length}</td>`).join('')}</tr></tfoot></table></div>`;
+}
+function pocEscalation() {
+  const cols = ORGS.filter(o => o !== 'Other' || S.contacts.some(c => c.org === 'Other'));
+  const levels = [...LEVELS, ''];
+  const cell = (o, lv) => {
+    const cs = S.contacts.filter(c => (ORGS.includes(c.org) ? c.org : 'Other') === o && (lv ? c.level === lv : !LEVELS.includes(c.level)));
+    return cs.length ? cs.map(c => `<button class="esc-p" type="button" data-act="rec-open" data-col="contacts" data-id="${esc(c.id)}"><b>${esc(c.name || 'Unnamed')}</b><span>${esc([c.title, c.sites.length ? sitesLabel(c.sites) : ''].filter(Boolean).join(' · '))}</span></button>`).join('') : '<span class="muted">—</span>';
+  };
+  return `<p class="cov-intro">Escalate one level at a time, matched with the same level on the other side. Set each person's level on their contact card.</p>
+    <div class="tablewrap"><table class="t esc"><thead><tr><th>Level</th>${cols.map(o => `<th><i style="background:${orgVar(o)}"></i>${esc(ORG_NAME[o])}</th>`).join('')}</tr></thead>
+    <tbody>${levels.filter(lv => lv || S.contacts.some(c => !LEVELS.includes(c.level))).map((lv, i) => `<tr><th scope="row">${lv ? `<span class="esc-n">${i + 1}</span>${esc(lv)}` : '<span class="muted">Level not set</span>'}</th>${cols.map(o => `<td>${cell(o, lv)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+
+/* ---------- Risks tab ---------- */
+function riskFilter(r, F, q, useCell) {
+  return (F.status === 'all' || (F.status === 'open' ? isOpenRisk(r) : r.status === 'Closed')) && (F.cat === 'all' || r.cat === F.cat) && (F.site === 'all' || r.sites.includes(F.site))
+    && (!useCell || !F.cell || `${r.L}-${r.I}` === F.cell) && (!q || [r.title, r.desc, r.owner, r.cat, r.mitigation, r.status, sitesLabel(r.sites)].some(x => norm(x).includes(q)));
+}
+function panelRisks() {
+  const F = S.riskF, E = writable(), q = norm(F.q), dl = !!S.caps.downloads;
+  const head = `<div class="panel-head"><div><h2>Risks and risk management</h2><p>Score each risk by likelihood × impact (1–25), plan how to reduce it, and track the actions. When a risk turns into a customer issue, start an 8D report from it and send the customer the Word form.</p></div>
+    <div class="gridtools">${dl ? '<button class="btn" type="button" data-act="d8-blank">Blank 8D form (Word)</button>' : ''}${E ? '<button class="btn primary" type="button" data-act="rec-new" data-col="risks">+ Add risk</button>' : ''}</div></div>`;
+  if (!live()) return head + `<div class="card empty-state">Risks appear here when the app is connected to live data.</div>`;
+  const open = S.risks.filter(isOpenRisk);
+  const heatSet = S.risks.filter(r => isOpenRisk(r) && r.L && r.I && riskFilter(r, { ...F, status: 'open' }, q, false));
+  const cnt = {}; heatSet.forEach(r => { const k = `${r.L}-${r.I}`; cnt[k] = (cnt[k] || 0) + 1; });
+  let heat = '<div class="heat" role="group" aria-label="Open risks by likelihood and impact. Pick a square to filter the list.">';
+  for (let L = 5; L >= 1; L--) {
+    heat += `<span class="hl"><b>${L}</b><span>${esc(L_LABEL[L])}</span></span>`;
+    for (let I = 1; I <= 5; I++) {
+      const k = `${L}-${I}`, n = cnt[k] || 0, rt = rRating(L * I);
+      heat += `<button type="button" class="hc${F.cell === k ? ' sel' : ''}${n ? ' has' : ''}" style="--c:${RATING_VAR[rt]}" data-act="heat-cell" data-c="${k}" aria-pressed="${F.cell === k}" aria-label="Likelihood ${L}, impact ${I}: ${n} open risk${n === 1 ? '' : 's'} (${rt})">${n || ''}</button>`;
+    }
+  }
+  heat += `<span></span>${[1, 2, 3, 4, 5].map(I => `<span class="hi"><b>${I}</b><span>${esc(I_LABEL[I])}</span></span>`).join('')}<span></span><span class="hx">Impact →</span></div>`;
+  const ch = open.filter(r => ['High', 'Critical'].includes(rRating(rScore(r))));
+  const odActs = open.reduce((a, r) => a + r.actions.filter(x => !x.done && overdue(x.due)).length, 0) + open.filter(r => overdue(r.due)).length;
+  const d8Open = S.d8s.filter(d => d.status !== 'Closed');
+  const unscored = open.filter(r => !rScore(r)).length;
+  const tiles = `<div class="rtiles">
+      <button class="kpi" type="button" data-act="rk-status" data-v="open"><span class="sec-label">Open risks</span><span class="v">${open.length}</span><span class="s">${unscored ? `${unscored} not scored yet` : `${S.risks.length - open.length} closed`}</span></button>
+      <div class="kpi"><span class="sec-label">Critical or high</span><span class="v" style="color:${ch.length ? 'var(--crit-ink)' : 'inherit'}">${ch.length}</span><span class="s">${ch.length ? esc(ch.slice(0, 2).map(r => r.title).join('; ')) : 'None right now'}</span></div>
+      <div class="kpi"><span class="sec-label">Overdue</span><span class="v" style="color:${odActs ? 'var(--crit-ink)' : 'inherit'}">${odActs}</span><span class="s">Actions and risk due dates past due</span></div>
+      <div class="kpi"><span class="sec-label">8D reports open</span><span class="v">${d8Open.length}</span><span class="s">${S.d8s.length - d8Open.length} closed</span></div></div>`;
+  const list = S.risks.filter(r => riskFilter(r, F, q, true)).sort((a, b) => (isOpenRisk(b) - isOpenRisk(a)) || rScore(b) - rScore(a) || (a.due || '9').localeCompare(b.due || '9'));
+  const opt = (arr, v, all) => `<option value="all">${all}</option>` + arr.map(([k, l]) => `<option value="${esc(k)}"${k === v ? ' selected' : ''}>${esc(l)}</option>`).join('');
+  const tools = `<div class="gridtools">
+      <input class="search" type="search" id="rk-q" placeholder="Find a risk, owner or plant" value="${esc(F.q)}" aria-label="Find a risk">
+      <select class="gsel" id="rk-status" aria-label="Status"><option value="open"${F.status === 'open' ? ' selected' : ''}>Open and active</option><option value="closed"${F.status === 'closed' ? ' selected' : ''}>Closed</option><option value="all"${F.status === 'all' ? ' selected' : ''}>All risks</option></select>
+      <select class="gsel" id="rk-cat" aria-label="Category">${opt(RISK_CATS.map(c => [c, c]), F.cat, 'All categories')}</select>
+      <select class="gsel" id="rk-site" aria-label="Plant">${opt([...sitesAll()].sort((a, b) => a.name.localeCompare(b.name)).map(s => [s.id, s.name]), F.site, 'All plants')}</select>
+      ${F.cell ? `<button class="btn small" type="button" data-act="heat-cell" data-c="${F.cell}">Likelihood ${F.cell.split('-')[0]} × impact ${F.cell.split('-')[1]} ×</button>` : ''}</div>`;
+  const rows = list.map(r => {
+    const d8 = r.d8 && recGet('eightd', r.d8);
+    const acts = r.actions.length ? `${r.actions.filter(a => a.done).length}/${r.actions.length} actions` : '';
+    return `<tr data-act="rec-open" data-col="risks" data-id="${esc(r.id)}"><td>${scoreBadge(r)}</td>
+      <td class="rk-t"><b>${esc(r.title || 'Untitled risk')}</b><div class="muted">${esc([sitesLabel(r.sites), acts].filter(Boolean).join(' · ') || '—')}${d8 ? ` · <span class="d8tag">${esc(d8.num || '8D')}</span>` : ''}</div></td>
+      <td>${esc(r.cat || '—')}</td><td>${esc(r.owner || '—')}</td><td class="${isOpenRisk(r) && overdue(r.due) ? 'od' : ''}">${r.due ? esc(fDate(r.due)) : '—'}</td><td>${riskStatusPill(r.status)}</td></tr>`;
+  }).join('');
+  const reg = S.risks.length
+    ? `<div class="tablewrap"><table class="t rk"><thead><tr><th>Score</th><th>Risk</th><th>Category</th><th>Owner</th><th>Due</th><th>Status</th></tr></thead><tbody>${rows || `<tr><td colspan="6" class="empty-state">No risk matches these filters.</td></tr>`}</tbody></table></div>`
+    : `<div class="card empty-state"><b style="color:var(--ink)">No risks in the register yet.</b><br>Start from the suggestions below, which come from the tracker data, or add your own.</div>`;
+  const sug = riskSuggestions(), sugOpen = S.sugOpen ?? !S.risks.length;
+  const sugHtml = sug.length ? `<div class="card sug"><div class="sug-h"><button class="sug-tg" type="button" data-act="sug-toggle" aria-expanded="${sugOpen}"><span class="chev">${sugOpen ? '▾' : '▸'}</span><b>Suggested from the tracker</b><span class="muted"> · ${sug.length} risk${sug.length > 1 ? 's' : ''} found in the plant data</span></button>
+      ${E && sugOpen && sug.length > 1 ? '<button class="btn small" type="button" data-act="sug-add-all">Add all to the register</button>' : ''}</div>
+      ${sugOpen ? sug.map(x => `<div class="sug-r">${scoreBadge(x)}<div><b>${esc(x.title)}</b><div class="muted">${esc(x.cat)} · ${esc(sitesLabel(x.sites))}</div><p>${esc(x.desc)}</p></div>
+        ${E ? `<div class="sug-b"><button class="btn small" type="button" data-act="sug-add" data-key="${esc(x.key)}">Add to register</button><button class="btn small quiet" type="button" data-act="sug-dismiss" data-key="${esc(x.key)}">Not relevant</button></div>` : ''}</div>`).join('') : ''}</div>` : '';
+  const d8rows = [...S.d8s].sort((a, b) => (a.status === 'Closed') - (b.status === 'Closed') || String(b.opened).localeCompare(String(a.opened)));
+  const d8Html = d8rows.length ? `<div class="panel-head" style="margin-top:4px"><div><h2 style="font-size:19px">8D reports</h2><p>Problem-solving reports for customer issues. Open one to fill it in; download it as a Word file to share with the customer.</p></div></div>
+    <div class="card d8list">${d8rows.map(d => { const n = F8().SECTIONS.filter(s => F8().done(d, s.k)).length; return `<div class="d8r"><button class="d8r-open" type="button" data-act="d8-open" data-id="${esc(d.id)}"><span class="d8r-num">${esc(d.num || '8D')}</span><span class="d8r-t"><b>${esc(d.title || 'Untitled')}</b><span class="muted">${esc([d.customer, d.custPlant, d.opened ? 'opened ' + fDate(d.opened) : ''].filter(Boolean).join(' · '))}</span></span>
+      <span class="d8prog" aria-label="${n} of 9 steps written">${F8().SECTIONS.map(s => `<i class="${F8().done(d, s.k) ? 'ok' : ''}" title="${s.n}"></i>`).join('')}</span>${d8StatusPill(d.status)}</button>
+      ${dl ? `<button class="btn small" type="button" data-act="d8-word" data-id="${esc(d.id)}">Word</button>` : ''}</div>`; }).join('')}</div>` : '';
+  return `${head}<div class="rtop"><div class="card pad heatcard"><div class="sec-label" style="margin-bottom:10px">Open risks by likelihood × impact</div>${heat}
+      <div class="heat-leg">${['Low', 'Medium', 'High', 'Critical'].map(k => `<span><i style="background:${RATING_VAR[k]}"></i>${k}</span>`).join('')}</div></div>${tiles}</div>
+    ${tools}${reg}${sugHtml}${d8Html}`;
+}
+
+/* ---------- plant drawer sections ---------- */
+function plantRecSections(s) {
+  if (!live()) return '';
+  const E = writable();
+  const cs = S.contacts.filter(c => c.sites.includes(s.id)), wide = S.contacts.filter(c => !c.sites.length && (c.org === 'AkzoNobel' || c.org === s.company));
+  const cRow = (c, w) => `<li><button class="prow" type="button" data-act="rec-open" data-col="contacts" data-id="${esc(c.id)}">${cAv(c)}<span><b>${esc(c.name || 'Unnamed contact')}</b><span class="muted">${esc([c.title || c.func, ORG_NAME[c.org], w ? 'all plants' : ''].filter(Boolean).join(' · '))}</span></span></button>${c.email ? `<a class="iconbtn" href="mailto:${esc(c.email)}" aria-label="Email ${esc(c.name)}" title="${esc(c.email)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>` : ''}</li>`;
+  const rs = S.risks.filter(r => isOpenRisk(r) && r.sites.includes(s.id)).sort((a, b) => rScore(b) - rScore(a));
+  return `<div class="dr-sec"><h3>Points of contact${cs.length + wide.length ? ` · ${cs.length + wide.length}` : ''}${E ? `<button class="btn small" type="button" data-act="poc-add" data-sid="${esc(s.id)}" data-org="${esc(['MBCI', 'AWC'].includes(s.company) ? s.company : 'Other')}" data-func="">+ Add</button>` : ''}</h3>
+      ${cs.length + wide.length ? `<ul class="plist">${cs.map(c => cRow(c)).join('')}${wide.map(c => cRow(c, 1)).join('')}</ul>` : '<p class="para empty">No contacts for this plant yet.</p>'}</div>
+    <div class="dr-sec"><h3>Open risks${rs.length ? ` · ${rs.length}` : ''}${E ? `<button class="btn small" type="button" data-act="rec-new" data-col="risks" data-sid="${esc(s.id)}">+ Add</button>` : ''}</h3>
+      ${rs.length ? `<ul class="plist">${rs.map(r => `<li><button class="prow" type="button" data-act="rec-open" data-col="risks" data-id="${esc(r.id)}">${scoreBadge(r)}<span><b>${esc(r.title || 'Untitled risk')}</b><span class="muted">${esc([r.status, r.owner].filter(Boolean).join(' · '))}</span></span></button></li>`).join('')}</ul>` : '<p class="para empty">No open risks recorded for this plant.</p>'}</div>`;
+}
+function riskTipLine(s) {
+  const rs = S.risks.filter(r => isOpenRisk(r) && r.sites.includes(s.id)); if (!rs.length) return '';
+  const top = Math.max(...rs.map(rScore));
+  return `<div class="r"><span>Open risks</span><b>${rs.length}${top ? ` · highest ${esc(rRating(top))}` : ''}</b></div>`;
+}
+ENC.risk = {
+  key: s => { const top = S.risks.filter(r => isOpenRisk(r) && r.sites.includes(s.id)).reduce((m, r) => Math.max(m, rScore(r)), 0); return top ? rRating(top) : 'None'; },
+  items: [['Critical', 'var(--crit)'], ['High', 'var(--serious)'], ['Medium', 'var(--warn)'], ['Low', 'var(--good)'], ['None', 'var(--tbd)', 'No open risk']],
+};
+
+/* ---------- contact / risk drawer ---------- */
+function renderRec() {
+  const d = $('#recdrawer'), sc = $('#scrim');
+  const R = S.rec, r = R ? recGet(R.col, R.id) : null;
+  if (!r) { d.hidden = true; d.innerHTML = ''; return; }
+  d.hidden = false; sc.hidden = !narrow();
+  const E = S.editing && writable();
+  const editBtn = !writable() ? '' : E ? '<button class="btn small" type="button" data-act="edit-toggle">Done</button>' : `<button class="iconbtn" type="button" data-act="edit-toggle" aria-label="Edit" title="Edit">${ICON.edit}</button>`;
+  const x = `<div class="x">${editBtn}<button class="iconbtn" type="button" data-act="close-drawer" aria-label="Close">${ICON.x}</button></div>`;
+  const wl = whoLineRec(r);
+  const del = !E ? '' : `<div class="dr-sec">${S.confirmRecDelete ? `<div class="confirm"><span>Delete <b>${esc(recName(R.col, r))}</b> for everyone? You can restore it from Activity.</span><button class="btn small danger" type="button" data-act="rec-del-confirm">Delete</button><button class="btn small" type="button" data-act="rec-del-cancel">Keep it</button></div>`
+    : `<button class="btn small danger" type="button" data-act="rec-del">Delete this ${COL_NOUN[R.col]}</button>`}</div>`;
+  let top, body;
+  if (R.col === 'contacts') {
+    const c = r;
+    top = `<div class="dr-top"><div class="dr-kick"><i style="background:${orgVar(c.org)}"></i>${esc(ORG_NAME[c.org] || 'Organization not set')}</div>${x}
+      <h2>${esc(c.name || 'Unnamed contact')}</h2><div class="rg">${esc([c.title, c.func].filter(Boolean).join(' · ') || 'No title yet')}</div>
+      ${c.level ? `<div class="pills"><span class="pill ghost">${esc(c.level)}</span></div>` : ''}${wl ? `<div class="dr-who">${esc(wl)}</div>` : ''}</div>`;
+    const owned = S.risks.filter(rk => isOpenRisk(rk) && c.name && norm(rk.owner) === norm(c.name));
+    body = !E ? `<div class="dr-sec"><h3>Reach them</h3><dl class="kv"><dt>Email</dt><dd class="${c.email ? '' : 'empty'}">${c.email ? `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : '—'}</dd><dt>Phone</dt><dd class="${c.phone ? '' : 'empty'}">${c.phone ? `<a href="${esc(telHref(c.phone))}">${esc(c.phone)}</a>` : '—'}</dd></dl>
+        ${c.email ? `<div style="margin-top:10px"><button class="btn small" type="button" data-act="copy-text" data-text="${esc(c.email)}">Copy email</button></div>` : ''}</div>
+      <div class="dr-sec"><h3>Plants</h3>${c.sites.length ? `<div class="chips">${c.sites.map(id => site(id) ? `<button class="chip" type="button" data-act="open-site" data-sid="${esc(id)}">${esc(site(id).name)}</button>` : '').join('')}</div>` : `<p class="para">${esc(scopeLabel(c))} (company-wide)</p>`}</div>
+      <div class="dr-sec"><h3>Notes</h3><p class="para${c.notes ? '' : ' empty'}">${esc(c.notes || 'Nothing recorded yet.')}</p></div>
+      ${owned.length ? `<div class="dr-sec"><h3>Risks they own</h3><ul class="plist">${owned.map(rk => `<li><button class="prow" type="button" data-act="rec-open" data-col="risks" data-id="${esc(rk.id)}">${scoreBadge(rk)}<span><b>${esc(rk.title)}</b><span class="muted">${esc(rk.status)}</span></span></button></li>`).join('')}</ul></div>` : ''}`
+      : `<div class="dr-sec"><h3>Contact <span class="savestate" id="dr-save">${S.saving ? 'Saving…' : 'Saves as you go'}</span></h3><div class="form">
+        ${rf.text('Name', 'name', c.name, { wide: 1 })}${rf.sel('Organization', 'org', c.org, ORGS)}${rf.text('Job title', 'title', c.title)}
+        ${rf.sel('Function', 'func', c.func, FUNCS)}${rf.sel('Escalation level', 'level', c.level, LEVELS)}
+        ${rf.text('Email', 'email', c.email, { type: 'email' })}${rf.text('Phone', 'phone', c.phone, { type: 'tel' })}</div></div>
+      <div class="dr-sec"><div class="form">${sitePicker('sites', c.sites, 'Tick the plants this person covers. Leave all unticked if they cover every plant of their company.')}</div></div>
+      <div class="dr-sec"><div class="form">${rf.area('Notes', 'notes', c.notes, { ph: 'Responsibilities, how they like to be contacted, history with Akzo…' })}</div></div>${del}`;
+  } else {
+    const k = r, sc2 = rScore(k), rt = rRating(sc2), d8 = k.d8 && recGet('eightd', k.d8);
+    top = `<div class="dr-top"><div class="dr-kick"><i style="background:${RATING_VAR[rt]}"></i>${esc(k.cat || 'Risk')}</div>${x}
+      <h2>${esc(k.title || 'Untitled risk')}</h2><div class="rg">${esc(sitesLabel(k.sites) || 'No plant linked')}</div>
+      <div class="pills">${scoreBadge(k)}${riskStatusPill(k.status)}${k.response ? `<span class="pill ghost">${esc(k.response)}</span>` : ''}</div>${wl ? `<div class="dr-who">${esc(wl)}</div>` : ''}</div>`;
+    const mini = `<div class="minimat" aria-hidden="true">${[5, 4, 3, 2, 1].map(L => [1, 2, 3, 4, 5].map(I => `<i style="--c:${RATING_VAR[rRating(L * I)]}" class="${k.L === L && k.I === I ? 'on' : ''}"></i>`).join('')).join('')}</div>`;
+    const assess = `<div class="assess">${mini}<dl class="kv"><dt>Likelihood</dt><dd class="${k.L ? '' : 'empty'}">${k.L ? `${k.L} · ${esc(L_LABEL[k.L])}` : 'Not scored'}</dd><dt>Impact</dt><dd class="${k.I ? '' : 'empty'}">${k.I ? `${k.I} · ${esc(I_LABEL[k.I])}` : 'Not scored'}</dd><dt>Score</dt><dd>${sc2 ? `${sc2} of 25 · ${esc(rt)}` : '—'}</dd></dl></div>`;
+    const d8sec = `<div class="dr-sec"><h3>8D report</h3>${d8 ? `<div class="d8card"><div><b>${esc(d8.num || '8D')}</b> · ${esc(d8.status || 'Open')}<div class="d8prog">${F8().SECTIONS.map(s => `<i class="${F8().done(d8, s.k) ? 'ok' : ''}" title="${s.n}"></i>`).join('')}</div></div>
+        <div class="d8card-b"><button class="btn small primary" type="button" data-act="d8-open" data-id="${esc(d8.id)}">Open 8D</button>${S.caps.downloads ? `<button class="btn small" type="button" data-act="d8-word" data-id="${esc(d8.id)}">Download Word</button>` : ''}</div></div>`
+      : `<p class="para" style="color:var(--ink-2)">When this risk turns into a customer complaint or quality issue, start an 8D report. It carries the plants and owner over; you write the problem the way the customer sees it.</p>${writable() ? `<div style="margin-top:10px"><button class="btn small primary" type="button" data-act="d8-start">Start an 8D report</button></div>` : ''}`}</div>`;
+    if (!E) {
+      const acts = k.actions.length ? `<ul class="ract">${k.actions.map(a => `<li class="${a.done ? 'done' : ''}"><span class="ck" aria-label="${a.done ? 'Done' : 'Not done'}">${a.done ? '✓' : ''}</span><span>${esc(a.t || 'Action')}<span class="muted">${esc([a.owner, a.due ? 'due ' + fDate(a.due) : ''].filter(Boolean).join(' · '))}${!a.done && overdue(a.due) ? ' · <b class="odt">overdue</b>' : ''}</span></span></li>`).join('')}</ul>` : '<p class="para empty">No actions yet.</p>';
+      body = `<div class="dr-sec"><h3>Assessment</h3>${assess}</div>
+        <div class="dr-sec"><h3>What could happen</h3><p class="para${k.desc ? '' : ' empty'}">${esc(k.desc || 'Not described yet.')}</p></div>
+        <div class="dr-sec"><h3>Plan to reduce it</h3><p class="para${k.mitigation ? '' : ' empty'}">${esc(k.mitigation || 'No plan yet.')}</p><div style="margin-top:12px"><span class="sec-label" style="display:block;margin-bottom:8px">Actions</span>${acts}</div></div>
+        <div class="dr-sec"><h3>If it happens</h3><p class="para${k.contingency ? '' : ' empty'}">${esc(k.contingency || 'No contingency recorded.')}</p></div>
+        <div class="dr-sec"><h3>Early-warning sign</h3><p class="para${k.trigger ? '' : ' empty'}">${esc(k.trigger || 'None recorded.')}</p></div>
+        <div class="dr-sec"><h3>Ownership</h3>${kv([['Owner', k.owner], ['Due', k.due ? fDate(k.due) + (isOpenRisk(k) && overdue(k.due) ? ' (overdue)' : '') : ''], ['Last reviewed', k.reviewed ? fDate(k.reviewed) : ''], ['Raised', k.createdAt ? `${fDate(k.createdAt)} by ${who(k.createdBy).name}` : '']])}
+          ${k.sites.length ? `<div class="chips" style="margin-top:12px">${k.sites.map(id => site(id) ? `<button class="chip" type="button" data-act="open-site" data-sid="${esc(id)}">${esc(site(id).name)}</button>` : '').join('')}</div>` : ''}</div>${d8sec}`;
+    } else {
+      const pick = (f, labels, help) => `<div class="fld wide"><span>${f === 'L' ? 'Likelihood' : 'Impact'}</span><div class="lvlpick" role="group" aria-label="${f === 'L' ? 'Likelihood' : 'Impact'}">${[1, 2, 3, 4, 5].map(v => `<button type="button" data-act="rk-set" data-f="${f}" data-v="${v}" aria-pressed="${k[f] === v}"><b>${v}</b>${esc(labels[v])}</button>`).join('')}</div><small class="hint">${esc(k[f] ? help[k[f]] : 'Pick 1 to 5.')}</small></div>`;
+      body = `<div class="dr-sec"><h3>Risk <span class="savestate" id="dr-save">${S.saving ? 'Saving…' : 'Saves as you go'}</span></h3><div class="form">
+          ${rf.text('Title', 'title', k.title, { wide: 1 })}${rf.sel('Category', 'cat', k.cat, RISK_CATS)}${rf.sel('Status', 'status', k.status, RISK_STATUS)}
+          ${rf.sel('Response', 'response', k.response, RESPONSES)}${rf.text('Owner', 'owner', k.owner, { list: 'dl-people' })}
+          ${rf.text('Due', 'due', k.due, { type: 'date' })}<label class="fld"><span>Last reviewed</span><span class="inrow"><input type="date" data-rf="reviewed" value="${esc(k.reviewed)}"><button class="btn small" type="button" data-act="rk-reviewed">Today</button></span></label></div></div>
+        <div class="dr-sec"><h3>Assessment · ${sc2 ? `${sc2} ${esc(rt)}` : 'not scored'}</h3><div class="form">${pick('L', L_LABEL, L_HELP)}${pick('I', I_LABEL, I_HELP)}</div></div>
+        <div class="dr-sec"><div class="form">${sitePicker('sites', k.sites)}</div></div>
+        <div class="dr-sec"><div class="form">${rf.area('What could happen', 'desc', k.desc, { ph: 'The event, what causes it, and what it would do to Akzo and the customer' })}${rf.area('Plan to reduce it', 'mitigation', k.mitigation)}</div>
+          <div style="margin-top:12px"><span class="sec-label" style="display:block;margin-bottom:8px">Actions</span>${rowsEd('actions', k.actions, true, { add: 'Add an action', empty: 'No actions yet.' })}</div></div>
+        <div class="dr-sec"><div class="form">${rf.area('If it happens (contingency)', 'contingency', k.contingency, { rows: 2 })}${rf.area('Early-warning sign', 'trigger', k.trigger, { rows: 2 })}</div></div>${d8sec}${del}`;
+    }
+  }
+  d.innerHTML = `${top}<div class="dr-body" data-ctx="rec" data-rec="${R.col}:${esc(r.id)}">${body}</div>${peopleList()}`;
+}
+function openRec(col, id, focusField) {
+  S.rec = { col, id }; S.drawerOpen = false; S.confirmRecDelete = false; hideTip();
+  renderAll();
+  setTimeout(() => {
+    const f = focusField && $(`#recdrawer [data-rf="${focusField}"]`);
+    if (f) { f.focus(); if (f.select) f.select(); } else $('#recdrawer [data-act="close-drawer"]')?.focus({ preventScroll: true });
+  }, 30);
+}
+
+/* ---------- 8D editor ---------- */
+function next8DNum() {
+  const y = new Date().getFullYear();
+  const n = S.d8s.map(d => String(d.num).match(new RegExp(`^8D-${y}-(\\d+)$`))).filter(Boolean).reduce((m, x) => Math.max(m, +x[1]), 0);
+  return `8D-${y}-${String(n + 1).padStart(3, '0')}`;
+}
+function start8D(r) {
+  if (r.d8 && recGet('eightd', r.d8)) return open8D(r.d8);
+  const plants = r.sites.map(site).filter(Boolean), cos = [...new Set(plants.map(s => s.company))];
+  // Title and problem statement start blank: the risk wording is internal, and everything in the 8D goes to the customer.
+  const body = { num: next8DNum(), title: '', status: 'Open', riskId: r.id, customer: cos.length === 1 ? coName(cos[0]) : '', custPlant: plants.map(s => s.name + (s.region ? ', ' + s.region : '')).join('; '),
+    opened: today(), champion: r.owner, team: r.owner ? [{ name: r.owner, org: 'AkzoNobel', role: '8D champion', contact: '' }] : [] };
+  const made = recAdd('eightd', body, { label: `for the risk “${r.title || 'Untitled risk'}”` });
+  if (!made) return;
+  editRec('risks', r, { d8: made.id, ...(isOpenRisk(r) ? { status: 'Issue · 8D open' } : {}) });
+  S.editing = true; S.d8return = S.rec; S.rec = null; open8D(made.id, 'title');
+}
+function open8D(id, focusField) {
+  S.d8open = id; S.confirmD8Delete = false; renderAll();
+  setTimeout(() => { const f = focusField && $(`#d8 [data-rf="${focusField}"]`); if (f) f.focus(); else $('#d8 [data-act="d8-close"]')?.focus({ preventScroll: true }); }, 30);
+}
+function close8D() {
+  const back = S.d8return; S.d8open = null; S.d8return = null; S.confirmD8Delete = false;
+  if (back && recGet(back.col, back.id)) S.rec = back;
+  renderAll();
+}
+function renderD8() {
+  const el = $('#d8'), d = S.d8open ? recGet('eightd', S.d8open) : null;
+  document.body.classList.toggle('d8-on', !!d);
+  if (!d) { el.hidden = true; el.innerHTML = ''; return; }
+  el.hidden = false;
+  const E = S.editing && writable(), ro = !E, F = F8();
+  const n = F.SECTIONS.filter(s => F.done(d, s.k)).length;
+  const sec = s => `<section class="d8-sec" id="d8-${s.k}"><h3><span class="d8-n${F.done(d, s.k) ? ' ok' : ''}">${s.n}</span>${esc(s.t)}</h3><p class="d8-g">${esc(s.g)}</p>`;
+  const T = (label, f, v, o = {}) => rf.text(label, f, v, { ...o, ro });
+  const A = (label, f, v, o = {}) => rf.area(label, f, v, { ...o, ro });
+  const risk = d.riskId && recGet('risks', d.riskId);
+  const customers = [...new Set(['MasterBrand (MBCI)', 'American Woodmark (AWC)', ...S.d8s.map(x => x.customer).filter(Boolean)])];
+  const lists = `<datalist id="dl-cust">${customers.map(c => `<option>${esc(c)}</option>`).join('')}</datalist><datalist id="dl-plants">${sitesAll().map(s => `<option>${esc(s.name + (s.region ? ', ' + s.region : ''))}</option>`).join('')}</datalist>${peopleList()}`;
+  const body = `
+    <section class="d8-sec" id="d8-info"><h3><span class="d8-n info">i</span>Report details</h3><div class="form f3">
+      ${T('Problem title (the customer sees this)', 'title', d.title, { wide: 1, ph: 'The customer issue in a few words, e.g. Orange peel on door panels, Line 3' })}${rf.sel('Status', 'status', d.status, F.STATUS, { ro })}${T('Customer', 'customer', d.customer, { list: 'dl-cust' })}${T('Customer plant', 'custPlant', d.custPlant, { list: 'dl-plants' })}
+      ${T('Customer reference / complaint no.', 'custRef', d.custRef)}${T('Product / code', 'product', d.product)}${T('Batch / lot numbers', 'lots', d.lots)}${T('AkzoNobel supplying site', 'akzoSite', d.akzoSite)}
+      ${T('Date opened', 'opened', d.opened, { type: 'date' })}${T('Target closure', 'target', d.target, { type: 'date' })}${T('Date closed', 'closed', d.closed, { type: 'date' })}
+      ${T('8D champion', 'champion', d.champion, { list: 'dl-people' })}${T('Team leader', 'leader', d.leader, { list: 'dl-people' })}</div>
+      ${risk ? `<div class="d8-risk"><span>Started from the risk <button class="linkbtn" type="button" data-act="rec-open" data-col="risks" data-id="${esc(risk.id)}">${esc(risk.title || 'Untitled risk')}</button>. The risk stays inside the app and is not in the Word file.</span>${risk.desc ? `<span class="muted">Risk notes for reference: ${esc(risk.desc)}</span>` : ''}</div>` : ''}</section>
+    ${sec(F.SECTIONS[0])}<div class="form">${A('Symptoms and emergency response actions', 'd0', d.d0, { rows: 4 })}</div></section>
+    ${sec(F.SECTIONS[1])}${rowsEd('team', d.team, E, { add: 'Add a team member', empty: 'No team members yet.' })}</section>
+    ${sec(F.SECTIONS[2])}<div class="form">${A('Problem statement', 'd2.statement', d.d2.statement, { rows: 3, ph: 'What is wrong with what, measured how?' })}
+      ${F.W2H.map(([k, l, hint]) => A(l, 'd2.' + k, d.d2[k], { rows: 2, half: 1, ph: hint })).join('')}
+      ${A('Is / Is not', 'd2.isnot', d.d2.isnot, { rows: 3, ph: 'Where the problem is, and where it could be but is not (lines, products, batches, dates)' })}</div></section>
+    ${sec(F.SECTIONS[3])}${rowsEd('d3', d.d3, E, { add: 'Add a containment action', empty: 'No containment actions yet.' })}<div class="form" style="margin-top:12px">${A('How the containment was verified', 'd3v', d.d3v, { rows: 2 })}</div></section>
+    ${sec(F.SECTIONS[4])}<div class="form whys">${[1, 2, 3, 4, 5].map(i => T(`Why ${i}?`, 'd4.w' + i, d.d4['w' + i], { wide: 1 })).join('')}</div>
+      <div class="form" style="margin-top:12px">${A('Root cause of the occurrence', 'd4.occ', d.d4.occ, { rows: 3 })}${A('Escape point: why it was not detected', 'd4.esc', d.d4.esc, { rows: 3 })}
+      ${T('Analysis method', 'd4.method', d.d4.method, { ph: '5 Whys, fishbone, fault tree…' })}${T('How the root cause was verified', 'd4.verify', d.d4.verify)}</div></section>
+    ${sec(F.SECTIONS[5])}${rowsEd('d5', d.d5, E, { add: 'Add a corrective action', empty: 'No corrective actions yet.' })}</section>
+    ${sec(F.SECTIONS[6])}${rowsEd('d6', d.d6, E, { add: 'Add an action', empty: 'Nothing put in place yet.' })}<div class="form" style="margin-top:12px">${A('Validation evidence', 'd6v', d.d6v, { rows: 2, ph: 'Data showing the fix works over time' })}</div></section>
+    ${sec(F.SECTIONS[7])}${rowsEd('d7', d.d7, E, { add: 'Add a preventive action', empty: 'No preventive actions yet.' })}<div class="form" style="margin-top:12px">${A('Lessons learned and where else they apply', 'lessons', d.lessons, { rows: 3 })}</div></section>
+    ${sec(F.SECTIONS[8])}<div class="form">${A('Team recognition and closing comments', 'd8.recognition', d.d8.recognition, { rows: 2 })}
+      ${T('Customer sign-off: name', 'd8.custName', d.d8.custName)}${T('Customer sign-off: date', 'd8.custDate', d.d8.custDate, { type: 'date' })}
+      ${T('AkzoNobel sign-off: name', 'd8.akzoName', d.d8.akzoName, { list: 'dl-people' })}${T('AkzoNobel sign-off: date', 'd8.akzoDate', d.d8.akzoDate, { type: 'date' })}</div></section>
+    <p class="d8-foot"><b>Write this for the customer.</b> The Word file holds only these 8D fields, never the app's sales, capacity or risk-register figures, so keep internal numbers out of the boxes above. The customer can type straight into the file.</p>
+    ${E ? `<div class="d8-del">${S.confirmD8Delete ? `<div class="confirm"><span>Delete <b>${esc(d.num || 'this 8D report')}</b> for everyone? You can restore it from Activity.</span><button class="btn small danger" type="button" data-act="d8-del-confirm">Delete</button><button class="btn small" type="button" data-act="d8-del-cancel">Keep it</button></div>` : '<button class="btn small danger" type="button" data-act="d8-del">Delete this 8D report</button>'}</div>` : ''}`;
+  el.innerHTML = `<div class="d8-in${ro ? ' ro' : ''}" role="dialog" aria-modal="true" aria-labelledby="d8-title">
+    <header class="d8-head"><div class="d8-top"><div><div class="d8-kick">AkzoNobel · 8D problem solving report</div><h2 id="d8-title">${esc(d.num || '8D')} · ${esc(d.title || 'Untitled problem')}</h2></div>
+      <div class="d8-x">${S.caps.downloads ? `<button class="btn small" type="button" data-act="d8-word" data-id="${esc(d.id)}">Download Word</button>` : ''}${writable() ? `<button class="btn small${E ? ' on' : ''}" type="button" data-act="edit-toggle">${E ? 'Done editing' : 'Edit'}</button>` : ''}<button class="iconbtn" type="button" data-act="d8-close" aria-label="Close the 8D report">${ICON.x}</button></div></div>
+      <nav class="d8-steps" aria-label="8D steps">${F.SECTIONS.map(s => `<button type="button" class="${F.done(d, s.k) ? 'ok' : ''}" data-act="d8-jump" data-k="${s.k}" title="${esc(s.t)}">${s.n}</button>`).join('')}<span class="d8-cnt">${n} of 9 steps written${E ? ' · saves as you go' : ''}</span></nav></header>
+    <div class="d8-body" data-ctx="d8" data-rec="eightd:${esc(d.id)}">${body}</div>${lists}</div>`;
+}
+async function save8DWord(d) {
+  const dl = S.caps.downloads;
+  if (!dl) { toast('Downloads are not available in this view.'); return; }
+  const me = who(S.userId).name, by = ['You', 'Someone', 'A teammate'].includes(me) ? '' : me;
+  let bytes;
+  try { bytes = F8().docx(d ? ensureD8(clone(d)) : null, { by, today: today(), fmtDate: fDate }); }
+  catch (e) { console.error(e); toast('The Word file could not be built.', 5000); return; }
+  const filename = d ? `${fileSafe(d.num || '8D')}_${fileSafe(d.title)}.docx` : 'AkzoNobel_8D_Form.docx';
+  try { await dl.save({ filename, data: new Blob([bytes], { type: DOCX_MIME }) }); toast('Word file saved.'); }
+  catch (e) { if (e?.code !== 'declined') toast(e?.code === 'rate_limited' ? 'A save prompt is already open.' : 'The file could not be saved in this view.', 4000); }
+}
+
+/* ---------- activity rows for contacts, risks and 8Ds ---------- */
+const REC_LABEL = {
+  contacts: { name: 'Name', org: 'Organization', title: 'Job title', func: 'Function', level: 'Escalation level', sites: 'Plants', email: 'Email', phone: 'Phone', notes: 'Notes' },
+  risks: { title: 'Title', desc: 'What could happen', cat: 'Category', status: 'Status', response: 'Response', L: 'Likelihood', I: 'Impact', owner: 'Owner', due: 'Due', reviewed: 'Last reviewed', mitigation: 'Plan', contingency: 'Contingency', trigger: 'Early-warning sign', sites: 'Plants', actions: 'Actions', d8: '8D report' },
+  eightd: { title: 'Title', status: 'Status', customer: 'Customer', custPlant: 'Customer plant', custRef: 'Customer reference', product: 'Product', lots: 'Batch / lots', akzoSite: 'AkzoNobel site', opened: 'Date opened', target: 'Target closure', closed: 'Date closed', champion: 'Champion', leader: 'Team leader',
+    d0: 'D0 response', team: 'D1 team', 'd2.statement': 'D2 problem statement', d3: 'D3 containment', d3v: 'D3 verification', 'd4.occ': 'D4 root cause', 'd4.esc': 'D4 escape point', d5: 'D5 corrective actions', d6: 'D6 actions', d6v: 'D6 validation', d7: 'D7 preventive actions', lessons: 'D7 lessons learned', 'd8.recognition': 'D8 recognition' },
+};
+const recLabel = (col, f) => REC_LABEL[col]?.[f] || (f.startsWith('d2.') ? 'D2 ' + f.slice(3) : f.startsWith('d4.') ? 'D4 ' + f.slice(3) : f.startsWith('d8.') ? 'D8 ' + f.slice(3) : f);
+function recVal(col, f, v) {
+  if (v == null || v === '' || (Array.isArray(v) && !v.length)) return '(blank)';
+  if (f === 'sites') return sitesLabel(v);
+  if (Array.isArray(v)) return `${v.length} row${v.length > 1 ? 's' : ''}`;
+  if (f === 'L') return `${v} · ${L_LABEL[v] || ''}`;
+  if (f === 'I') return `${v} · ${I_LABEL[v] || ''}`;
+  if (f === 'd8') return recGet('eightd', v)?.num || 'linked';
+  if (/^\d{4}-\d{2}-\d{2}$/.test(String(v))) return fDate(v);
+  const s = String(v); return s.length > 140 ? s.slice(0, 137) + '…' : s;
+}
+function recActivity(e, w, canUndo) {
+  const noun = COL_NOUN[e.col] || 'record', r = recGet(e.col, e.rid);
+  const link = r ? `<button class="linkbtn" type="button" data-act="rec-open" data-col="${esc(e.col)}" data-id="${esc(e.rid)}">${esc(recName(e.col, r))}</button>` : `<b>${esc(e.name || noun)}</b>`;
+  let tx, undo = '';
+  if (e.op === 'add') tx = `<b>${esc(w.name)}</b> ${e.label === 'restored' ? 'restored' : 'added'} the ${noun} ${link}${e.label && e.label !== 'restored' ? ' ' + esc(e.label) : ''}`;
+  else if (e.op === 'delete') { tx = `<b>${esc(w.name)}</b> deleted the ${noun} <b>${esc(e.name || '')}</b>`; if (canUndo && e.snapshot && !r) undo = `<button class="btn small" type="button" data-act="rec-undo" data-id="${esc(e.id)}">Restore</button>`; }
+  else {
+    tx = `<b>${esc(w.name)}</b> ${e.op === 'restore' ? 'undid a change on' : 'changed'} the ${noun} ${link} · ${esc(recLabel(e.col, e.field))}: <span class="old">${esc(recVal(e.col, e.field, e.from))}</span> → <b>${esc(recVal(e.col, e.field, e.to))}</b>`;
+    if (canUndo && e.field && r) undo = `<button class="btn small" type="button" data-act="rec-undo" data-id="${esc(e.id)}">Undo</button>`;
+  }
+  return { tx, undo };
+}
+
+/* ---------- Excel sheets ---------- */
+function appendRecordSheets(X, wb) {
+  const add = (name, rows, widths) => { const ws = X.utils.aoa_to_sheet(rows); ws['!cols'] = widths.map(wch => ({ wch })); X.utils.book_append_sheet(wb, ws, name); };
+  add('Points of Contact', [['Organization', 'Name', 'Job title', 'Function', 'Escalation level', 'Plants', 'Email', 'Phone', 'Notes'],
+    ...S.contacts.map(c => [ORG_NAME[c.org] || c.org, c.name, c.title, c.func, c.level, scopeLabel(c), c.email, c.phone, c.notes])], [22, 24, 26, 26, 16, 30, 30, 16, 50]);
+  add('Risk Register', [['Score', 'Rating', 'Risk', 'Category', 'Plants', 'Likelihood', 'Impact', 'Status', 'Response', 'Owner', 'Due', 'Last reviewed', 'What could happen', 'Plan to reduce it', 'Actions', 'Contingency', 'Early-warning sign', '8D report'],
+    ...[...S.risks].sort((a, b) => rScore(b) - rScore(a)).map(r => [rScore(r) || '', rRating(rScore(r)), r.title, r.cat, sitesLabel(r.sites), r.L ?? '', r.I ?? '', r.status, r.response, r.owner, r.due, r.reviewed, r.desc, r.mitigation,
+      r.actions.map(a => `${a.done ? '[done] ' : ''}${a.t}${a.owner ? ' (' + a.owner + ')' : ''}${a.due ? ' due ' + a.due : ''}`).join('\n'), r.contingency, r.trigger, recGet('eightd', r.d8)?.num || ''])],
+    [7, 10, 44, 20, 26, 10, 8, 16, 11, 18, 12, 13, 50, 50, 50, 40, 40, 12]);
+  add('8D Reports', [['Report no.', 'Title', 'Status', 'Customer', 'Customer plant', 'Customer reference', 'Product', 'Opened', 'Target', 'Closed', 'Champion', 'Steps written', 'Problem statement', 'Root cause'],
+    ...S.d8s.map(d => [d.num, d.title, d.status, d.customer, d.custPlant, d.custRef, d.product, d.opened, d.target, d.closed, d.champion, `${F8().SECTIONS.filter(s => F8().done(d, s.k)).length} of 9`, d.d2.statement, d.d4.occ])],
+    [13, 40, 18, 22, 24, 18, 22, 11, 11, 11, 18, 12, 50, 50]);
+}
+
+/* ---------- events ---------- */
+function recFromEl(el) {
+  const root = el.closest('[data-rec]'); if (!root) return null;
+  const [col, id] = root.dataset.rec.split(':'); const r = recGet(col, id);
+  return r ? { col, r } : null;
+}
+function rowsFromDom(box) {
+  return [...box.querySelectorAll('tr[data-ri]')].map(tr => Object.fromEntries([...tr.querySelectorAll('[data-rowf]')].map(i => [i.dataset.rowf, i.type === 'checkbox' ? i.checked : i.value.trim()])));
+}
+const blankRow = field => Object.fromEntries(rowCols(field).map(([k, , type]) => [k, type === 'check' ? false : '']));
+function refocusSearch(id) { const g = $('#' + id); if (g) { g.focus(); g.setSelectionRange(g.value.length, g.value.length); } }
+document.addEventListener('click', async e => {
+  const el = e.target.closest('[data-act]'); if (!el) return;
+  switch (el.dataset.act) {
+    case 'rec-open': if (recGet(el.dataset.col, el.dataset.id)) { S.d8open = null; S.d8return = null; openRec(el.dataset.col, el.dataset.id); } break;
+    case 'rec-new': {
+      const col = el.dataset.col, sid = el.dataset.sid;
+      const body = col === 'contacts' ? { name: 'New contact', org: 'AkzoNobel', sites: [] }
+        : { title: 'New risk', status: 'Open', response: 'Mitigate', sites: sid ? [sid] : S.riskF.site !== 'all' ? [S.riskF.site] : [] };
+      const made = recAdd(col, body); if (!made) break;
+      S.editing = true; openRec(col, made.id, col === 'contacts' ? 'name' : 'title');
+      break;
+    }
+    case 'poc-add': {
+      const made = recAdd('contacts', { name: 'New contact', org: el.dataset.org || 'AkzoNobel', func: el.dataset.func || '', sites: el.dataset.sid ? [el.dataset.sid] : [] }); if (!made) break;
+      S.editing = true; openRec('contacts', made.id, 'name');
+      break;
+    }
+    case 'poc-view': S.poc.view = el.dataset.v; renderTabs(); break;
+    case 'poc-copy': {
+      const P = S.poc, q = norm(P.q);
+      const emails = S.contacts.filter(c => c.email && (P.org === 'all' || c.org === P.org) && (P.func === 'all' || c.func === P.func) && (P.site === 'all' || c.sites.includes(P.site) || !c.sites.length) && (!q || [c.name, c.title, c.func, c.email, c.notes].some(x => norm(x).includes(q)))).map(c => c.email);
+      try { await navigator.clipboard.writeText(emails.join('; ')); toast(`${emails.length} email address${emails.length > 1 ? 'es' : ''} copied. Paste them into the To line.`); }
+      catch { toast('Copy is blocked here. Select the addresses on the page instead.', 4500); }
+      break;
+    }
+    case 'copy-text': try { await navigator.clipboard.writeText(el.dataset.text || ''); toast('Copied.'); } catch { toast('Copy is blocked here.'); } break;
+    case 'poc-sug-add': {
+      const sg = contactSuggestions().find(x => x.name === el.dataset.name); if (!sg) break;
+      recAdd('contacts', { name: sg.name, org: 'AkzoNobel', func: sg.func, sites: sg.sites, notes: sg.why.join('; ') + '.' }, { label: 'from the tracker' });
+      toast(`${sg.name} added to the directory.`);
+      break;
+    }
+    case 'sug-toggle': S.sugOpen = !(S.sugOpen ?? !S.risks.length); renderTabs(); break;
+    case 'sug-dismiss': dismiss(el.dataset.key); break;
+    case 'sug-add': case 'sug-add-all': {
+      const all = riskSuggestions(), pick = el.dataset.act === 'sug-add-all' ? all : all.filter(x => x.key === el.dataset.key);
+      for (const x of pick) recAdd('risks', { title: x.title, desc: x.desc, cat: x.cat, sites: x.sites, L: x.L, I: x.I, status: 'Open', response: 'Mitigate', mitigation: x.mitigation, trigger: x.trigger, source: x.key }, { label: 'from the tracker suggestions' });
+      if (pick.length) toast(pick.length > 1 ? `${pick.length} risks added. Open each one to set an owner and due date.` : 'Risk added. Open it to set an owner and due date.', 4500);
+      break;
+    }
+    case 'heat-cell': S.riskF.cell = S.riskF.cell === el.dataset.c ? null : el.dataset.c; if (S.riskF.cell) S.riskF.status = 'open'; renderTabs(); break;
+    case 'rk-status': S.riskF.status = el.dataset.v; S.riskF.cell = null; renderTabs(); break;
+    case 'rk-set': { const x = recFromEl(el); if (x) editRec('risks', x.r, { [el.dataset.f]: +el.dataset.v }); break; }
+    case 'rk-reviewed': { const x = recFromEl(el); if (x) editRec('risks', x.r, { reviewed: today() }); break; }
+    case 'row-add': {
+      const x = recFromEl(el), box = el.closest('[data-rows]'); if (!x || !box) break;
+      const field = box.dataset.rows, rows = [...rowsFromDom(box), blankRow(field)];
+      editRec(x.col, x.r, { [field]: rows });
+      setTimeout(() => { const t = $(`[data-rec="${x.col}:${CSS.escape(x.r.id)}"] [data-rows="${field}"] tr[data-ri="${rows.length - 1}"] input`); if (t) t.focus(); }, 40);
+      break;
+    }
+    case 'row-del': {
+      const x = recFromEl(el), box = el.closest('[data-rows]'); if (!x || !box) break;
+      const rows = rowsFromDom(box); rows.splice(+el.dataset.i, 1);
+      editRec(x.col, x.r, { [box.dataset.rows]: rows });
+      break;
+    }
+    case 'rec-del': S.confirmRecDelete = true; renderRec(); break;
+    case 'rec-del-cancel': S.confirmRecDelete = false; renderRec(); break;
+    case 'rec-del-confirm': {
+      const R = S.rec, r = R && recGet(R.col, R.id); if (!r) break;
+      recDelete(R.col, r); S.rec = null; S.confirmRecDelete = false; renderAll();
+      toast(`${recName(R.col, r)} deleted. Restore it from Activity if that was a mistake.`, 5000);
+      break;
+    }
+    case 'rec-undo': recUndo(S.log.find(x => x.id === el.dataset.id)); break;
+    case 'd8-start': { const R = S.rec, r = R && R.col === 'risks' && recGet('risks', R.id); if (r) start8D(r); break; }
+    case 'd8-open': if (recGet('eightd', el.dataset.id)) { S.d8return = S.rec; S.rec = null; open8D(el.dataset.id); } break;
+    case 'd8-close': close8D(); break;
+    case 'd8-word': { const d = recGet('eightd', el.dataset.id); if (d) save8DWord(d); break; }
+    case 'd8-blank': save8DWord(null); break;
+    case 'd8-jump': { const t = $('#d8-' + el.dataset.k); if (t) t.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'start' }); break; }
+    case 'd8-del': S.confirmD8Delete = true; renderD8(); break;
+    case 'd8-del-cancel': S.confirmD8Delete = false; renderD8(); break;
+    case 'd8-del-confirm': {
+      const d = recGet('eightd', S.d8open); if (!d) break;
+      const r = S.risks.find(k => k.d8 === d.id);
+      recDelete('eightd', d); if (r) editRec('risks', r, { d8: '' });
+      close8D(); toast(`${d.num || '8D report'} deleted. Restore it from Activity if that was a mistake.`, 5000);
+      break;
+    }
+    default: break;
+  }
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.id === 'poc-org' || t.id === 'poc-func' || t.id === 'poc-site') { S.poc[t.id.slice(4)] = t.value; renderTabs(); return; }
+  if (t.id === 'rk-status' || t.id === 'rk-cat' || t.id === 'rk-site') { S.riskF[t.id.slice(3)] = t.value; S.riskF.cell = null; renderTabs(); return; }
+  const box = t.closest('[data-rows]');
+  if (box && t.matches('[data-rowf]')) { const x = recFromEl(t); if (x) editRec(x.col, x.r, { [box.dataset.rows]: rowsFromDom(box) }); return; }
+  const fEl = t.closest('[data-rf]'); if (!fEl) return;
+  const x = recFromEl(fEl); if (!x) return;
+  const f = fEl.dataset.rf;
+  let v;
+  if (fEl.dataset.kind === 'sites') v = [...fEl.querySelectorAll('input:checked')].map(i => i.value);
+  else v = t.value.trim();
+  if ((f === 'name' || f === 'title') && !v && x.col !== 'eightd') { toast(x.col === 'contacts' ? 'A contact needs a name.' : 'A risk needs a title.'); t.value = getPath(x.r, f); return; }
+  editRec(x.col, x.r, { [f]: v });
+});
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.id === 'poc-q') { S.poc.q = t.value; clearTimeout(t._tm); t._tm = setTimeout(() => { renderTabs(); refocusSearch('poc-q'); }, 200); }
+  if (t.id === 'rk-q') { S.riskF.q = t.value; clearTimeout(t._tm); t._tm = setTimeout(() => { renderTabs(); refocusSearch('rk-q'); }, 200); }
+});
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (S.d8open) { e.stopImmediatePropagation(); close8D(); return; }
+  if (S.rec) { e.stopImmediatePropagation(); S.rec = null; S.confirmRecDelete = false; renderAll(); }
+});
+addEventListener('resize', () => { if (S.rec) $('#scrim').hidden = !narrow(); });
+
+
 /* ================= events ================= */
 function openSite(id) {
-  S.selected = id; S.drawerOpen = true; S.confirmDelete = false; hideTip();
+  S.selected = id; S.drawerOpen = true; S.confirmDelete = false; S.rec = null; S.d8open = null; S.d8return = null; hideTip();
   try { history.replaceState(null, '', '#' + id); } catch { /* ignore */ }
   renderAll(); pushPresence();
   $('#drawer [data-act="close-drawer"]')?.focus({ preventScroll: true });
 }
 function closeDrawer() {
-  S.drawerOpen = false; S.confirmDelete = false;
+  S.drawerOpen = false; S.confirmDelete = false; S.rec = null; S.confirmRecDelete = false;
   try { history.replaceState(null, '', '#' + S.tab); } catch { /* ignore */ }
   renderAll(); pushPresence();
 }
@@ -2426,6 +3597,7 @@ function startLive(DB) {
     S.notes = snap.docs.map(d => ({ ...clone(d.data()), id: d.id }));
     ensureProfiles(); remoteRender();
   }, () => {});
+  startRecords(DB);
 }
 async function startRoom() {
   const r = await use('room'); S.caps.room = r; if (!r) return;
